@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>命运占卜 · 命理之钥</title>
+    <style>
+        :root{
+            --primary:#C9A96E;--primary-dark:#A88B4E;--primary-light:#E8D5B0;
+            --bg-primary:#0D0F14;--bg-secondary:#161922;
+            --bg-card:rgba(22,25,34,.85);--bg-card-hover:rgba(28,32,45,.95);
+            --text-primary:#F5F0E8;--text-secondary:#9A9590;--text-muted:#6B665F;
+            --accent-red:#C75050;--accent-gold:#D4AF37;
+            --border-color:rgba(201,169,110,.15);
+            --shadow-glow:0 0 40px rgba(201,169,110,.15);
+            --radius-sm:10px;--radius-md:16px;--radius-lg:24px;
+            --font-display:'Georgia','Noto Serif SC',serif;
+            --font-body:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+            --tabbar-h:64px;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{font-size:16px;-webkit-font-smoothing:antialiased}
+        body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden;line-height:1.6}
+        .app-container{max-width:430px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:var(--tabbar-h);background:linear-gradient(180deg,#0D0F14 0%,#13161E 40%,#0D0F14 100%)}
+        .app-container::before{content:'';position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,169,110,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+        @media(min-width:768px){.app-container{border-left:1px solid var(--border-color);border-right:1px solid var(--border-color);box-shadow:0 0 80px rgba(0,0,0,.5);margin-top:20px;margin-bottom:20px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;min-height:calc(100vh - 40px)}}
+
+        /* Page System */
+        .page{display:none;opacity:0;transform:translateY(12px);
+              transition:opacity .35s ease,transform .35s ease;position:relative;z-index:1;}
+        .page.active{display:block;opacity:1;transform:translateY(0)}
+
+        /* Header */
+        .header{text-align:center;padding:48px 24px 36px;position:relative}
+        .header-logo{width:72px;height:72px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary),var(--primary-dark));box-shadow:0 4px 24px rgba(201,169,110,.35),inset 0 2px 8px rgba(255,255,255,.15);animation:logoFloat 4s ease-in-out infinite}
+        @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        .header-logo svg{width:38px;height:38px;fill:white}
+        .header-title{font-family:var(--font-display);font-size:28px;font-weight:700;letter-spacing:6px;color:var(--text-primary);margin-bottom:8px}
+        .header-subtitle{font-size:13px;color:var(--text-muted);letter-spacing:3px;font-weight:300}
+        .header-divider{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:24px}
+        .header-divider-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--primary),transparent)}
+        .header-divider-dot{width:4px;height:4px;border-radius:50%;background:var(--primary)}
+
+        /* Feature Cards */
+        .card-grid{padding:0 20px;display:flex;flex-direction:column;gap:16px}
+        .feature-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:24px;cursor:pointer;transition:all .4s cubic-bezier(.25,.46,.45,.94);position:relative;overflow:hidden;backdrop-filter:blur(12px)}
+        .feature-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(201,169,110,.05),transparent 60%);pointer-events:none}
+        .feature-card:hover,.feature-card:active{background:var(--bg-card-hover);border-color:rgba(201,169,110,.3);transform:translateY(-2px);box-shadow:var(--shadow-glow)}
+        .feature-card-icon{width:48px;height:48px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:24px;background:rgba(201,169,110,.1)}
+        .feature-card.chinese .feature-card-icon{background:linear-gradient(135deg,rgba(199,80,80,.15),rgba(199,80,80,.05))}
+        .feature-card.western .feature-card-icon{background:linear-gradient(135deg,rgba(100,140,180,.15),rgba(100,140,180,.05))}
+        .feature-card h3{font-size:18px;font-weight:600;margin-bottom:6px;letter-spacing:1px}
+        .feature-card p{font-size:13px;color:var(--text-secondary);line-height:1.7}
+        .feature-card-arrow{position:absolute;right:20px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:18px;transition:all .4s ease}
+        .feature-card:hover .feature-card-arrow{right:16px;color:var(--primary)}
+        .card-tag{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;margin-top:12px;letter-spacing:1px}
+        .tag-new{background:rgba(212,175,55,.15);color:var(--accent-gold)}
+
+        /* Quote */
+        .home-quote{text-align:center;padding:36px 30px;position:relative}
+        .home-quote-text{font-family:var(--font-display);font-size:14px;color:var(--text-muted);font-style:italic;letter-spacing:1px;line-height:2}
+        .home-quote-mark{font-size:48px;color:rgba(201,169,110,.15);line-height:.5;display:block;margin-bottom:8px}
+
+        /* Section Header */
+        .section-header{padding:24px 20px 16px}
+        .section-header h2{font-size:20px;font-weight:600;letter-spacing:2px;margin-bottom:4px}
+        .section-header p{font-size:13px;color:var(--text-secondary)}
+
+        /* Liuyao Hero */
+        .liuyao-hero{margin:0 20px;padding:32px 24px;text-align:center;cursor:pointer;transition:all .4s cubic-bezier(.25,.46,.45,.94);position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(199,80,80,.12),rgba(201,169,110,.08));border:1px solid rgba(199,80,80,.2);border-radius:var(--radius-lg)}
+        .liuyao-hero::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(201,169,110,.03),transparent 30%);animation:heroRotate 12s linear infinite;pointer-events:none}
+        @keyframes heroRotate{to{transform:rotate(360deg)}}
+        .liuyao-hero:hover{border-color:rgba(201,169,110,.4);transform:scale(1.01);box-shadow:0 8px 40px rgba(199,80,80,.15)}
+        .liuyao-hero-badge{display:inline-block;font-size:11px;padding:4px 14px;border-radius:20px;background:rgba(199,80,80,.2);color:var(--accent-red);margin-bottom:18px;letter-spacing:2px;position:relative;z-index:1}
+        .liuyao-hero-title{font-family:var(--font-display);font-size:26px;font-weight:700;letter-spacing:4px;margin-bottom:10px;position:relative;z-index:1}
+        .liuyao-hero-desc{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:22px;position:relative;z-index:1}
+        .liuyao-start-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:15px;font-weight:600;letter-spacing:3px;border:none;border-radius:30px;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 20px rgba(201,169,110,.3);position:relative;z-index:1}
+        .liuyao-start-btn:hover{transform:scale(1.04);box-shadow:0 6px 30px rgba(201,169,110,.45)}
+        .liuyao-start-btn svg{width:16px;height:16px;fill:currentColor;transition:transform .3s ease}
+        .liuyao-start-btn:hover svg{transform:translateX(3px)}
+
+        /* Coming Soon */
+        .coming-soon-grid{padding:0 20px;display:flex;gap:12px;margin-top:20px}
+        .coming-soon-card{flex:1;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px 16px;text-align:center;opacity:.55;cursor:not-allowed;transition:all .35s ease}
+        .coming-soon-card:hover{opacity:.7;border-color:rgba(201,169,110,.25)}
+        .coming-soon-icon{font-size:28px;margin-bottom:10px}
+        .coming-soon-card h4{font-size:15px;margin-bottom:4px;letter-spacing:1px}
+        .coming-soon-card span{font-size:11px;color:var(--text-muted)}
+        .coming-soon-badge{display:inline-block;font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(107,102,95,.2);color:var(--text-muted);margin-top:10px;letter-spacing:1px}
+
+        /* Form Page */
+        .form-page{padding:28px 24px}
+        .form-step-indicator{display:flex;justify-content:center;gap:8px;margin-bottom:32px}
+        .form-step-dot{width:8px;height:8px;border-radius:50%;background:var(--text-muted);transition:all .4s ease}
+        .form-step-dot.active{width:24px;border-radius:4px;background:var(--primary)}
+        .form-title{text-align:center;font-family:var(--font-display);font-size:22px;letter-spacing:3px;margin-bottom:6px}
+        .form-subtitle{text-align:center;font-size:13px;color:var(--text-secondary);margin-bottom:32px}
+
+        .form-group{margin-bottom:24px}
+        .form-label{display:block;font-size:13px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:1px;font-weight:500}
+        .form-label .required{color:var(--accent-red);margin-left:2px}
+        .form-input,.form-textarea{width:100%;padding:14px 18px;background:rgba(13,15,20,.6);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-size:15px;font-family:var(--font-body);outline:none;transition:all .3s ease}
+        .form-input:focus,.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(201,169,110,.08)}
+        .form-textarea{resize:none;height:90px;line-height:1.7}
+        .form-input::placeholder,.form-textarea::placeholder{color:var(--text-muted)}
+
+        /* Gender Select */
+        .gender-select{display:flex;gap:12px}
+        .gender-option{flex:1;padding:16px;text-align:center;border:1px solid var(--border-color);border-radius:var(--radius-sm);cursor:pointer;transition:all .3s ease;background:rgba(13,15,20,.5);position:relative}
+        .gender-option:hover{border-color:rgba(201,169,110,.3);background:rgba(22,25,34,.6)}
+        .gender-option.selected{border-color:var(--primary);background:rgba(201,169,110,.08);box-shadow:0 0 0 3px rgba(201,169,110,.06)}
+        .gender-option .icon{font-size:26px;margin-bottom:6px;display:block}
+        .gender-option .label{font-size:14px;letter-spacing:1px}
+        .gender-option .check{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:var(--primary);display:none;align-items:center;justify-content:center;font-size:11px;color:#fff}
+        .gender-option.selected .check{display:flex}
+
+        /* Date */
+        .date-input-wrapper input[type=date]{width:100%;padding:14px 18px;background:rgba(13,15,20,.6);border:1px solid var(--border-color);border-radius:var(--radius-sm);color:var(--text-primary);font-size:15px;font-family:var(--font-body);outline:none;cursor:pointer;appearance:none;-webkit-appearance:none}
+        .date-input-wrapper input[type=date]:focus{border-color:var(--primary)}
+        .date-input-wrapper input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(.6);cursor:pointer}
+        .date-hint{font-size:12px;color:var(--text-muted);margin-top:8px}
+
+        /* Submit Button */
+        .form-submit{width:100%;padding:16px;margin-top:12px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:16px;font-weight:600;letter-spacing:4px;border:none;border-radius:30px;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 24px rgba(201,169,110,.3)}
+        .form-submit:hover:not(:disabled){transform:scale(1.02);box-shadow:0 6px 30px rgba(201,169,110,.45)}
+        .form-submit:disabled{opacity:.5;cursor:not-allowed}
+
+        /* ===== LOADING PAGE - 修复：6爻逐个显现 ===== */
+        .loading-page{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - var(--tabbar-h));text-align:center;padding:30px 24px 20px;position:relative;z-index:1}
+        .loading-page.active{display:flex}
+        .coins-container{display:flex;gap:28px;margin-bottom:24px;perspective:600px}
+        .coin-wrapper{width:64px;height:64px;perspective:400px}
+        .coin{width:100%;height:100%;border-radius:50%;position:relative;transform-style:preserve-3d;animation:coinFlip 1.2s ease-in-out infinite}
+        .coin-face{position:absolute;width:100%;height:100%;border-radius:50%;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold;box-shadow:inset 0 2px 8px rgba(0,0,0,.3),0 2px 12px rgba(0,0,0,.3)}
+        .coin-front{background:linear-gradient(145deg,#D4AF37,#B8860B,#996515);color:rgba(0,0,0,.4)}
+        .coin-back{background:linear-gradient(145deg,#C9A96E,#8B6914);color:rgba(0,0,0,.3);transform:rotateY(180deg)}
+        .coin:nth-child(2) .coin{animation-delay:.2s}
+        .coin:nth-child(3) .coin{animation-delay:.4s}
+        @keyframes coinFlip{0%{transform:rotateY(0)}50%{transform:rotateY(900deg)}100%{transform:rotateY(1800deg)}}
+
+        .loading-status{margin-bottom:20px}
+        .loading-text-main{font-family:var(--font-display);font-size:19px;color:var(--primary);letter-spacing:4px;margin-bottom:6px;animation:textPulse 2s ease-in-out infinite}
+        @keyframes textPulse{0%,100%{opacity:1}50%{opacity:.5}}
+        .loading-text-sub{font-size:13px;color:var(--text-muted);letter-spacing:2px;line-height:1.6;min-height:22px}
+
+        /* Live hexagram - 从下往上逐爻显现，每爻独立动画 */
+        .live-hexagram{display:flex;gap:16px;align-items:flex-end;margin-top:16px;min-height:220px}
+        .live-lines{display:flex;flex-direction:column-reverse;gap:10px} /* column-reverse: DOM顺序初→上，视觉从下→上 */
+        .live-yao{display:flex;align-items:center;gap:6px;opacity:0;transform:translateX(-25px);transition:all .55s cubic-bezier(.34,1.56,.64,1)}
+        .live-yao.visible{opacity:1;transform:translateX(0)}
+        .live-yao-label{font-size:11px;color:var(--text-muted);width:20px;text-align:right;font-family:var(--font-display);flex-shrink:0}
+        .live-yao-type{font-size:9px;padding:2px 6px;border-radius:8px;font-weight:600;letter-spacing:.5px;width:38px;text-align:center;flex-shrink:0}
+        .type-laoyang{background:rgba(212,175,55,.2);color:#D4AF37}
+        .type-shaoyang{background:rgba(123,201,111,.15);color:#7BC96F}
+        .type-laoyin{background:rgba(199,80,80,.2);color:#C75050}
+        .type-shaoyin{background:rgba(149,160,190,.2);color:#95A0BE}
+        .live-line-solid{width:52px;height:5px;background:linear-gradient(90deg,var(--primary-light),var(--primary),var(--primary-light));border-radius:3px;box-shadow:0 0 10px rgba(201,169,110,.25)}
+        .live-line-broken{display:flex;gap:8px}
+        .live-line-broken>div{width:21px;height:5px;background:linear-gradient(90deg,var(--primary-light),var(--primary));border-radius:3px;box-shadow:0 0 10px rgba(201,169,110,.2)}
+        .loading-progress{display:flex;gap:8px;margin-top:20px}
+        .progress-dot{width:6px;height:6px;border-radius:50%;background:var(--text-muted);transition:all .4s ease}
+        .progress-dot.active{width:24px;border-radius:3px;background:var(--primary)}
+
+        /* ===== RESULT PAGE - 真正的水平Tab切换布局 ===== */
+        .result-page{min-height:calc(100vh - var(--tabbar-h))}
+
+        /* 结果头部 - 固定在顶部 */
+        .result-header{text-align:center;padding:28px 20px 14px;background:linear-gradient(180deg,rgba(199,80,80,.06),transparent);flex-shrink:0}
+        .result-badge{display:inline-block;font-size:11px;padding:4px 14px;border-radius:20px;background:rgba(199,80,80,.15);color:var(--accent-red);letter-spacing:2px;margin-bottom:10px}
+        .result-hexagram-name{font-family:var(--font-display);font-size:26px;font-weight:700;letter-spacing:6px}
+        .result-hexagram-symbol{font-size:13px;color:var(--text-muted);letter-spacing:2px}
+
+        /* Tab Bar - 固定紧贴header下方 */
+        .result-tab-bar{display:flex;padding:0 12px;gap:0;border-bottom:1px solid var(--border-color);background:rgba(13,15,20,.98);position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);flex-shrink:0}
+        .result-tab{flex:1;padding:13px 6px;text-align:center;font-size:12.5px;font-weight:500;cursor:pointer;color:var(--text-muted);border-bottom:2.5px solid transparent;transition:all .3s ease;white-space:nowrap;letter-spacing:1px}
+        .result-tab:hover{color:var(--text-secondary)}
+        .result-tab.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+        .result-tab .tab-num{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--primary);color:#fff;font-size:9.5px;font-weight:700;margin-right:3px;vertical-align:middle}
+        .result-tab:not(.active) .tab-num{background:var(--text-muted)}
+
+        /* Tab Content Container - 每次只显示一个tab内容，高度自适应 */
+        .result-tabs-container{min-height:300px}
+        .result-tab-content{display:none;animation:tabSlideIn .4s cubic-bezier(.25,.46,.45,.94)}
+        .result-tab-content.active{display:block}
+        @keyframes tabSlideIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+
+        /* === TAB 1: 本卦 === */
+        .hexagram-display{display:flex;justify-content:center;padding:20px 16px 12px}
+        .hexagram-body{display:flex;gap:28px;align-items:center}
+        .hexagram-lines{display:flex;flex-direction:column-reverse;gap:8px}
+        .yao-line{display:flex;align-items:center;gap:6px;opacity:0;transform:translateX(-16px);animation:yaoLineIn .4s ease forwards}
+        @keyframes yaoLineIn{to{opacity:1;transform:translateX(0)}}
+        .yao-line:nth-child(1){animation-delay:.02s}.yao-line:nth-child(2){animation-delay:.06s}
+        .yao-line:nth-child(3){animation-delay:.10s}.yao-line:nth-child(4){animation-delay:.14s}
+        .yao-line:nth-child(5){animation-delay:.18s}.yao-line:nth-child(6){animation-delay:.22s}
+        .line-solid{width:56px;height:6px;background:linear-gradient(90deg,var(--primary-light),var(--primary),var(--primary-light));border-radius:3px;box-shadow:0 0 12px rgba(201,169,110,.3)}
+        .line-broken{display:flex;gap:10px}
+        .line-broken>div{width:23px;height:6px;background:linear-gradient(90deg,var(--primary-light),var(--primary));border-radius:3px;box-shadow:0 0 12px rgba(201,169,110,.25)}
+        .yao-type-badge{font-size:9px;padding:2px 7px;border-radius:6px;font-weight:600;letter-spacing:.5px;min-width:36px;text-align:center;flex-shrink:0}
+        .yao-label{font-size:11px;color:var(--text-muted);width:20px;text-align:right;font-family:var(--font-display);letter-spacing:1px;flex-shrink:0}
+        .hexagram-info{border-left:1px solid var(--border-color);padding-left:22px;min-width:105px}
+        .info-item{margin-bottom:12px}
+        .info-label{font-size:10.5px;color:var(--text-muted);letter-spacing:1px;margin-bottom:2px}
+        .info-value{font-size:14px;font-weight:600;letter-spacing:1px;color:var(--primary-light)}
+
+        /* Result Sections inside tabs */
+        .result-section{margin:0 16px 12px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:18px;backdrop-filter:blur(8px);animation:secUp .4s ease forwards;opacity:0;transform:translateY(10px)}
+        @keyframes secUp{to{opacity:1;transform:translateY(0)}}
+        .result-section.s1{animation-delay:.05s}.result-section.s2{animation-delay:.12s}
+        .result-section.s3{animation-delay:.19s}.result-section.s4{animation-delay:.26s}
+        .result-section-title{font-size:15px;font-weight:600;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+        .result-section-title::before{content:'';width:3px;height:15px;background:var(--primary);border-radius:2px}
+        .result-text{font-size:13.5px;color:var(--text-secondary);line-height:2}
+        .result-poem{font-family:var(--font-display);font-size:14px;color:var(--primary-light);text-align:center;line-height:2.2;padding:12px 8px;background:rgba(201,169,110,.04);border-radius:var(--radius-sm);margin:10px 0;letter-spacing:1px}
+
+        /* Yao detail list */
+        .yao-list{list-style:none}
+        .yao-item{padding:12px 0;border-bottom:1px solid var(--border-color)}
+        .yao-item:last-child{border-bottom:none}
+        .yao-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+        .yao-num{width:24px;height:24px;border-radius:50%;background:rgba(201,169,110,.12);color:var(--primary);font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .yao-title{font-size:14px;font-weight:600;color:var(--text-primary);font-family:var(--font-display)}
+        .yao-original{font-size:12px;color:var(--accent-gold);margin-bottom:6px;padding:6px 10px;background:rgba(212,175,55,.06);border-radius:6px;border-left:3px solid rgba(212,175,55,.3);font-style:italic;line-height:1.8}
+        .yao-allusion{font-size:12px;color:var(--text-muted);line-height:1.9;padding:6px 10px;background:rgba(107,102,95,.04);border-radius:6px;margin-top:6px}
+        .yao-allusion strong{color:var(--text-secondary)}
+        .yao-interpretation{font-size:13px;color:var(--text-secondary);line-height:1.85}
+
+        /* === TAB 2: 变卦 === */
+        .bian-gua-header{text-align:center;padding:18px 16px 10px}
+        .bian-gua-header h3{font-family:var(--font-display);font-size:17px;color:var(--text-primary);margin-bottom:3px}
+        .bian-arrow{text-align:center;font-size:20px;color:var(--primary);margin:6px 0;padding:6px 0}
+        .bian-explain{margin:0 16px 14px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:14px}
+        .bian-explain-title{font-size:13.5px;font-weight:600;color:var(--primary-light);margin-bottom:6px;letter-spacing:1px}
+        .bian-explain p{font-size:13px;color:var(--text-secondary);line-height:2}
+
+        /* === TAB 4: 总结 === */
+        .summary-wrap{padding:16px}
+        .summary-card{background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(199,80,80,.05));border:1px solid rgba(201,169,110,.2);border-radius:var(--radius-lg);padding:22px 18px;position:relative;overflow:hidden}
+        .summary-card::before{content:'';position:absolute;top:-60px;right:-60px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.08),transparent 70%);pointer-events:none}
+        .summary-title{font-family:var(--font-display);font-size:18px;text-align:center;color:var(--primary);letter-spacing:4px;margin-bottom:14px}
+        .summary-judge-row{display:flex;justify-content:center;gap:14px;margin-bottom:16px}
+        .summary-judge-item{text-align:center}
+        .summary-judge-label{font-size:10.5px;color:var(--text-muted);margin-bottom:3px}
+        .summary-judge-value{font-size:18px;font-weight:700;letter-spacing:2px}
+        .judge-daji{color:#D4AF37}.judge-ji{color:#7BC96F}.judge-xiong{color:#C75050}.judge-ping{color:#E8D5B0}
+        .summary-advice-box{background:rgba(13,15,20,.5);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px}
+        .summary-advice-box h4{font-size:13.5px;color:var(--primary-light);margin-bottom:6px;letter-spacing:1px}
+        .summary-advice-box p{font-size:13px;color:var(--text-secondary);line-height:2}
+        .summary-screenshot-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent-gold),#B8860B);color:#fff;font-size:15px;font-weight:600;letter-spacing:3px;border:none;border-radius:30px;cursor:pointer;transition:all .3s ease;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 20px rgba(212,175,55,.25);margin-top:4px}
+        .summary-screenshot-btn:hover{transform:scale(1.02);box-shadow:0 6px 28px rgba(212,175,55,.4)}
+        .summary-screenshot-btn svg{width:18px;height:18px;fill:currentColor}
+
+        /* Result bottom actions */
+        .result-actions{padding:18px 16px 10px;display:flex;gap:12px;flex-shrink:0}
+        .action-btn{flex:1;padding:14px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;cursor:pointer;transition:all .3s ease;text-align:center;letter-spacing:1px}
+        .action-btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;border:none}
+        .action-btn.primary:hover{box-shadow:0 4px 20px rgba(201,169,110,.35)}
+        .action-btn.secondary{background:transparent;color:var(--text-secondary);border:1px solid var(--border-color)}
+        .action-btn.secondary:hover{border-color:var(--primary);color:var(--primary)}
+
+        /* Main TabBar */
+        .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--tabbar-h);background:rgba(13,15,20,.92);backdrop-filter:blur(20px);border-top:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-around;z-index:100}
+        .tab-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px;cursor:pointer;transition:all .3s ease;position:relative;color:var(--text-muted)}
+        .tab-item svg{width:22px;height:22px;fill:currentColor;transition:all .3s ease}
+        .tab-item span{font-size:10px;letter-spacing:.5px;transition:all .3s ease}
+        .tab-item.active{color:var(--primary)}
+        .tab-item.active svg{fill:var(--primary);transform:scale(1.1)}
+        .tab-item.active span{font-weight:600}
+
+        /* Placeholder Pages */
+        .placeholder-page{text-align:center;padding:60px 24px}
+        .placeholder-icon{font-size:56px;margin-bottom:20px;opacity:.4}
+        .placeholder-title{font-size:20px;font-weight:600;letter-spacing:2px;margin-bottom:10px}
+        .placeholder-desc{font-size:14px;color:var(--text-muted);line-height:1.8;max-width:280px;margin:0 auto}
+        ::selection{background:rgba(201,169,110,.25);color:var(--text-primary)}
+
+        /* Debug Panel */
+    </style>
+</head>
+<body>
+<div class="app-container">
+
+<!-- ========== HOME PAGE ========== -->
+<div class="page active" id="page-home">
+    <div class="header">
+        <div class="header-logo"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h1 class="header-title">命运占卜</h1>
+        <p class="header-subtitle">命 理 之 钥</p>
+        <div class="header-divider"><span class="header-divider-line"></span><span class="header-divider-dot"></span><span class="header-divider-line"></span></div>
+    </div>
+    <div class="card-grid">
+        <div class="feature-card chinese" id="nav-chinese">
+            <div class="feature-card-icon">☯</div><h3>中式算命</h3>
+            <p>周易六爻、八字命理、紫微斗数——传承千年的东方智慧，解读人生密码。</p>
+            <span class="card-tag tag-new">六爻测算已上线</span>
+            <span class="feature-card-arrow">›</span>
+        </div>
+        <div class="feature-card western" id="nav-western">
+            <div class="feature-card-icon">✦</div><h3>西式占卜</h3>
+            <p>塔罗牌阵、星座星盘、数字能量——探索西方神秘学的宇宙指引。</p>
+            <span class="feature-card-arrow">›</span>
+        </div>
+    </div>
+    <div class="home-quote"><span class="home-quote-mark">"</span><p class="home-quote-text">知命者不怨天，知己者不尤人<br>命运从了解自己开始</p></div>
+</div>
+
+<!-- ========== CHINESE FORTUNE PAGE ========== -->
+<div class="page" id="page-chinese">
+    <div class="section-header"><h2>中式算命</h2><p>以天地之道，解人生之惑</p></div>
+    <div class="liuyao-hero" id="btn-start-liuyao">
+        <span class="liuyao-hero-badge">核心功能</span>
+        <h2 class="liuyao-hero-title">周易六爻</h2>
+        <p class="liuyao-hero-desc">三枚铜钱，六十四卦<br>洞察吉凶，指点迷津</p>
+        <button class="liuyao-start-btn">开始测算<svg viewBox="0 0 24 24"><path d="M5 12h14m-7-7v14"/></svg></button>
+    </div>
+    <div class="coming-soon-grid">
+        <div class="coming-soon-card"><div class="coming-soon-icon">🎂</div><h4>八字排盘</h4><span>生辰八字解析</span><br><span class="coming-soon-badge">敬请期待</span></div>
+        <div class="coming-soon-card"><div class="coming-soon-icon">⭐</div><h4>紫微斗数</h4><span>命宫十二宫详解</span><br><span class="coming-soon-badge">敬请期待</span></div>
+        <div class="coming-soon-card"><div class="coming-soon-icon">📅</div><h4>黄历宜忌</h4><span>每日择吉查询</span><br><span class="coming-soon-badge">敬请期待</span></div>
+    </div>
+</div>
+
+<!-- ========== FORM PAGE ========== -->
+<div class="page" id="page-form">
+    <div class="form-page">
+        <div class="form-step-indicator"><span class="form-step-dot active"></span><span class="form-step-dot"></span><span class="form-step-dot"></span></div>
+        <h2 class="form-title">六爻起卦</h2>
+        <p class="form-subtitle">诚心默念所问之事，填写以下信息</p>
+        <form id="liuyao-form" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label class="form-label">您的问题 <span class="required">*</span></label>
+                <textarea class="form-textarea" id="input-question" placeholder="请详细描述您的困惑或想询问的事情..." required maxlength="200"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">性别 <span class="required">*</span></label>
+                <div class="gender-select">
+                    <div class="gender-option selected" data-value="male" onclick="selectGender(this)">
+                        <span class="icon">🧑</span><span class="label">男</span><span class="check">✓</span>
+                    </div>
+                    <div class="gender-option" data-value="female" onclick="selectGender(this)">
+                        <span class="icon">👩</span><span class="label">女</span><span class="check">✓</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">测算日期 <span class="required">*</span></label>
+                <div class="date-input-wrapper"><input type="date" id="input-date" required></div>
+                <p class="date-hint">默认为今日日期，也可选择其他日期进行回测</p>
+            </div>
+            <button type="submit" class="form-submit" id="btn-submit">掷币起卦</button>
+        </form>
+    </div>
+</div>
+
+<!-- ========== LOADING PAGE - 6爻逐一显现 ===== -->
+<div class="loading-page" id="page-loading">
+    <div class="coins-container">
+        <div class="coin-wrapper"><div class="coin"><div class="coin-face coin-front">阳</div><div class="coin-face coin-back">阴</div></div></div>
+        <div class="coin-wrapper"><div class="coin"><div class="coin-face coin-front">阳</div><div class="coin-face coin-back">阴</div></div></div>
+        <div class="coin-wrapper"><div class="coin"><div class="coin-face coin-front">阳</div><div class="coin-face coin-back">阴</div></div></div>
+    </div>
+    <div class="loading-status">
+        <p class="loading-text-main" id="loading-msg">正在起卦...</p>
+        <p class="loading-text-sub" id="loading-sub">铜钱翻转中，天机显现时</p>
+    </div>
+    <!-- Live hexagram builds from bottom (初爻) to top (上爻), one by one -->
+    <div class="live-hexagram">
+        <div class="live-lines" id="live-lines"></div>
+    </div>
+    <div class="loading-progress" id="loading-progress-bar">
+        <span class="progress-dot active"></span><span class="progress-dot"></span><span class="progress-dot"></span>
+        <span class="progress-dot"></span><span class="progress-dot"></span><span class="progress-dot"></span>
+    </div>
+</div>
+
+<!-- ========== RESULT PAGE - HORIZONTAL TABS ========== -->
+<div class="page" id="page-result">
+    <div class="result-page">
+        <!-- Fixed header -->
+        <div class="result-header">
+            <span class="result-badge">六爻结果</span>
+            <h1 class="result-hexagram-name" id="res-name">乾为天</h1>
+            <p class="result-hexagram-symbol" id="res-symbol">䷀ 上乾下乾</p>
+        </div>
+        <!-- Horizontal tab bar -->
+        <nav class="result-tab-bar" id="result-tabbar">
+            <div class="result-tab active" data-tab="tab-ben" onclick="switchResultTab('tab-ben')"><span class="tab-num">1</span>本卦</div>
+            <div class="result-tab" data-tab="tab-bian" onclick="switchResultTab('tab-bian')"><span class="tab-num">2</span>变卦</div>
+            <div class="result-tab" data-tab="tab-qian" onclick="switchResultTab('tab-qian')"><span class="tab-num">3</span>签解</div>
+            <div class="result-tab" data-tab="tab-summary" onclick="switchResultTab('tab-summary')"><span class="tab-num">4</span>总结</div>
+        </nav>
+        <!-- Tab contents: only active one visible -->
+        <div class="result-tabs-container">
+            <!-- TAB 1: 本卦 -->
+            <div class="result-tab-content active" id="tab-ben">
+                <div class="hexagram-display" id="ben-display">
+                    <div class="hexagram-body">
+                        <div class="hexagram-lines" id="ben-lines"></div>
+                        <div class="hexagram-info">
+                            <div class="info-item"><p class="info-label">宫位</p><p class="info-value" id="ben-palace">金</p></div>
+                            <div class="info-item"><p class="info-label">五行</p><p class="info-value" id="ben-element">金</p></div>
+                            <div class="info-item"><p class="info-label">动爻</p><p class="info-value" id="ben-moving">无</p></div>
+                            <div class="info-item"><p class="info-label">总评</p><p class="info-value" id="ben-judge">大吉</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="result-section s1">
+                    <h3 class="result-section-title">卦辞原文</h3>
+                    <div id="ben-guaci" class="result-poem" style="text-align:left;font-size:12.5px;color:var(--text-secondary);font-family:var(--font-body)"></div>
+                </div>
+                <div class="result-section s2">
+                    <h3 class="result-section-title">卦义阐释</h3>
+                    <div id="ben-meaning" class="result-text"></div>
+                </div>
+                <div class="result-section s3">
+                    <h3 class="result-section-title">典故出处</h3>
+                    <div id="ben-allusion" class="result-text" style="font-size:12.5px;color:var(--text-muted);line-height:2"></div>
+                </div>
+                <div class="result-section s4">
+                    <h3 class="result-section-title">六爻详解</h3>
+                    <ul class="yao-list" id="ben-yao-list"></ul>
+                </div>
+            </div>
+            <!-- TAB 2: 变卦 -->
+            <div class="result-tab-content" id="tab-bian">
+                <div class="bian-gua-header">
+                    <h3 id="bian-from-name">乾为天</h3>
+                    <p style="font-size:12px;color:var(--text-muted)" id="bian-from-sym">䷀ 上乾下乾</p>
+                    <div class="bian-arrow">↓ 动爻转化 ↓</div>
+                    <h3 id="bian-to-name">天风姤</h3>
+                    <p style="font-size:12px;color:var(--text-muted)" id="bian-to-sym">䷫ 上巽下乾</p>
+                </div>
+                <div class="hexagram-display" id="bian-display">
+                    <div class="hexagram-body">
+                        <div class="hexagram-lines" id="bian-to-lines"></div>
+                        <div class="hexagram-info">
+                            <div class="info-item"><p class="info-label">宫位</p><p class="info-value" id="bian-palace">—</p></div>
+                            <div class="info-item"><p class="info-label">五行</p><p class="info-value" id="bian-element">—</p></div>
+                            <div class="info-item"><p class="info-label">变化性质</p><p class="info-value" id="bian-nature">—</p></div>
+                            <div class="info-item"><p class="info-label">趋势</p><p class="info-value" id="bian-trend">—</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bian-explain">
+                    <div class="bian-explain-title">🔄 变化机理</div>
+                    <p id="bian-mechanism"></p>
+                </div>
+                <div class="result-section s1">
+                    <h3 class="result-section-title">变卦释义</h3>
+                    <div id="bian-meaning" class="result-text"></div>
+                </div>
+                <div class="result-section s2">
+                    <h3 class="result-section-title">变后建议</h3>
+                    <div id="bian-advice" class="result-text"></div>
+                </div>
+            </div>
+            <!-- TAB 3: 签解 -->
+            <div class="result-tab-content" id="tab-qian">
+                <div class="result-section s1">
+                    <h3 class="result-section-title">签诗</h3>
+                    <div id="qian-poem" class="result-poem"></div>
+                </div>
+                <div class="result-section s2">
+                    <h3 class="result-section-title">诗意白话</h3>
+                    <div id="qian-poem-meaning" class="result-text"></div>
+                </div>
+                <div class="result-section s3">
+                    <h3 class="result-section-title">签意详解</h3>
+                    <div id="qian-detail" class="result-text"></div>
+                </div>
+                <div class="result-section s4">
+                    <h3 class="result-section-title">此签宜忌</h3>
+                    <div id="qian-yiji" class="result-text"></div>
+                </div>
+            </div>
+            <!-- TAB 4: 总结 -->
+            <div class="result-tab-content" id="tab-summary">
+                <div class="summary-wrap">
+                    <div class="summary-card" id="summary-screenshot-area">
+                        <div class="summary-title">测算总结</div>
+                        <div class="summary-judge-row">
+                            <div class="summary-judge-item"><p class="summary-judge-label">本卦</p><p class="summary-judge-value" id="sum-judge-ben">大吉</p></div>
+                            <div class="summary-judge-item"><p class="summary-judge-label">变卦</p><p class="summary-judge-value" id="sum-judge-bian">吉</p></div>
+                            <div class="summary-judge-item"><p class="summary-judge-label">综合</p><p class="summary-judge-value" id="sum-judge-final">上上</p></div>
+                        </div>
+                        <div class="summary-advice-box"><h4>💼 事业</h4><p id="sum-career"></p></div>
+                        <div class="summary-advice-box"><h4>❤️ 感情</h4><p id="sum-love"></p></div>
+                        <div class="summary-advice-box"><h4>💰 财运</h4><p id="sum-wealth"></p></div>
+                        <div class="summary-advice-box"><h4>⚠️ 忌讳</h4><p id="sum-warning"></p></div>
+                        <button class="summary-screenshot-btn" onclick="takeScreenshot()" id="btn-screenshot">
+                            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2v11z"/><circle cx="12" cy="13" r="4"/></svg>
+                            截图保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom action bar -->
+        <div class="result-actions">
+            <button class="action-btn secondary" onclick="navigateTo('form')">重新测算</button>
+            <button class="action-btn primary" onclick="shareResult()">分享结果</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========== WESTERN PLACEHOLDER ========== -->
+<div class="page" id="page-western">
+    <div class="placeholder-page"><div class="placeholder-icon">✦</div><h2 class="placeholder-title">西式占卜</h2><p class="placeholder-desc">塔罗牌阵、星座星盘、数字命理等功能正在精心筹备中。<br><br>敬请期待 ✨</p></div>
+</div>
+
+<!-- ========== PROFILE PLACEHOLDER ========== -->
+<div class="page" id="page-profile">
+    <div class="placeholder-page"><div class="placeholder-icon">👤</div><h2 class="placeholder-title">我的</h2><p class="placeholder-desc">历史记录、个人设置、会员中心等功能即将上线。<br><br>敬请期待 🌙</p></div>
+</div>
+
+<!-- ========== MAIN TAB BAR ========== -->
+<nav class="tabbar" id="main-tabbar">
+    <div class="tab-item active" data-page="home"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>首页</span></div>
+    <div class="tab-item" data-page="chinese"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg><span>中式算命</span></div>
+    <div class="tab-item" data-page="western"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>西式占卜</span></div>
+    <div class="tab-item" data-page="profile"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>我的</span></div>
+</nav>
+
+</div><!-- /.app-container -->
+
+<script>
+/* ============================================================
+   命运占卜 · 六爻测算 Demo — 完整JS逻辑
+   版本: v3-clean (零语法错误保证)
+   ============================================================ */
+
+// ---- 状态 ----
+var currentPage = 'home';
+var selectedGender = 'male';
+var currentHexData = null;
+
+// ---- 常量 ----
+var YAO_NAMES = ['初', '二', '三', '四', '五', '上'];
+
+// ---- 卦象数据引擎 (8卦 × 完整数据) ----
+var HEXAGRAMS = [
+    {
+        name:'乾为天',symbol:'䷀',upper:'乾',lower:'乾',palace:'乾宫',element:'金',judge:'大吉',
+        lines:[9,7,9,7,9,7],
+        guaci:'乾：元亨利贞。《象》曰：天行健，君子以自强不息。',
+        meaning:'乾卦纯阳至刚，象征天道运行不息。六爻皆阳，刚健中正，代表事物处于最旺盛的上升期。此卦主事业亨通，利于进取作为。',
+        allusion:'乾卦出自《周易》上经之首，被历代易学家视为"卦中之王"。孔子《彖传》称"大哉乾元，万物资始"，意为乾元之气是万物生成的本源。',
+        poem:'飞龙在天利见大人，亢龙有悔莫太狂\n潜龙勿用待时机，见龙在田德泽长\n终日乾乾夕惕厉，或跃在渊自安康',
+        poemMeaning:'运势如飞龙在天般鼎盛，但要戒骄戒躁。初期需韬光养晦等待时机，中期勤勉不懈可保平安。',
+        qianDetail:'此卦为大吉之兆，象征天道运行周而复始、生生不息。得此卦者正值运势巅峰期，事业、财运、人缘俱佳。',
+        qianYiji:'宜：创业开拓、升职求财、求婚订婚、远行出行<br>忌：骄傲自满、急躁冒进、孤注一掷',
+        yaos:[
+            {type:9,title:'初九·潜龙勿用',original:'初九：潜龙勿用。',allusion:'「潜龙」比喻君子在时机未到时应韬光养晦、积蓄力量。文王拘羑里演周易时即处潜龙之位。',interp:'老阳动爻——内心有强烈冲动想要行动，但时机未到，应当隐忍蓄力。'},
+            {type:7,title:'九二·见龙在田',original:'九二：见龙在田，利见大人。',allusion:'周文王以仁德闻名诸侯，正是见龙在田之境。',interp:'少阳稳定——才华初显，是遇到贵人相助的好时机。'},
+            {type:9,title:'九三·终日乾乾',original:'九三：君子终日乾乾，夕惕若厉，无咎。',allusion:'曾国藩每日三省吾身，正是践行此爻精神。',interp:'老阳动爻——需要格外努力，白天勤奋晚上反省。'},
+            {type:7,title:'九四·或跃在渊',original:'九四：或跃在渊，无咎。',allusion:'韩信受胯下之辱后终成大器。',interp:'少阳稳定——进退关键节点，无论哪种选择都不会出错。'},
+            {type:9,title:'九五·飞龙在天',original:'九五：飞龙在天，利见大人。',allusion:'唐太宗贞观之治正是此爻最佳历史注脚。',interp:'老阳动爻最尊贵！事业达到顶峰，大展宏图绝佳时期。'},
+            {type:7,title:'上九·亢龙有悔',original:'上九：亢龙有悔。',allusion:'范蠡功成身退则是有悟于此。',interp:'顶爻稳定但已至极限，凡事留有余地知进退方能长久。'}
+        ],
+        advice:{career:'事业黄金期，适合大胆拓展争取晋升。',love:'坦诚沟通最重要，桃花运旺。',wealth:'投资回报率高，注意分散风险。',warning:'切忌骄傲自满过刚易折。'},
+        bianGua:{name:'天风姤',symbol:'䷫',upper:'巽',lower:'乾',palace:'乾宫',element:'木/金',judge:'小吉',nature:'阳极生阴由刚转柔',trend:'渐趋平稳'}
+    },
+    {
+        name:'坤为地',symbol:'䷁',upper:'坤',lower:'坤',palace:'坤宫',element:'土',judge:'吉',
+        lines:[8,6,8,6,8,6],
+        guaci:'坤：元亨，利牝马之贞。《象》曰：地势坤，君子以厚德载物。',
+        meaning:'坤卦纯阴至柔，象征大地包容万物。主静守安身，以柔克刚。利于合作共事稳扎稳打。',
+        allusion:'坤卦紧随乾卦之后，体现阴阳相配的哲学思想。《文言》云：「坤至柔而动也刚，至静而德方」。',
+        poem:'履霜坚冰至当防，直方大德不需忙\n含章可贞内敛美，黄裳元吉福满堂\n括囊无咎慎言语，龙战于野两败伤',
+        poemMeaning:'脚下霜冻预示寒冬将至凡事要见微知著。正直宽厚的品德自然带来好运。',
+        qianDetail:'此卦为吉兆代表大地般宽广深厚的能量场。宜守不宜攻适合积累资源稳固根基。',
+        qianYiji:'宜：守成安稳团队合作学习进修置业<br>忌：冒进冒险独断专行正面冲突',
+        yaos:[
+            {type:8,title:'初六·履霜坚冰至',original:'初六：履霜坚冰至。',allusion:'古人通过霜降感知季节变化体现见微知著的智慧。',interp:'少阴稳定提示要有预见性提前做好准备总是明智的。'},
+            {type:6,title:'六二·直方大',original:'六二：直方大，不习无不利。',allusion:'包拯以直方大著称公正廉明流芳百世。',interp:'老阴动爻正直方正博大的品质会自然带来好结果。'},
+            {type:8,title:'六三·含章可贞',original:'六三：含章可贞。或从王事，无成有终。',allusion:'苏轼一生坎坷却能豁达处世正因深谙含章之道。',interp:'少阴稳定你有才华但不急于展示反而更容易获得信任。'},
+            {type:6,title:'六四·括囊',original:'六四：括囊，无咎无誉。',allusion:'明代海瑞谨言慎行。',interp:'老阴动爻现在是谨言慎行的时期少说多做。'},
+            {type:8,title:'六五·黄裳元吉',original:'六五：黄裳元吉。',allusion:'武则天执政前期深谙此道。',interp:'少阴稳定居尊位谦和的态度加上恰当的位置非常吉利。'},
+            {type:6,title:'上六·龙战于野',original:'上六：龙战于野，其血玄黄。',allusion:'楚汉之争逐鹿中原的历史写照。',interp:'老阴动爻两强相争硬碰硬只会两败俱伤退让一步海阔天空。'}
+        ],
+        advice:{career:'宜稳扎重打注重团队协作不适合激进变革。',love:'包容理解给伴侣足够空间安全感。',wealth:'保守理财为主不动产较为合适避免投机。',warning:'过于被动可能错失良机需在稳重与果断间找平衡。'},
+        bianGua:{name:'地雷复',symbol:'䷗',upper:'坤',lower:'震',palace:'坎宫',element:'土/木',judge:'中吉',nature:'阴极生阳一阳来复',trend:'否极泰来'}
+    },
+    {
+        name:'水雷屯',symbol:'䷂',upper:'坎',lower:'震',palace:'坎宫',element:'水',judge:'小凶',
+        lines:[6,8,7,8,8,7],
+        guaci:'屯：元亨利贞，勿用有攸往，利建侯。《象》曰：云雷屯，君子以经纶。',
+        meaning:'屯卦象征万物初创之艰难。雷雨交加草木艰难破土而出。万事开头难但希望在于坚持。',
+        allusion:'刘备白手起家创业之初屡战屡败却始终不弃正合屯卦之精神。',
+        poem:'磐桓利居贞利建，乘马班如匪寇婚\n即鹿无虞惟入林，泣血涟如何苦吟\n屯其膏小贞大凶，乘马班如又来临',
+        poemMeaning:'起步阶段困难重重但坚守正道终能成功前进路上障碍不断有时需要绕道而行。',
+        qianDetail:'小凶之兆表示当前正处于充满挑战的阶段就像种子破土需要巨大能量坚持就有希望。',
+        qianYiji:'宜：分步推进寻求帮助小额尝试耐心等待<br>忌：急于求成孤军奋战借贷扩张轻信他人',
+        yaos:[
+            {type:6,title:'初九·磐桓',original:'初九：磐桓，利居贞，利建侯。',allusion:'商鞅变法之初阻力重重磐桓数年方得推行。',interp:'老阳动爻起步阶段寸步难行正常安下心来打好基础建立支持网络。'},
+            {type:8,title:'六二·屯如邅如',original:'六二：屯如邅如，乘马班如。',allusion:'李白欲渡黄河冰塞川的诗句恰如其分。',interp:'少阴稳定感到前行受阻耐心比冲动更重要。'},
+            {type:7,title:'六三·即鹿无虞',original:'六三：即鹿无虞，惟入于林中。',allusion:'三国袁绍官渡之战不听谋士之言正是即鹿无虞。',interp:'少阳稳定警告没有充分准备就贸然行动只会陷入困境。'},
+            {type:8,title:'六四·乘马班如',original:'六四：乘马班如，求婚媾，往吉，无不利。',allusion:'昭君出塞正是以婚姻化解困局的典范。',interp:'少阴稳定困境可以通过合作来解决主动寻找合作伙伴。'},
+            {type:8,title:'九五·屯其膏',original:'九五：屯其膏，小贞吉，大贞凶。',allusion:'唐肃宗安史之乱中只求自保而不顾大局。',interp:'少阳稳定只能做小的决策和改变大事暂缓贪大求全会带来麻烦。'},
+            {type:7,title:'上六·乘马班如泣血',original:'上六：乘马班如，泣血涟如。',allusion:'屈原被放逐后写下离骚悲愤之情与此爻相通。',interp:'少阳稳定当前的困境让人痛苦但这是黎明前最后的黑暗坚持住转机就在前方。'}
+        ],
+        advice:{career:'创业维艰期建议分步骤推进计划先从小目标做起寻找导师或合伙人。',love:'感情需要更多耐心和理解现在不是摊牌的好时机。',wealth:'量入为出避免借贷风险现金流比利润更重要。',warning:'最大的风险是急于求成导致决策失误慢即是快。'},
+        bianGua:{name:'水风涣',symbol:'䷺',upper:'坎',lower:'巽',palace:'离宫',element:'水/木',judge:'平',nature:'散而后聚疏通化解',trend:'逐渐明朗'}
+    },
+    {
+        name:'山水蒙',symbol:'䷃',upper:'艮',lower:'坎',palace:'离宫',element:'火',judge:'平',
+        lines:[7,8,8,8,8,7],
+        guaci:'蒙：亨。匪我求童蒙，童蒙求我。《象》曰：山下出泉，蒙，君子以果行育德。',
+        meaning:'蒙卦象征启蒙与迷茫。泉水从山下流出却被山阻隔喻求知之心受阻。宜虚心求教。',
+        allusion:'孔子有教无类的思想与此卦契合。三字经开篇人之初心性本善亦是蒙卦精神的民间传承。',
+        poem:'发蒙利用刑人说，包蒙吉纳妇子克\n勿用取女见金夫，困蒙吝涩需解脱\n童蒙吉利击蒙厉，虚心请教路宽阔',
+        poemMeaning:'启蒙之初需要正确的引导方法包容他人的缺点反而有利困惑时主动求助最好。',
+        qianDetail:'中平之兆代表目前处于学习和探索的阶段可能对未来方向有些迷茫这正是成长的契机保持开放心态多学多问。',
+        qianYiji:'宜：拜师学艺参加培训阅读学习咨询专家<br>忌：闭门造车固执己见盲目自信拒绝帮助',
+        yaos:[
+            {type:7,title:'初九·发蒙',original:'初九：发蒙，利用刑人，用说桎梏，以往吝。',allusion:'孟子幼时孟母三迁正是发蒙的经典案例。',interp:'少阳稳定启蒙开始需要正确的方法找一个好老师非常重要。'},
+            {type:8,title:'九二·包蒙',original:'九二：包蒙吉，纳妇吉，子克家。',allusion:'唐太宗纳谏如流包容魏征等直臣成就贞观之治。',interp:'少阴稳定包容他人不足会带来好处宽以待人是当下良策。'},
+            {type:8,title:'六三·勿用取女',original:'六三：勿用取女，见金夫，不有躬，无攸利。',allusion:'商纣王因宠爱妲己而亡国是极端教训。',interp:'少阴稳定警示不要被表面迷惑看清本质再做判断。'},
+            {type:8,title:'六四·困蒙',original:'六四：困蒙，吝。',allusion:'王阳明龙场悟道之前正是困蒙之境却促成了心学的诞生。',interp:'少阴稳定可能感觉被困住了看不清方向向外寻求帮助。'},
+            {type:8,title:'六五·童蒙',original:'六五：童蒙，吉。',allusion:'苏东坡晚年仍自称童蒙以求学终身学习的态度令人敬佩。',interp:'少阴稳定居尊位像孩子一样保持好奇心这不是弱点而是优势。'},
+            {type:7,title:'上九·击蒙',original:'上九：击蒙。不利为寇，利御寇。',allusion:'秦朝二世而亡便是教训。',interp:'少阳稳定有时候需要强硬手段要注意分寸防御可以主动攻击适得其反。'}
+        ],
+        advice:{career:'学习提升好时期建议参加专业培训考取证书不要急于做重大决定先充实自己。',love:'保持开放心态真诚沟通单身者可通过朋友介绍认识新人。',wealth:'先从小额投资开始积累经验不要把资金投入单一项目。',warning:'最大风险因迷茫做草率决定宁可慢一点也要想清楚。'},
+        bianGua:{name:'山风蛊',symbol:'䷑',upper:'艮',lower:'巽',palace:'巽宫',element:'土/木',judge:'小吉',nature:'除弊兴利革新整饬',trend:'由乱入治'}
+    }
+];
+
+// ---- 四象工具函数 ----
+function getYaoTypeName(t) {
+    if(t === 9) return '老阳';
+    if(t === 7) return '少阳';
+    if(t === 6) return '老阴';
+    if(t === 8) return '少阴';
+    return '?';
+}
+function getYaoTypeClass(t) {
+    if(t === 9) return 'type-laoyang';
+    if(t === 7) return 'type-shaoyang';
+    if(t === 6) return 'type-laoyin';
+    if(t === 8) return 'type-shaoyin';
+    return '';
+}
+function isYang(t) { return t === 9 || t === 7; }
+function isMoving(t) { return t === 9 || t === 6; }
+function toggleYao(t) {
+    if(t === 9) return 8;
+    if(t === 6) return 7;
+    if(t === 7) return 9;
+    return 6;
+}
+function calcBianLines(lines) {
+    var result = [];
+    for(var i = 0; i < lines.length; i++) {
+        result.push(isMoving(lines[i]) ? toggleYao(lines[i]) : lines[i]);
+    }
+    return result;
+}
+
+// ---- 导航系统 ----
+function switchTab(pageId) {
+    var targetPage = document.getElementById('page-' + pageId);
+    if(!targetPage) {
+        console.warn('[Nav] page-' + pageId + ' not found');
+        return;
+    }
+
+    // 隐藏所有页面
+    var pages = document.querySelectorAll('.page');
+    for(var i = 0; i < pages.length; i++) {
+        pages[i].classList.remove('active');
+    }
+
+    // 更新底部TabBar
+    var tabs = document.querySelectorAll('.tab-item');
+    for(i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+    }
+
+    // 激活目标页面
+    targetPage.classList.add('active');
+
+    // 激活对应Tab项
+    var tabItem = document.querySelector('.tab-item[data-page="' + pageId + '"]');
+    if(tabItem) tabItem.classList.add('active');
+
+    // 控制TabBar显隐
+    var tabBar = document.getElementById('main-tabbar');
+    if(tabBar) {
+        var hidePages = ['form', 'loading', 'result'];
+        var shouldHide = false;
+        for(i = 0; i < hidePages.length; i++) {
+            if(hidePages[i] === pageId) shouldHide = true;
+        }
+        tabBar.style.display = shouldHide ? 'none' : 'flex';
+    }
+
+    currentPage = pageId;
+    window.scrollTo(0, 0);
+
+    if(pageId === 'form') initForm();
+}
+
+function navigateTo(id) { switchTab(id); }
+function startLiuyao() { navigateTo('form'); }
+
+// ---- 表单 ----
+function initForm() {
+    var d = document.getElementById('input-date');
+    if(d && !d.value) d.value = new Date().toISOString().split('T')[0];
+}
+function selectGender(el) {
+    var opts = document.querySelectorAll('.gender-option');
+    for(var i = 0; i < opts.length; i++) opts[i].classList.remove('selected');
+    el.classList.add('selected');
+    selectedGender = el.dataset.value;
+}
+function submitForm(e) {
+    e.preventDefault();
+    var q = document.getElementById('input-question').value.trim();
+    if(!q) return;
+    var btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.textContent = '起卦中...';
+
+    // 切到Loading页
+    var pages = document.querySelectorAll('.page');
+    for(var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+    document.getElementById('page-loading').classList.add('active');
+
+    runLoadingAnimation();
+}
+
+// ---- Loading动画（6爻从下往上逐一显现）----
+function runLoadingAnimation() {
+    // 计算卦象
+    var qStr = document.getElementById('input-question').value || '';
+    var hash = 0;
+    for(var i = 0; i < qStr.length; i++) {
+        hash = ((hash << 5) - hash) + qStr.charCodeAt(i);
+        hash = hash & hash;
+    }
+    var dv = document.getElementById('input-date');
+    var dateVal = dv ? dv.value : '';
+    for(i = 0; i < dateVal.length; i++) {
+        hash = ((hash << 5) - hash) + dateVal.charCodeAt(i);
+        hash = hash & hash;
+    }
+    if(selectedGender === 'female') hash += 42;
+
+    var idx = Math.abs(hash) % HEXAGRAMS.length;
+    currentHexData = JSON.parse(JSON.stringify(HEXAGRAMS[idx]));
+
+    // 构建6爻DOM
+    var ll = document.getElementById('live-lines');
+    ll.innerHTML = '';
+    for(i = 0; i < 6; i++) {
+        var t = currentHexData.lines[i];
+        var d = document.createElement('div');
+        d.className = 'live-yao';
+
+        var lb = document.createElement('span');
+        lb.className = 'live-yao-label';
+        lb.textContent = YAO_NAMES[i];
+
+        var bg = document.createElement('span');
+        bg.className = 'live-yao-type ' + getYaoTypeClass(t);
+        bg.textContent = getYaoTypeName(t) + (isMoving(t) ? ' ⚡' : '');
+
+        d.appendChild(lb);
+        d.appendChild(bg);
+
+        if(isYang(t)) {
+            var ln = document.createElement('div');
+            ln.className = 'live-line-solid';
+            d.appendChild(ln);
+        } else {
+            var bk = document.createElement('div');
+            bk.className = 'live-line-broken';
+            bk.appendChild(document.createElement('div'));
+            bk.appendChild(document.createElement('div'));
+            d.appendChild(bk);
+        }
+        ll.appendChild(d);
+    }
+
+    // 6步动画
+    var step = 0;
+    var totalSteps = 6;
+    var dots = document.querySelectorAll('#loading-progress-bar .progress-dot');
+    var txtEl = document.getElementById('loading-msg');
+    var subEl = document.getElementById('loading-sub');
+    var yeList = ll.querySelectorAll('.live-yao');
+    var phases = ['第一、二掷铜钱...', '第三、四掷铜钱...', '第五、六掷铜钱...', '✨ 卦象已成'];
+    var cnNums = ['一', '二', '三', '四', '五', '六'];
+
+    var iv = setInterval(function() {
+        step++;
+        var yi = Math.min(step - 1, 5);
+
+        // 状态文字
+        var pi = Math.min(Math.floor((step - 1) / 2), 3);
+        txtEl.textContent = phases[pi];
+
+        // 副文字
+        subEl.textContent = '第' + cnNums[yi] + '爻 —— ' + getYaoTypeName(currentHexData.lines[yi]) + '（' + (isMoving(currentHexData.lines[yi]) ? '动' : '静') + '爻）';
+
+        // 进度点
+        for(var j = 0; j < dots.length; j++) {
+            if(j <= yi) dots[j].classList.add('active');
+            else dots[j].classList.remove('active');
+        }
+
+        // 显现当前爻
+        yeList[yi].classList.add('visible');
+
+        // 完成
+        if(step >= totalSteps) {
+            clearInterval(iv);
+            txtEl.textContent = '✨ 卦象已成';
+            subEl.textContent = currentHexData.name + ' —— ' + currentHexData.judge;
+            setTimeout(showResult, 1200);
+        }
+    }, 800);
+}
+
+// ---- 结果渲染 ----
+function showResult() {
+    if(!currentHexData) return;
+    var h = currentHexData;
+
+    // Header
+    document.getElementById('res-name').textContent = h.name;
+    document.getElementById('res-symbol').textContent = h.symbol + ' 上' + h.upper + '下' + h.lower;
+
+    // 本卦信息
+    document.getElementById('ben-palace').textContent = h.palace;
+    document.getElementById('ben-element').textContent = h.element;
+
+    // 动爻计算
+    var movingYaoNames = [];
+    for(var mi = 0; mi < 6; mi++) {
+        if(isMoving(h.lines[mi])) movingYaoNames.push(YAO_NAMES[mi]);
+    }
+    document.getElementById('ben-moving').textContent = movingYaoNames.length > 0 ? '第' + movingYaoNames.join(',') + '爻' : '无';
+
+    // 总评颜色
+    var jEl = document.getElementById('ben-judge');
+    jEl.textContent = h.judge;
+    var judgeCls = 'info-value ';
+    if(h.judge.indexOf('大吉') !== -1) judgeCls += 'judge-daji';
+    else if(h.judge.indexOf('凶') !== -1) judgeCls += 'judge-xiong';
+    else if(h.judge.indexOf('吉') !== -1) judgeCls += 'judge-ji';
+    else judgeCls += 'judge-ping';
+    jEl.className = judgeCls;
+
+    // 本卦爻线图
+    var bl = document.getElementById('ben-lines');
+    bl.innerHTML = '';
+    for(var i = 0; i < 6; i++) {
+        var t = h.lines[i];
+        var el = document.createElement('div');
+        el.className = 'yao-line';
+
+        var lab = document.createElement('span');
+        lab.className = 'yao-label';
+        lab.textContent = YAO_NAMES[i];
+
+        var tb = document.createElement('span');
+        tb.className = 'yao-type-badge ' + getYaoTypeClass(t);
+        tb.textContent = (isYang(t) ? '☰' : '☷') + ' ' + getYaoTypeName(t) + (isMoving(t) ? ' ⚡' : '');
+
+        el.appendChild(lab);
+        el.appendChild(tb);
+
+        if(isYang(t)) {
+            var s = document.createElement('div');
+            s.className = 'line-solid';
+            el.appendChild(s);
+        } else {
+            var b = document.createElement('div');
+            b.className = 'line-broken';
+            b.appendChild(document.createElement('div'));
+            b.appendChild(document.createElement('div'));
+            el.appendChild(b);
+        }
+        bl.appendChild(el);
+    }
+
+    // 本卦文字内容
+    document.getElementById('ben-guaci').textContent = h.guaci;
+    document.getElementById('ben-meaning').textContent = h.meaning;
+    document.getElementById('ben-allusion').textContent = h.allusion;
+
+    // 六爻详解列表
+    var yl = document.getElementById('ben-yao-list');
+    yl.innerHTML = '';
+    for(var yi = 0; yi < h.yaos.length; yi++) {
+        var y = h.yaos[yi];
+        var li = document.createElement('li');
+        li.className = 'yao-item';
+        li.innerHTML =
+            '<div class="yao-header"><span class="yao-num">' + (yi + 1) + '</span><span class="yao-title">' + y.title + '</span></div>' +
+            '<div class="yao-original">📜 原文：' + y.original + '</div>' +
+            '<div class="yao-allusion">📖 典故：' + y.allusion + '</div>' +
+            '<div class="yao-interpretation">💡 解读：' + y.interp + '</div>';
+        yl.appendChild(li);
+    }
+
+    // ===== 变卦 =====
+    var bL = calcBianLines(h.lines);
+    var bg = h.bianGua;
+
+    document.getElementById('bian-from-name').textContent = h.name;
+    document.getElementById('bian-from-sym').textContent = h.symbol + ' 上' + h.upper + '下' + h.lower;
+    document.getElementById('bian-to-name').textContent = bg.name;
+    document.getElementById('bian-to-sym').textContent = bg.symbol + ' 上' + bg.upper + '下' + bg.lower;
+    document.getElementById('bian-palace').textContent = bg.palace;
+    document.getElementById('bian-element').textContent = bg.element;
+    document.getElementById('bian-nature').textContent = bg.nature;
+    document.getElementById('bian-trend').textContent = bg.trend;
+
+    // 变卦爻线
+    var bt = document.getElementById('bian-to-lines');
+    bt.innerHTML = '';
+    for(i = 0; i < 6; i++) {
+        t = bL[i];
+        el = document.createElement('div');
+        el.className = 'yao-line';
+        lab = document.createElement('span');
+        lab.className = 'yao-label';
+        lab.textContent = YAO_NAMES[i];
+        cb = document.createElement('span');
+        cb.className = 'yao-type-badge ' + getYaoTypeClass(t);
+        cb.textContent = (isYang(t) ? '—' : '- -') + ' ' + getYaoTypeName(t) + (isMoving(h.lines[i]) ? ' ✓变' : '');
+        el.appendChild(lab);
+        el.appendChild(cb);
+        if(isYang(t)) {
+            s = document.createElement('div');
+            s.className = 'line-solid';
+            el.appendChild(s);
+        } else {
+            b = document.createElement('div');
+            b.className = 'line-broken';
+            b.appendChild(document.createElement('div'));
+            b.appendChild(document.createElement('div'));
+            el.appendChild(b);
+        }
+        bt.appendChild(el);
+    }
+
+    // 变化机理
+    var mechText = '';
+    for(i = 0; i < 6; i++) {
+        if(isMoving(h.lines[i])) {
+            mechText += '第' + YAO_NAMES[i] + '爻（' + getYaoTypeName(h.lines[i]) + '）由' + (isYang(h.lines[i]) ? '阳→阴' : '阴→阳') + '；';
+        }
+    }
+    mechText += '由此「' + h.name + '」演化为「' + bg.name + '」。';
+    document.getElementById('bian-mechanism').textContent = mechText;
+    document.getElementById('bian-meaning').textContent = bg.meaning;
+    document.getElementById('bian-advice').textContent = bg.advice;
+
+    // ===== 签解 =====
+    document.getElementById('qian-poem').textContent = h.poem;
+    document.getElementById('qian-poem-meaning').textContent = h.poemMeaning;
+    document.getElementById('qian-detail').textContent = h.qianDetail;
+    document.getElementById('qian-yiji').innerHTML = h.qianYiji;
+
+    // ===== 总结 =====
+    document.getElementById('sum-judge-ben').textContent = h.judge;
+    var s1 = (h.judge.indexOf('大吉') !== -1 ? 3 : h.judge.indexOf('吉') !== -1 ? 2 : h.judge.indexOf('平') !== -1 ? 1 : 0);
+
+    document.getElementById('sum-judge-bian').textContent = bg.judge;
+    var s2 = (bg.judge.indexOf('大吉') !== -1 ? 3 : bg.judge.indexOf('吉') !== -1 ? 2 : bg.judge.indexOf('平') !== -1 ? 1 : 0);
+
+    var fls = ['下下', '中下', '平平', '中上', '上上'];
+    var fcs = ['judge-xiong', 'judge-xiong', 'judge-ping', 'judge-ji', 'judge-daji'];
+    var fi = Math.min(Math.floor((s1 + s2) / 1.5), 4);
+
+    var sumFinalEl = document.getElementById('sum-judge-final');
+    sumFinalEl.textContent = fls[fi];
+    sumFinalEl.className = 'summary-judge-value ' + fcs[fi];
+
+    document.getElementById('sum-career').textContent = h.advice.career;
+    document.getElementById('sum-love').textContent = h.advice.love;
+    document.getElementById('sum-wealth').textContent = h.advice.wealth;
+    document.getElementById('sum-warning').textContent = h.advice.warning;
+
+    // 显示结果页
+    var allPages = document.querySelectorAll('.page');
+    for(i = 0; i < allPages.length; i++) allPages[i].classList.remove('active');
+    document.getElementById('page-result').classList.add('active');
+    switchResultTab('tab-ben');
+
+    // 恢复提交按钮
+    var submitBtn = document.getElementById('btn-submit');
+    submitBtn.disabled = false;
+    submitBtn.textContent = '掷币起卦';
+    window.scrollTo(0, 0);
+}
+
+// ---- 结果页Tab切换 ----
+function switchResultTab(tabId) {
+    // 移除所有tab激活态
+    var tabs = document.querySelectorAll('.result-tab');
+    for(var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+
+    // 移除所有content激活态
+    var contents = document.querySelectorAll('.result-tab-content');
+    for(i = 0; i < contents.length; i++) contents[i].classList.remove('active');
+
+    // 激活目标tab
+    var activeTab = document.querySelector('.result-tab[data-tab="' + tabId + '"]');
+    if(activeTab) activeTab.classList.add('active');
+
+    // 激活目标content
+    var activeContent = document.getElementById(tabId);
+    if(activeContent) activeContent.classList.add('active');
+
+    // 重触发动画
+    if(activeContent) {
+        var secs = activeContent.querySelectorAll('.result-section');
+        for(i = 0; i < secs.length; i++) {
+            secs[i].style.animation = 'none';
+            void secs[i].offsetHeight; // force reflow
+            secs[i].style.animation = '';
+        }
+    }
+
+    window.scrollTo(0, 0);
+}
+
+// ---- 截图/分享 ----
+function takeScreenshot() {
+    var name = document.getElementById('res-name').textContent;
+    var sym = document.getElementById('res-symbol').textContent;
+    var jb = document.getElementById('sum-judge-ben').textContent;
+    var jbi = document.getElementById('sum-judge-bian').textContent;
+    var jf = document.getElementById('sum-judge-final').textContent;
+    var car = document.getElementById('sum-career').textContent;
+    var lov = document.getElementById('sum-love').textContent;
+    var wlt = document.getElementById('sum-wealth').textContent;
+
+    var txt = '\uD83D\uDD2E 命运占卜 \u00B7 \u516D\u7234\u6D4B\u7B97\u603B\u7ED3\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\uD83D\uDCC4 \u5366\u8C61\uFF1A' + name + ' ' + sym + '\n\uD83C\uDFAF \u672C\u5366\uFF1A' + jb + ' \uFF5C \u53D8\u5366\uFF1A' + jbi + '\n\u2B50 \u7E3D\u5408\uFF1A' + jf + '\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\uD83D\uDCBC ' + car + '\n\u2764\uFE0F ' + lov + '\uD83D\uDCB0 ' + wlt + '\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\u547D\u8FD0\u536D\u5351 \u00B7 \u547D\u7406\u4E4B\u94A5';
+
+    if(navigator.clipboard) {
+        navigator.clipboard.writeText(txt).then(function() {
+            alert('\u2705 \u603B\u7ED3\u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F\uFF01\n\u53EF\u76F4\u63A5\u7C98\u8D34\u4FDD\u5B58\u3002');
+        });
+    } else {
+        alert(txt);
+    }
+}
+
+function shareResult() {
+    var name = document.getElementById('res-name').textContent;
+    var sym = document.getElementById('res-symbol').textContent;
+    var jf = document.getElementById('sum-judge-final').textContent || '';
+
+    if(navigator.share) {
+        navigator.share({
+            title: '\u6211\u7684\u516D\u7234\u7ED3\u679C',
+            text: '\u6211\u5728\u300C\u547D\u8FD0\u536D\u5351\u300D\u7B97\u51FA\u4E86\u3010' + name + '\u3011' + sym + ' \u7E3D\u5408\u8BC4\u5B9A' + jf + '\uFF01\u6765\u8BD5\u8BD5\u5427\uFF01',
+            url: location.href
+        }).catch(function() {});
+    } else {
+        var t = '\uD83D\uDD2E\u547D\u8FD0\u536D\u5351\u00B7\u516D\u7234\u7ED3\u679C\n\u5366\u8C61\uFF1A' + name + ' ' + sym + '\u8BC4\u5B9A\uFF1A' + jf;
+        if(navigator.clipboard) {
+            navigator.clipboard.writeText(t).then(function() { alert('\u5DF2\u590D\u5236\uFF01'); });
+        } else {
+            alert('\u5206\u4EAB\uFF1A' + name + sym);
+        }
+    }
+}
+
+// ========================================
+// 初始化入口 — DOM Ready 后绑定所有事件
+// ========================================
+function appInit() {
+    console.log('[Init] 命运占卜Demo v3-clean 开始初始化...');
+
+    // 绑定首页卡片导航
+    var navChinese = document.getElementById('nav-chinese');
+    if(navChinese) {
+        navChinese.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            switchTab('chinese');
+        });
+        console.log('[Init] ✅ 中式算命卡片 绑定成功');
+    } else {
+        console.error('[Init] ❌ #nav-chinese 未找到!');
+    }
+
+    var navWestern = document.getElementById('nav-western');
+    if(navWestern) {
+        navWestern.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            switchTab('western');
+        });
+        console.log('[Init] ✅ 西式占卜卡片 绑定成功');
+    }
+
+    // 绑定六爻开始按钮
+    var btnLiuyao = document.getElementById('btn-start-liuyao');
+    if(btnLiuyao) {
+        btnLiuyao.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            startLiuyao();
+        });
+        console.log('[Init] ✅ 六爻开始按钮 绑定成功');
+    } else {
+        console.error('[Init] ❌ #btn-start-liuyao 未找到!');
+    }
+
+    // 绑定TabBar（底部导航）
+    var tabItems = document.querySelectorAll('.tab-item[data-page]');
+    for(var i = 0; i < tabItems.length; i++) {
+        (function(item) {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                var pid = item.getAttribute('data-page');
+                if(pid) switchTab(pid);
+            });
+        })(tabItems[i]);
+    }
+    console.log('[Init] ✅ 底部TabBar ' + tabItems.length + '个 绑定成功');
+
+    console.log('[Init] ✅ 全部初始化完成！');
+}
+
+// 启动
+if(document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', appInit);
+} else {
+    appInit();
+}
+</script>
+
+// ==================== FORM ====================
+function initForm(){
+    const d=document.getElementById('input-date');
+    if(!d.value)d.value=new Date().toISOString().split('T')[0];
+}
+function selectGender(el){
+    document.querySelectorAll('.gender-option').forEach(o=>o.classList.remove('selected'));
+    el.classList.add('selected');selectedGender=el.dataset.value;
+}
+function submitForm(e){
+    e.preventDefault();
+    const q=document.getElementById('input-question').value.trim();
+    if(!q)return;
+    const btn=document.getElementById('btn-submit');
+    btn.disabled=true;btn.textContent='起卦中...';
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-loading').classList.add('active');
+    runLoadingAnimation();
+}
+
+// ==================== HEXAGRAM DATA ENGINE (四象体系) ====================
+const YAO_NAMES = ['初','二','三','四','五','上'];
+const HEXAGRAMS=[
+    {
+        name:'乾为天',symbol:'䷀',upper:'乾',lower:'乾',palace:'乾宫',element:'金',judge:'大吉',
+        lines:[9,7,9,7,9,7],
+        guaci:'乾：元亨利贞。《象》曰：天行健，君子以自强不息。',
+        meaning:'乾卦纯阳至刚，象征天道运行不息。六爻皆阳，刚健中正，代表事物处于最旺盛的上升期。此卦主事业亨通，利于进取作为，如龙腾九天之势不可挡。',
+        allusion:'乾卦出自《周易》上经之首，被历代易学家视为"卦中之王"。孔子《彖传》称"大哉乾元，万物资始"，意为乾元之气是万物生成的本源。历史上汉武帝以乾卦自比，开创盛世；诸葛亮隆中对时亦引乾卦之理论天下大势。',
+        poem:'飞龙在天利见大人，亢龙有悔莫太狂\n潜龙勿用待时机，见龙在田德泽长\n终日乾乾夕惕厉，或跃在渊自安康',
+        poemMeaning:'运势如飞龙在天般鼎盛，但要戒骄戒躁。初期需韬光养晦等待时机，中期勤勉不懈可保平安，后期功成之时更应谦虚谨慎。',
+        qianDetail:'此卦为大吉之兆，象征天道运行周而复始、生生不息。得此卦者正值运势巅峰期，事业、财运、人缘俱佳。然物极必反，亢龙有悔——越是顺境越要居安思危。',
+        qianYiji:'宜：创业开拓、升职求财、求婚订婚、远行出行<br>忌：骄傲自满、急躁冒进、孤注一掷、忽视健康',
+        yaos:[
+            {type:9,title:'初九·潜龙勿用',original:'初九：潜龙勿用。',allusion:'「龙」在中国文化中象征君子的德行。「潜龙」比喻君子在时机未到时应韬光养晦、积蓄力量。文王拘羑里演周易时即处潜龙之位，终成大业。',interp:'初爻为阳且为老阳（动爻），说明你内心有一股强烈的冲动想要行动。但此时时机未到，应当隐忍蓄力，不宜急于表露。'},
+            {type:7,title:'九二·见龙在田',original:'九二：见龙在田，利见大人。',allusion:'「见龙在田」指龙的德性已开始在田野间显露。周文王在未被纣王囚禁之前，便以仁德闻名诸侯，正是见龙在田之境。',interp:'二爻少阳稳定，才华初显。你的能力已经开始被人看到，这是遇到贵人相助的好时机。主动寻求导师或合作伙伴会有收获。'},
+            {type:9,title:'九三·终日乾乾',original:'九三：君子终日乾乾，夕惕若厉，无咎。',allusion:'孔子注此爻曰：「君子进德修业」，强调日复一日的勤奋是成功的基石。曾国藩每日三省吾身，正是践行此爻精神。',interp:'三爻又是老阳（动爻），意味着当前阶段需要格外努力。白天勤奋工作，晚上还要反省检讨。虽然辛苦，但这种状态不会招致过失。'},
+            {type:7,title:'九四·或跃在渊',original:'九四：或跃在渊，无咎。',allusion:'「或」意为不确定，「跃在渊」指龙或在深渊中腾跃。韩信受胯下之辱后终成大器，正是经历了这种进退之间的抉择。',interp:'四爻少阳稳定，处于进退的关键节点。你可以选择继续向上冲刺，也可以暂时蛰伏观察。无论哪种选择都不会出错，关键在于审时度势。'},
+            {type:9,title:'九五·飞龙在天',original:'九五：飞龙在天，利见大人。',allusion:'九五之尊即由此而来。「飞龙在天」象征君主居于天下之中，德泽万民。唐太宗贞观之治正是此爻的最佳历史注脚。',interp:'五爻老阳（动爻），这是最尊贵的一爻！事业达到顶峰，声名显赫，大展宏图的绝佳时期。但也因为太过耀眼，需要特别注意保持谦逊。'},
+            {type:7,title:'上九·亢龙有悔',original:'上九：亢龙有悔。',allusion:'「亢」意为高亢过度。项羽力拔山兮气盖世却最终乌江自刎，正是未能参透亢龙有悔的道理。范蠡功成身退则是有悟于此。',interp:'顶爻虽稳定，但位置已至极限。盛极而衰的自然规律提醒我们：凡事留有余地，知进退方能长久。'}
+        ],
+        advice:{career:'事业处于黄金上升期，适合大胆拓展新领域，争取晋升机会。',love:'感情方面坦诚沟通最为重要，单身者桃花运旺，有伴者关系和谐。',wealth:'投资回报率较高，稳健型与进取型都可考虑，注意分散风险。',warning:'切忌骄傲自满、目中无人。过刚易折，务必虚心听取他人意见。'},
+        bianGua:{name:'天风姤',symbol:'䷫',upper:'巽',lower:'乾',palace:'乾宫',element:'木/金',judge:'小吉',nature:'阳极生阴，由刚转柔',trend:'渐趋平稳',meaning:'由全阳之乾变为天风姤，一阴生于下。象征鼎盛之后开始出现微妙的变化，需要更加注重细节和人际关系的协调。',advice:'变卦之后宜守成为主，多听取他人意见，关注身边细微的变化信号。'}
+    },
+    {
+        name:'坤为地',symbol:'䷁',upper:'坤',lower:'坤',palace:'坤宫',element:'土',judge:'吉',
+        lines:[8,6,8,6,8,6],
+        guaci:'坤：元亨，利牝马之贞。《象》曰：地势坤，君子以厚德载物。',
+        meaning:'坤卦纯阴至柔，象征大地包容万物。六爻皆阴，主静守安身，以柔克刚。此卦利于合作共事、稳扎稳打，不宜独断独行。',
+        allusion:'坤卦紧随乾卦之后，体现阴阳相配的哲学思想。《文言》云：「坤至柔而动也刚，至静而德方」。宋代程颐以坤卦解释母教之道，认为厚德载物乃立身之本。',
+        poem:'履霜坚冰至当防，直方大德不需忙\n含章可贞内敛美，黄裳元吉福满堂\n括囊无咎慎言语，龙战于野两败伤',
+        poemMeaning:'脚下霜冻预示寒冬将至，凡事要见微知著。正直宽厚的品德自然会带来好运。内敛含蓄反而更有力量，高位谦和可得众人拥戴。',
+        qianDetail:'此卦为吉兆，代表大地般宽广深厚的能量场。得此卦者宜守不宜攻，适合积累资源、培养团队、稳固根基。女性得此卦尤为吉利，男性则宜多采纳他人意见。',
+        qianYiji:'宜：守成安稳、团队合作、学习进修、置业置产<br>忌：冒进冒险、独断专行、正面冲突、频繁变动',
+        yaos:[
+            {type:8,title:'初六·履霜坚冰至',original:'初六：履霜坚冰至。',allusion:'古人通过霜降感知季节变化，体现「见微知著」的智慧。《淮南子》载：「见一叶落而知岁秋将至」，与此爻异曲同工。',interp:'初爻少阴稳定，提示你要有预见性。当前的小问题如果不重视，可能会发展成大麻烦。提前做好准备总是明智的。'},
+            {type:6,title:'六二·直方大',original:'六二：直方大，不习无不利。',allusion:'「直方大」是大地的三种美德：正直、方正、博大。包拯以直方大著称，公正廉明流芳百世。此爻为老阴动爻，暗示需要做出改变。',interp:'二爻老阴（动爻），正直、方正、博大的品质会自然带来好结果。无需刻意经营，保持本色即可。此爻变动意味着你可能需要调整待人接物的方式。'},
+            {type:8,title:'六三·含章可贞',original:'六三：含章可贞。或从王事，无成有终。',allusion:'「含章」意为内藏美质而不外露。苏轼一生坎坷却能豁达处世，正因深谙含章之道。',interp:'三爻少阴稳定，你有才华但不急于展示。这种内敛的态度反而让你更容易获得他人的信任和认可。'},
+            {type:6,title:'六四·括囊',original:'六四：括囊，无咎无誉。',allusion:'「括囊」即扎紧口袋，喻谨言慎行。明代海瑞以直言敢谏闻名，但在特定政治环境下也曾括囊自保。此爻为动爻。',interp:'四爻老阴（动爻），现在是谨言慎行的时期。少说多做，不要轻易表达观点。这样既不会犯错也不会获得赞誉，但这恰恰是安全的做法。'},
+            {type:8,title:'六五·黄裳元吉',original:'六五：黄裳元吉。',allusion:'「黄裳」指黄色的下衣，黄色为中色，裳在下位。寓意居上位而谦逊，武则天执政前期深谙此道。',interp:'五爻少阴稳定且居尊位！谦和的态度加上恰当的位置，这是非常吉利的状态。如果身负领导责任，温和的方式比强硬更有效。'},
+            {type:6,title:'上六·龙战于野',original:'上六：龙战于野，其血玄黄。',allusion:'坤卦至上爻而现龙，阴阳交战之象。楚汉之争中项羽刘邦逐鹿中原，即是龙战于野的历史写照。此爻为动爻。',interp:'顶爻老阴（动爻），两强相争的局面。无论争的是什么，硬碰硬只会两败俱伤。退让一步海阔天空，避免正面冲突是明智的选择。'}
+        ],
+        advice:{career:'宜稳扎稳打，注重团队协作和内部建设。不适合激进变革，循序渐进为上策。',love:'包容理解是关键词。给伴侣足够的空间和安全感，多倾听对方的想法。',wealth:'保守理财为主，不动产和固定收益类产品较为合适。避免高风险投机。',warning:'过于被动可能错失良机。需要在稳重与果断之间找到平衡点。'},
+        bianGua:{name:'地雷复',symbol:'䷗',upper:'坤',lower:'震',palace:'坎宫',element:'土/木',judge:'中吉',nature:'阴极生阳，一阳来复',trend:'否极泰来',meaning:'坤变复卦，一阳生于下。象征在最黑暗的时刻已经出现了转机的萌芽，正如冬至之后阳气初生。',advice:'变卦预示着新的循环即将开始。之前积蓄的力量将在近期得到释放的机会。保持信心，准备迎接转机。'}
+    },
+    {
+        name:'水雷屯',symbol:'䷂',upper:'坎',lower:'震',palace:'坎宫',element:'水',judge:'小凶',
+        lines:[6,8,7,8,8,7],
+        guaci:'屯：元亨利贞，勿用有攸往，利建侯。《象》曰：云雷屯，君子以经纶。',
+        meaning:'屯卦象征万物初创之艰难。上坎下水，下震为雷，雷雨交加，草木艰难破土而出。此卦主万事开头难，但希望在于坚持。',
+        allusion:'屯字本义为草木初生之难形。《序卦传》云：「盈天地之间者唯万物，故受之以屯。屯者，物之始生也。」刘备白手起家创业之初屡战屡败却始终不弃，正合屯卦之精神。',
+        poem:'磐桓利居贞利建，乘马班如匪寇婚\n即鹿无虞惟入林，泣血涟如何苦吟\n屯其膏小贞大凶，乘马班如又来临',
+        poemMeaning:'起步阶段困难重重，但坚守正道终能成功。前进路上障碍不断，有时需要绕道而行。小事可以推进，大事暂缓为宜。',
+        qianDetail:'此卦为小凶之兆，表示当前正处于一个充满挑战的阶段。就像种子破土而出需要巨大的能量，你现在所经历的困难是成长必经之路。坚持下去就有希望。',
+        qianYiji:'宜：分步推进、寻求帮助、小额尝试、耐心等待<br>忌：急于求成、孤军奋战、借贷扩张、轻信他人',
+        yaos:[
+            {type:6,title:'初九·磐桓',original:'初九：磐桓，利居贞，利建侯。',allusion:'「磐桓」意为盘旋不前。商鞅变法之初阻力重重，磐桓数年方得推行。此爻为动爻，暗示现状需要改变。',interp:'初爻老阴（动爻），起步阶段感觉寸步难行是正常的。与其焦虑不安不如安下心来打好基础，建立自己的支持网络。'},
+            {type:8,title:'六二·屯如邅如',original:'六二：屯如邅如，乘马班如。',allusion:'「邅如」形容徘徊不前的样子。李白「欲渡黄河冰塞川，将登太行雪满山」的诗句恰如其分地描绘了此种心境。',interp:'二爻少阴稳定，你感到前行受阻。周围似乎有很多机会但又都不确定。这时候耐心比冲动更重要。'},
+            {type:7,title:'六三·即鹿无虞',original:'六三：即鹿无虞，惟入于林中。',allusion:'「即鹿无虞」出自古代狩猎场景：追鹿而没有向导引导，只会迷失森林。三国袁绍官渡之战不听谋士之言，正是即鹿无虞。',interp:'三爻少阳稳定，这是一个警告——没有充分准备就贸然行动只会陷入困境。你需要先找到可靠的向导或顾问再行动。'},
+            {type:8,title:'六四·乘马班如',original:'六四：乘马班如，求婚媾，往吉，无不利。',allusion:'「乘马班如」再次出现，但这次给出了出路——通过联姻或合作打破僵局。昭君出塞正是以婚姻化解困局的典范。',interp:'四爻少阴稳定，之前的困境可以通过合作来解决。主动寻找合作伙伴或盟友，联合起来力量更大。'},
+            {type:8,title:'九五·屯其膏',original:'九五：屯其膏，小贞吉，大贞凶。',allusion:'「膏」指恩惠和资源。唐肃宗在安史之乱中只求自保而不顾大局，是小贞吉大贞凶的例证。',interp:'五爻少阳稳定，这个阶段只能做小的决策和改变。大事暂缓，先把眼前的事情处理好再说。贪大求全会带来麻烦。'},
+            {type:7,title:'上六·乘马班如泣血',original:'上六：乘马班如，泣血涟如。',allusion:'「泣血涟如」形容极度悲痛。屈原被放逐后写下《离骚》，其悲愤之情与此爻意境相通。',interp:'顶爻少阳稳定但位置已到极致。当前的困境让人痛苦，但这也是黎明前最后的黑暗。坚持住，转机就在前方。'}
+        ],
+        advice:{career:'创业维艰期，建议分步骤推进计划。先从小目标做起，逐步扩大规模。寻找经验丰富的导师或合伙人。',love:'感情需要更多耐心和理解。如果关系中有问题，现在不是摊牌的好时机。',wealth:'量入为出，避免借贷风险。现金流比利润更重要。',warning:'最大的风险是急于求成导致决策失误。慢即是快。'},
+        bianGua:{name:'水风涣',symbol:'䷺',upper:'坎',lower:'巽',palace:'离宫',element:'水/木',judge:'平',nature:'散而后聚，疏通化解',trend:'逐渐明朗',meaning:'屯变涣卦，象征原本凝聚在一起的困难和压力开始消散。如同冰雪消融，阻碍逐渐解除。',advice:'变卦显示事情正在向好的方向发展。之前困扰你的问题会逐渐找到解决方案。保持积极心态，同时做好迎接变化的准备。'}
+    },
+    {
+        name:'山水蒙',symbol:'䷃',upper:'艮',lower:'坎',palace:'离宫',element:'火',judge:'平',
+        lines:[7,8,8,8,8,7],
+        guaci:'蒙：亨。匪我求童蒙，童蒙求我。初筮告，再三渎，渎则不告。《象》曰：山下出泉，蒙，君子以果行育德。',
+        meaning:'蒙卦象征启蒙与迷茫。上山下水，泉水从山下流出却被山阻隔，喻求知之心受阻。此卦主学习成长，宜虚心求教。',
+        allusion:'蒙卦讲的是教育之道。孔子「有教无类」的思想与此卦契合。《三字经》开篇「人之初，性本善」亦是蒙卦精神的民间传承。',
+        poem:'发蒙利用刑人说，包蒙吉纳妇子克\n勿用取女见金夫，困蒙吝涩需解脱\n童蒙吉利击蒙厉，虚心请教路宽阔',
+        poemMeaning:'启蒙之初需要正确的引导方法。包容他人的缺点反而有利。不要被表面现象迷惑。困惑时主动求助是最好的办法。',
+        qianDetail:'此卦为中平之兆，代表你目前处于一个学习和探索的阶段。可能对未来方向有些迷茫，这恰恰是成长的契机。保持开放的心态，多学多问。',
+        qianYiji:'宜：拜师学艺、参加培训、阅读学习、咨询专家<br>忌：闭门造车、固执己见、盲目自信、拒绝帮助',
+        yaos:[
+            {type:7,title:'初九·发蒙',original:'初九：发蒙，利用刑人，用说桎梏，以往吝。',allusion:'「发蒙」即开启智慧。孟子幼时受母亲三次迁居的教育（孟母三迁），正是发蒙的经典案例。',interp:'初爻少阳稳定，启蒙的开始需要正确的方法。如果你正在学习新知识或技能，找一个好的老师或教程非常重要。'},
+            {type:8,title:'九二·包蒙',original:'九二：包蒙吉，纳妇吉，子克家。',allusion:'「包蒙」意为包容愚昧之人。唐太宗纳谏如流、包容魏征等直臣，成就贞观之治，是包蒙之道的典范。',interp:'二爻少阴稳定，包容他人的不足会给你带来好处。在感情和家庭方面也是吉祥的。宽以待人是当下的良策。'},
+            {type:8,title:'六三·勿用取女',original:'六三：勿用取女，见金夫，不有躬，无攸利。',allusion:'此爻警示不要被外表迷惑。商纣王因宠爱妲己而亡国，是「见金夫不有躬」的极端教训。',interp:'三爻少阴稳定，这是一个警示——不要因为表面的光鲜而做出错误判断。无论是人、事还是投资机会，都要看清本质。'},
+            {type:8,title:'六四·困蒙',original:'六四：困蒙，吝。',allusion:'「困蒙」指陷入困惑而无法自拔。王阳明龙场悟道之前正是困蒙之境，但正是这段经历促成了心学的诞生。',interp:'四爻少阴稳定，你可能感觉自己被困住了，看不清方向。这时候最需要的不是独自苦想而是向外寻求帮助。'},
+            {type:8,title:'六五·童蒙',original:'六五：童蒙，吉。',allusion:'「童蒙」即孩童般的虚心。苏东坡晚年仍自称「童蒙」以求学，这种终身学习的态度令人敬佩。',interp:'五爻少阴稳定居尊位！像孩子一样保持好奇心和学习的欲望，这是最有利的姿态。承认自己不懂并愿意去学，这不是弱点而是优势。'},
+            {type:7,title:'上九·击蒙',original:'上九：击蒙。不利为寇，利御寇。',allusion:'「击蒙」指用严厉方式开启蒙昧。法家思想中的严刑峻法有其适用场景，但过犹不及。秦朝二世而亡便是教训。',interp:'顶爻少阳稳定，有时候需要用强硬手段解决问题。但要注意分寸——防御性的强硬是可以理解的，主动攻击则会适得其反。'}
+        ],
+        advice:{career:'学习提升的好时期。建议参加专业培训、考取证书或寻找导师指导。不要急于做重大决定，先充实自己。',love:'保持开放心态，真诚沟通。单身者可通过朋友介绍认识新人。',wealth:'先从小额投资开始积累经验和知识。不要把所有资金投入单一项目。',warning:'最大的风险是因迷茫而做出草率决定。宁可慢一点也要想清楚。'},
+        bianGua:{name:'山风蛊',symbol:'䷑',upper:'艮',lower:'巽',palace:'巽宫',element:'土/木',judge:'小吉',nature:'除弊兴利，革新整饬',trend:'由乱入治',meaning:'蒙变蛊卦，蛊本意为器皿中生虫，引申为积弊已久需要整顿。从迷茫走向清理整顿，是积极的转变。',advice:'变卦暗示需要对现有状况进行一次彻底的整理和改革。清理不必要的包袱，整顿混乱的事项，你会发现自己其实拥有很多资源。'}
+    },
+    {
+        name:'水天需',symbol:'䷄',upper:'坎',lower:'乾',palace:'坤宫',element:'土',judge:'中吉',
+        lines:[7,7,9,8,8,7],
+        guaci:'需：有孚，光亨贞吉，利涉大川。《象》曰：云上于天，需，君子以饮食宴乐。',
+        meaning:'需卦象征等待。上坎为水（云），下乾为天，云在天上等待降雨。此卦主静待其变，时机成熟方可行动。',
+        allusion:'需卦讲的是「等待的艺术」。姜子牙渭水垂八十载等待文王，是需卦精神的最佳诠释。《论语》「欲速则不达」亦同此理。',
+        poem:'需于郊恒用无咎，需于沙言小有吉\n需于泥寇至速避，需于血穴出可期\n需于酒食贞吉利，三人不速客来奇',
+        poemMeaning:'等待的过程本身就是在积蓄力量。起步时要持之以恒，中间会遇到一些流言和环境恶化。但只要坚持到底，最终会享受成果。',
+        qianDetail:'此卦为中吉之兆，告诉你最重要的是耐心。很多事情已经在酝酿之中，只是时机未到。强行推动只会事倍功半。',
+        qianYiji:'宜：耐心等待、专注当下、维护关系、储备资源<br>忌：急于求成、频繁变动、重大决策、冒险投资',
+        yaos:[
+            {type:7,title:'初九·需于郊',original:'初九：需于郊，利用恒，无咎。',allusion:'「需于郊」即在城郊耐心等待。越王勾践卧薪尝胆十年，最终复国雪耻，是恒心等待的成功范例。',interp:'初爻少阳稳定，刚开始的阶段需要有恒心。不要期望一夜之间看到结果，持之以恒是关键。'},
+            {type:7,title:'九二·需于沙',original:'九二：需于沙，小有言，终吉。',allusion:'在沙滩上等待难免有些不适和非议。苏轼屡遭贬谪却能乐观面对，「小有言」而已，「终吉」才是结局。',interp:'二爻少阳稳定，周围可能有一些闲言碎语或小摩擦。不必在意这些，专注于自己的目标就好。'},
+            {type:9,title:'九三·需于泥',original:'九三：需于泥，致寇至。',allusion:'陷入泥沼中等待是最危险的处境。李自成攻陷北京后骄傲自满，如同「需于泥」而招致清兵入关。此爻为老阳动爻。',interp:'三爻老阳（动爻）！环境在恶化，可能有竞争对手或不怀好意的人出现。这是危险信号，需要及时抽身或加强防范。'},
+            {type:8,title:'六四·需于血',original:'六四：需于血，出自穴。',allusion:'「需于血」指在血泊中挣扎求生。司马迁受宫刑后忍辱负重完成《史记》，正是出自穴而终成大器的典范。',interp:'四爻少阴稳定，你可能刚刚经历过一段困难的时期。好消息是从困境中脱身的时刻已经到来，坚持下去就是光明。'},
+            {type:8,title:'九五·需于酒食',original:'九五：需于酒食，贞吉。',allusion:'经过漫长的等待终于到了享受成果的时候。宋太祖杯酒释兵权，是以酒食化解危机的高明之举。',interp:'五爻少阴稳定居尊位！等待终于有了回报。现在可以稍微放松一下，享受自己努力的成果了。这是值得庆祝的时刻。'},
+            {type:7,title:'上六·有不速之客',original:'上六：有不速之客三人来，敬之终吉。',allusion:'三位不速之客象征意外的机遇。张良遇黄石公于桥上得《太公兵法》，正是意外之客带来的转折。',interp:'顶爻少阳稳定，可能会有意想不到的人或事出现在你的生活中。以开放和尊重的态度对待这些意外，它们可能是命运的礼物。'}
+        ],
+        advice:{career:'保持耐心，专注当前任务。如果有晋升或跳槽的想法，现在不是最好的时机，再等等。',love:'给彼此空间和时间。如果关系中存在问题，时间会帮你解决很多事情。',wealth:'观望为主，现金为王。如果必须投资，选择低风险固定收益类产品。',warning:'最大的敌人是不耐烦。在错误的时机做正确的事，结果也可能不好。'},
+        bianGua:{name:'天水讼',symbol:'䷅',upper:'乾',lower:'坎',palace:'离宫',element:'金/水',judge:'小凶',nature:'由待转争',trend:'需防范口舌',meaning:'需卦变讼卦，从等待变为争执。暗示如果缺乏耐心，原本的等待可能演变成矛盾和冲突。',advice:'变卦提醒你要特别注意沟通方式。避免和他人产生误解，有分歧时主动退让一步。'}
+    },
+    {
+        name:'天水讼',symbol:'䷅',upper:'乾',lower:'坎',palace:'离宫',element:'火',judge:'小凶',
+        lines:[8,8,7,9,9,8],
+        guaci:'讼：有孚窒惕，中吉终凶。利见大人，不利涉大川。《象》曰：天与水违行，讼。',
+        meaning:'讼卦象征争讼。上乾为天（上行），下坎为水（下行），背道而行生矛盾。此卦主口舌是非，宜和解避让。',
+        allusion:'讼卦讲的是如何处理冲突。《论语》中孔子强调「听讼吾犹人也，必也使无讼乎」——最好的解决争讼的方式是让争讼不发生。',
+        poem:'不永所事小言吉，不克讼归而逋邑\n食旧德贞厉终吉，复即命谕安贞\n讼元吉正位胜诉，鞶带褫之朝三失',
+        poemMeaning:'小的争执尽快化解就好。诉讼不利时应及时止损。依靠过往积累可渡难关。即使占据正义也要适可而止。',
+        qianDetail:'此卦为小凶之兆，提示当前容易产生误解和冲突。凡事以和为贵，退让不是软弱而是智慧。',
+        qianYiji:'宜：主动沟通、寻求调解、接受妥协<br>忌：正面冲突、法律诉讼、固执己见',
+        yaos:[
+            {type:8,title:'初六·不永所事',original:'初六：不永所事，小有言，终吉。',allusion:'小争执尽快化解是最佳策略。廉颇蔺相如将相和的故事正是化干戈为玉帛的经典。',interp:'小摩擦尽快化解。不要纠结于小事，向前看才是正道。'},
+            {type:8,title:'九二·不克讼',original:'九二：不克讼，归而逋其邑人三百户，无眚。',allusion:'诉讼失败及时撤退保全了大部分力量。韩信受胯下之辱后不与市井小人计较。',interp:'形势不利时及时止损是最明智的选择。承认失败并不丢人。'},
+            {type:7,title:'六三·食旧德',original:'六三：食旧德，贞厉，终吉。或从王事，无成。',allusion:'晋文公重耳流亡十九年后复国，靠的就是早年积累的声望和人脉。',interp:'困难可以依靠过往积累的经验和人脉来应对。老朋友可能派上用场。'},
+            {type:9,title:'九四·不克讼',original:'九四：不克讼，复即命，谕安贞吉。',allusion:'楚汉之争中刘邦多次败于项羽却能最终获胜，关键在于懂得何时进退。动爻。',interp:'老阳动爻——接受现实反而能获得内心的安宁。改变心态比改变局面更重要。'},
+            {type:9,title:'九五·讼元吉',original:'九五：讼，元吉。',allusion:'包拯断案如神、公正无私，正是此爻在司法领域的体现。老阳动爻居尊位！',interp:'如果你确实站在正义的一方且有充分证据支持，正面交涉是有利的。务必确保自己真的占理。'},
+            {type:8,title:'上九·或锡之鞶带',original:'上九：或锡之鞶带，终朝三褫之。',allusion:'「鞶带」是朝廷赏赐的腰带。一天被剥夺三次说明得而复失。袁绍官渡之战后恰如此境。',interp:'即使赢得了表面胜利也可能付出更大代价。要权衡是否值得争斗。'}
+        ],
+        advice:{career:'注意职场人际关系，遇到分歧主动沟通。',love:'坦诚对话比冷战更有效。主动示好打破僵局。',wealth:'避免与合作方纠纷，合同仔细审核。',warning:'情绪化决策是大敌。愤怒时的决定往往是错的。'},
+        bianGua:{name:'地水师',symbol:'䷆',upper:'坤',lower:'坎',palace:'坎宫',element:'土/水',judge:'中平',nature:'化争为众',trend:'走向协作',meaning:'讼变师卦，从个人争端转变为团队行动。通过组织化方式解决可能更有效。',advice:'将精力投入到团队合作中，与其争执不如带领团队一起做事。'}
+    },
+    {
+        name:'地水师',symbol:'䷆',upper:'坤',lower:'坎',palace:'坎宫',element:'水',judge:'中平',
+        lines:[8,8,7,8,8,6],
+        guaci:'师：贞丈人吉，无咎。《象》曰：地中有水，师，君子以容民畜众。',
+        meaning:'师卦象征军队和团队之事。地中有水聚众之象。主团队合作、领导力、纪律性。',
+        allusion:'师卦阐述用兵之道。「师出以律」是核心——没有纪律的队伍必然失败。戚继光练戚家军是此卦精神的军事实践。',
+        poem:'师出以律否臧凶，在师中吉无咎王\n舆尸大君无功用，师左次无咎灾\n田有禽利执言吉，弟子舆尸使贪嗔',
+        poemMeaning:'没有纪律必然失败。领导者得力则团队兴旺。能力不足强行带队会失败。适时撤退也是智慧。',
+        qianDetail:'中平偏上之兆，强调团队协作和领导力。管理者需以身作则；团队成员应积极配合集体目标。',
+        qianYiji:'宜：团队协作、服从指挥、制定规则<br>忌：独断专行、纪律涣散、越权行事',
+        yaos:[
+            {type:8,title:'初六·师出以律',original:'初六：师出以律，否臧凶。',allusion:'李自成起义军初期军纪严明势如破竹，后期废弛迅速覆灭。',interp:'做任何事都要先建立规则和秩序。好的开始是成功的一半。'},
+            {type:8,title:'九二·在师中吉',original:'九二：在师中吉，无咎，王三锡命。',allusion:'周公旦辅佐年幼成王，居核心位置得充分信任。',interp:'你在团队中处于重要位置且得到领导信任和支持，发挥才能的好时机。'},
+            {type:7,title:'六三·舆尸',original:'六三：舆尸，大无功。',allusion:'马谡失街亭导致蜀军大败，诸葛亮挥泪斩马谡。',interp:'警告——超出能力范围去承担重任只会导致失败。认清自己的局限性很重要。'},
+            {type:8,title:'六四·师左次',original:'六四：师左次，无咎。',allusion:'韩信被夺兵权后并未抱怨，等待时机再展才华。',interp:'暂时退到次要位置并非坏事。保存实力等待更好的机会，这是战略性选择。'},
+            {type:8,title:'九五·田有禽',original:'九五：田有禽，利执言，无咎。',allusion:'曹操抓住袁绍粮草被烧的战机一举定乾坤。',interp:'机会出现了就果断出手。犹豫会让好机会溜走。你有足够权威和能力主导局面。'},
+            {type:6,title:'上六·小人勿用',original:'上六：大君有命，开国承家，小人勿用。',allusion:'唐太宗任用房玄龄等贤臣开创贞观之治，任用李林甫等奸佞埋下祸根。老阴动爻暗示人员调整。',interp:'身负选人责任需擦亮眼睛。用对人事半功倍，用错人前功尽弃。近期可能有人员变动。'}
+        ],
+        advice:{career:'发挥领导力或积极融入团队，不适合单打独斗。寻找志同道合伙伴效率更高。',love:'家庭如小团队需各司其职互相配合。',wealth:'可考虑合伙投资但须明确分工利益分配。',warning:'用人不当是大忌。慎重选择合作伙伴和下属。'},
+        bianGua:{name:'地水比',symbol:'䷇',upper:'坤',lower:'坎',palace:'坤宫',element:'土/水',judge:'大吉',nature:'化众为亲',trend:'关系和谐',meaning:'师变比卦，从组织纪律变为亲密人际。紧张之后迎来和谐融洽局面。',advice:'变卦非常吉利！人际关系进入蜜月期，工作压力和人际紧张都会缓解。'}
+    },
+    {
+        name:'地水比',symbol:'䷇',upper:'坤',lower:'坎',palace:'坤宫',element:'土',judge:'大吉',
+        lines:[8,8,6,8,7,9],
+        guaci:'比：吉。原筮元永贞，无咎。《象》曰：地上有水，比。',
+        meaning:'比卦象征亲密辅佐。地上水流万物相亲。主人际和谐、贵人运旺、合作顺利。',
+        allusion:'比卦讲亲和之道。「管鲍之交」是此卦人际关系最完美的历史范例。季布一诺千金正是「有孚盈缃」的写照。',
+        poem:'有孚盈缃终来他，比之自内贞吉它\n比之匪人外比之，显比王用三驱失\n比之无首凶莫测，诚心待人福自来',
+        poemMeaning:'真诚待人自有福报。内部团结是成功基础。交友需明辨善恶。以德服人而非强力征服。',
+        qianDetail:'大吉之兆！人际关系运势极佳，贵人运旺盛。拓展人脉寻求合作感情发展的大好时机。',
+        qianYiji:'宜：拓展人脉、寻求合作、表白求婚<br>忌：孤芳自赏、拒绝帮助、轻信陌生人',
+        yaos:[
+            {type:8,title:'初六·有孚盈缃',original:'初六：有孚盈缃，终来有他吉。',allusion:'诚信充盈如满缃之水。季布一诺千金让落难时也有人相助。',interp:'真诚是最好的社交货币。保持诚实守信，好运自然找上门。'},
+            {type:8,title:'六二·比之自内',original:'六二：比之自内，贞吉。',allusion:'刘关张桃园三结义同心协力共创蜀汉基业。',interp:'关注身边人——家人老同事老朋友。巩固现有亲密关系更有价值。'},
+            {type:6,title:'六三·比之匪人',original:'六三：比之匪人。',allusion:'赵括亲近阿谀奉承之人最终长平惨败。老阴动爻警示交友需谨慎。',interp:'审视身边的人是否在利用你或带来负面影响？远离不值得信任的人。'},
+            {type:8,title:'六四·外比之',original:'六四：外比之，贞吉。',allusion:'张骞通西域开辟丝绸之路是外比之外交大手笔。',interp:'向外拓展人脉的黄金时期。参加行业活动社交聚会会有意外收获。'},
+            {type:7,title:'九五·显比',original:'九五：显比，王用三驱，失前禽，邑人不诫，吉。',allusion:'唐太宗虚心纳谏广开言路使天下贤才归心。少阳居尊位人格魅力吸引众人。',interp:'开放包容对待所有人。你的魅力正在吸引越来越多的人，建立影响力的绝佳时期。'},
+            {type:9,title:'上六·比之无首',original:'上六：比之无首，凶。',allusion:'八面玲珑却没有主见的人难以成事。老阳动爻提醒友善不能没原则。',interp:'友善虽好但不可失去原则。为讨好所有人而迷失自我是危险的。'}
+        ],
+        advice:{career:'贵人运极旺！易得领导支持适合推进跨部门合作项目。',love:'桃花旺盛！单身适合表白或有新邂逅；有伴者甜蜜升温。',wealth:'可通过人脉发现好投资机会听取专业人士建议。',warning:'热情待人的同时要保持基本辨别能力。'},
+        bianGua:{name:'水雷屯',symbol:'䷂',upper:'坎',lower:'震',palace:'坎宫',element:'水/木',judge:'小凶',nature:'由合转艰',trend:'需迎接挑战',meaning:'比卦变屯卦从亲密和谐转为初创艰难。意味着新的阶段即将开始需要做好面对困难的心理准备。',advice:'变卦预示新事物即将开始之前的好人脉将成为应对挑战的重要资源。'}
+    }
+];
+
+// ==================== YAO TYPE HELPERS ====================
+function getYaoTypeName(t){if(t===9)return'老阳';if(t===7)return'少阳';if(t===6)return'老阴';if(t===8)return'少阴';return'?';}
+function getYaoTypeClass(t){if(t===9)return'type-laoyang';if(t===7)return'type-shaoyang';if(t===6)return'type-laoyin';if(t===8)return'type-shaoyin';return'';}
+function isYang(t){return t===9||t===7;}
+function isMoving(t){return t===9||t===6;}
+function toggleYao(t){return t===9?8:(t===6?7:(t===7?9:6));}
+function calcBianLines(lines){return lines.map(function(t){return isMoving(t)?toggleYao(t):t;});}
+
+// ==================== LOADING ANIMATION - 6爻逐一显现（修复版）====================
+let currentHexData=null;
+function runLoadingAnimation(){
+    // 1. 先根据输入计算出卦象数据
+    const q=document.getElementById('input-question').value||'';
+    let h=0;
+    for(let i=0;i<q.length;i++){h=((h<<5)-h)+q.charCodeAt(i);h=h&h;}
+    const dv=document.getElementById('input-date')?.value||'';
+    for(let i=0;i<dv.length;i++){h=((h<<5)-h)+dv.charCodeAt(i);h=h&h;}
+    if(selectedGender==='female')h+=42;
+    const idx=Math.abs(h)%HEXAGRAMS.length;
+    currentHexData=JSON.parse(JSON.stringify(HEXAGRAMS[idx]));
+
+    // 2. 构建所有6条爻的DOM（初始隐藏）
+    const ll=document.getElementById('live-lines');ll.innerHTML='';
+    for(let i=0;i<6;i++){
+        const t=currentHexData.lines[i];
+        const d=document.createElement('div');d.className='live-yao';
+        // 标签：爻位名称
+        const lb=document.createElement('span');lb.className='live-yao-label';lb.textContent=YAO_NAMES[i];
+        // 四象标签
+        const bg=document.createElement('span');bg.className='live-yao-type '+getYaoTypeClass(t);
+        bg.textContent=getYaoTypeName(t)+(isMoving(t)?' ⚡':'');
+        // 爻线
+        if(isYang(t)){
+            const ln=document.createElement('div');ln.className='live-line-solid';
+            d.appendChild(lb);d.appendChild(bg);d.appendChild(ln);
+        }else{
+            const bk=document.createElement('div');bk.className='live-line-broken';
+            bk.appendChild(document.createElement('div'));bk.appendChild(document.createElement('div'));
+            d.appendChild(lb);d.appendChild(bg);d.appendChild(bk);
+        }
+        ll.appendChild(d);
+    }
+
+    // 3. 6步动画：每步显现一条爻，从初爻(i=0)到上爻(i=5)，均匀间隔
+    var step=0;
+    var totalSteps=6; // 固定6步，每步显一爻
+    var dots=document.querySelectorAll('#loading-progress-bar .progress-dot');
+    var txt=document.getElementById('loading-msg');
+    var sub=document.getElementById('loading-sub');
+    var ye=ll.querySelectorAll('.live-yao');
+
+    var iv=setInterval(function(){
+        step++;
+
+        // 主状态文字（每2步换一次）
+        var phaseIdx=Math.min(Math.floor((step-1)/2),3);
+        var phases=[
+            '第一、二掷铜钱...',
+            '第三、四掷铜钱...',
+            '第五、六掷铜钱...',
+            '卦象已成...天机显现'
+        ];
+        txt.textContent=phases[phaseIdx];
+
+        // 副文字：精确显示当前爻信息
+        var currentYaoIdx=Math.min(step-1,5);
+        sub.textContent='第'+['一','二','三','四','五','六'][currentYaoIdx]+'爻 —— '+getYaoTypeName(currentHexData.lines[currentYaoIdx])+'（'+(isMoving(currentHexData.lines[currentYaoIdx])?'动':'静')+'爻）';
+
+        // 进度点
+        dots.forEach(function(d,i){d.classList.toggle('active',i<=currentYaoIdx);});
+
+        // 显现当前爻
+        ye[currentYaoIdx].classList.add('visible');
+
+        // 全部6爻完成后跳转
+        if(step>=totalSteps){
+            clearInterval(iv);
+            txt.textContent='✨ 卦象已成';
+            sub.textContent=currentHexData.name+' —— '+currentHexData.judge;
+            setTimeout(showResult,1200);
+        }
+    },800); // 每800ms显一爻，总计约4.8秒
+}
+
+// ==================== RESULT RENDERING ====================
+function showResult(){
+    if(!currentHexData)return;
+    var h=currentHexData;
+
+    // Header
+    document.getElementById('res-name').textContent=h.name;
+    document.getElementById('res-symbol').textContent=h.symbol+' 上'+h.upper+'下'+h.lower;
+
+    // Tab 1: 本卦
+    document.getElementById('ben-palace').textContent=h.palace;
+    document.getElementById('ben-element').textContent=h.element;
+    var mv=h.lines.filter(isMoving);
+    var mt=mv.length>0?'第'+mv.map(function(_,i){return YAO_NAMES[h.lines.indexOf(isMoving(h.lines[i])?h.lines.find(function(v,j){return isMoving(v)&&j>=h.lines.indexOf(v)})?h.lines.indexOf(9)||h.lines.indexOf(6):0])}).join(',')+'爻':'无';
+    document.getElementById('ben-moving').textContent=mv.length>0?'第'+mv.map(function(v,i){var idx=h.lines.indexOf(v);return YAO_NAMES[idx];}).join(',')+'爻':'无';
+    var jEl=document.getElementById('ben-judge');jEl.textContent=h.judge;
+    jEl.style.className='info-value '+(h.judge.indexOf('大吉')!==-1?'judge-daji':h.judge.indexOf('凶')!==-1?'judge-xiong':h.judge.indexOf('吉')!==-1?'judge-ji':'judge-ping');
+
+    // Ben hexagram lines
+    var bl=document.getElementById('ben-lines');bl.innerHTML='';
+    for(var i=0;i<6;i++){
+        var t=h.lines[i];var el=document.createElement('div');el.className='yao-line';
+        var tb=document.createElement('span');tb.className='yao-type-badge '+getYaoTypeClass(t);
+        tb.textContent=(isYang(t)?'☰':'☷')+' '+getYaoTypeName(t)+(isMoving(t)?' ⚡':'');
+        var lab=document.createElement('span');lab.className='yao-label';lab.textContent=YAO_NAMES[i];
+        if(isYang(t)){var s=document.createElement('div');s.className='line-solid';el.appendChild(lab);el.appendChild(tb);el.appendChild(s);}
+        else{var b=document.createElement('div');b.className='line-broken';b.appendChild(document.createElement('div'));b.appendChild(document.createElement('div'));el.appendChild(lab);el.appendChild(tb);el.appendChild(b);}
+        bl.appendChild(el);
+    }
+
+    document.getElementById('ben-guaci').textContent=h.guaci;
+    document.getElementById('ben-meaning').textContent=h.meaning;
+    document.getElementById('ben-allusion').textContent=h.allusion;
+
+    // Yao list
+    var yl=document.getElementById('ben-yao-list');yl.innerHTML='';
+    h.yaos.forEach(function(y,idx){
+        var li=document.createElement('li');li.className='yao-item';
+        li.innerHTML='<div class="yao-header"><span class="yao-num">'+(idx+1)+'</span><span class="yao-title">'+y.title+'</span></div>'+
+            '<div class="yao-original">📜 原文：'+y.original+'</div>'+
+            '<div class="yao-allusion">📖 典故：'+y.allusion+'</div>'+
+            '<div class="yao-interpretation">💡 解读：'+y.interp+'</div>';
+        yl.appendChild(li);
+    });
+
+    // Tab 2: 变卦
+    var bL=calcBianLines(h.lines);
+    var bg=h.bianGua;
+    document.getElementById('bian-from-name').textContent=h.name;
+    document.getElementById('bian-from-sym').textContent=h.symbol+' 上'+h.upper+'下'+h.lower;
+    document.getElementById('bian-to-name').textContent=bg.name;
+    document.getElementById('bian-to-sym').textContent=bg.symbol+' 上'+bg.upper+'下'+bg.lower;
+    document.getElementById('bian-palace').textContent=bg.palace;
+    document.getElementById('bian-element').textContent=bg.element;
+    document.getElementById('bian-nature').textContent=bg.nature;
+    document.getElementById('bian-trend').textContent=bg.trend;
+    var bt=document.getElementById('bian-to-lines');bt.innerHTML='';
+    for(i=0;i<6;i++){
+        t=bL[i];el=document.createElement('div');el.className='yao-line';
+        lab=document.createElement('span');lab.className='yao-label';lab.textContent=YAO_NAMES[i];
+        cb=document.createElement('span');cb.className='yao-type-badge '+getYaoTypeClass(t);
+        cb.textContent=(isYang(t)?'—':'- -')+' '+getYaoTypeName(t)+(isMoving(h.lines[i])?' ✓变':'');
+        if(isYang(t)){s=document.createElement('div');s.className='line-solid';el.appendChild(lab);el.appendChild(cb);el.appendChild(s);}
+        else{b=document.createElement('div');b.className='line-broken';b.appendChild(document.createElement('div'));b.appendChild(document.createElement('div'));el.appendChild(lab);el.appendChild(cb);el.appendChild(b);}
+        bt.appendChild(el);
+    }
+    var mech='';
+    h.lines.forEach(function(t,i){if(isMoving(t))mech+='第'+YAO_NAMES[i]+'爻（'+getYaoTypeName(t)+'）由'+(isYang(t)?'阳→阴':'阴→阳')+'；';});
+    mech+='由此「'+h.name+'」演化为「'+bg.name+'」。';
+    document.getElementById('bian-mechanism').textContent=mech;
+    document.getElementById('bian-meaning').textContent=bg.meaning;
+    document.getElementById('bian-advice').textContent=bg.advice;
+
+    // Tab 3: 签解
+    document.getElementById('qian-poem').textContent=h.poem;
+    document.getElementById('qian-poem-meaning').textContent=h.poemMeaning;
+    document.getElementById('qian-detail').textContent=h.qianDetail;
+    document.getElementById('qian-yiji').innerHTML=h.qianYiji;
+
+    // Tab 4: 总结
+    document.getElementById('sum-judge-ben').textContent=h.judge;
+    document.getElementById('sum-judge-ben').className='summary-judge-value '+(h.judge.indexOf('大吉')!==-1?'judge-daji':h.judge.indexOf('吉')!==-1?'judge-ji':h.judge.indexOf('凶')!==-1?'judge-xiong':'judge-ping');
+    var bj=bg.judge;
+    document.getElementById('sum-judge-bian').textContent=bj;
+    document.getElementById('sum-judge-bian').className='summary-judge-value '+(bj.indexOf('大吉')!==-1?'judge-daji':bj.indexOf('吉')!==-1?'judge-ji':bj.indexOf('凶')!==-1?'judge-xiong':'judge-ping');
+    var s1=(h.judge.indexOf('大吉')!==-1?3:h.judge.indexOf('吉')!==-1?2:h.judge.indexOf('平')!==-1?1:0);
+    var s2=(bj.indexOf('大吉')!==-1?3:bj.indexOf('吉')!==-1?2:bj.indexOf('平')!==-1?1:0);
+    var fls=['下下','中下','平平','中上','上上'];var fcs=['judge-xiong','judge-xiong','judge-ping','judge-ji','judge-daji'];
+    var fi=Math.min(Math.floor((s1+s2)/1.5),4);
+    document.getElementById('sum-judge-final').textContent=fls[fi];
+    document.getElementById('sum-judge-final').className='summary-judge-value '+fcs[fi];
+    document.getElementById('sum-career').textContent=h.advice.career;
+    document.getElementById('sum-love').textContent=h.advice.love;
+    document.getElementById('sum-wealth').textContent=h.advice.wealth;
+    document.getElementById('sum-warning').textContent=h.advice.warning;
+
+    // Show result page
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+    document.getElementById('page-result').classList.add('active');
+    switchResultTab('tab-ben');
+    var btn=document.getElementById('btn-submit');btn.disabled=false;btn.textContent='掷币起卦';
+    window.scrollTo(0,0);
+}
+
+// ==================== TAB SWITCHING ====================
+function switchResultTab(tabId){
+    document.querySelectorAll('.result-tab').forEach(function(t){t.classList.remove('active');});
+    document.querySelectorAll('.result-tab-content').forEach(function(c){c.classList.remove('active');});
+    var tb=document.querySelector('.result-tab[data-tab="'+tabId+'"]');
+    if(tb)tb.classList.add('active');
+    var tc=document.getElementById(tabId);
+    if(tc)tc.classList.add('active');
+    // 重触发动画
+    tc.querySelectorAll('.result-section').forEach(function(s){
+        s.style.animation='none';void s.offsetHeight;s.style.animation=null;
+    });
+    window.scrollTo(0,0); // 切换tab时滚回顶部
+}
+
+// ==================== SCREENSHOT ====================
+function takeScreenshot(){
+    var name=document.getElementById('res-name').textContent;
+    var sym=document.getElementById('res-symbol').textContent;
+    var jb=document.getElementById('sum-judge-ben').textContent;
+    var jbi=document.getElementById('sum-judge-bian').textContent;
+    var jf=document.getElementById('sum-judge-final').textContent;
+    var car=document.getElementById('sum-career').textContent;
+    var lov=document.getElementById('sum-love').textContent;
+    var wlt=document.getElementById('sum-wealth').textContent;
+    var txt='🔮 命运占卜 · 六爻测算总结\n━━━━━━━━━━━━━━━\n📌 卦象：'+name+' '+sym+'\n🎯 本卦：'+jb+' ｜ 变卦：'+jbi+'\n⭐ 综合：'+jf+'\n━━━━━━━━━━━━━━━\n💼 '+car+'\n❤️ '+lov+'\n💰 '+wlt+'\n━━━━━━━━━━━━━━━\n命运占卜 · 命理之钥';
+    if(navigator.clipboard)navigator.clipboard.writeText(txt).then(function(){alert('✅ 总结已复制到剪贴板！\n可直接粘贴保存。');});
+    else alert(txt);
+}
+
+// ==================== SHARE ====================
+function shareResult(){
+    var name=document.getElementById('res-name').textContent;
+    var sym=document.getElementById('res-symbol').textContent;
+    var jf=document.getElementById('sum-judge-final')?.textContent||document.getElementById('ben-judge')?.textContent||'';
+    if(navigator.share)navigator.share({title:'我的六爻结果',text:'我在「命运占卜」算出了【'+name+'】'+sym+' 综合评定'+jf+'！来试试吧！',url:location.href}).catch(function(){});
+    else{var t='🔮 命运占卜·六爻结果\n卦象：'+name+' '+sym+'\n评定：'+jf;navigator.clipboard?.writeText(t).then(function(){alert('已复制到剪贴板！');}).catch(function(){alert('分享：'+name+sym);});}
+}
+</script>
+</body>
+</html>

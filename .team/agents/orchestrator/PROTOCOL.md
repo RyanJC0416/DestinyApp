@@ -58,3 +58,16 @@ PENDING → IN_PROGRESS → REVIEW → APPROVED / REVISED → DONE
 - 所有交接通过 send_message 完成
 - 问题反馈要具体（"XX文件的YY部分不符合ZZ要求"而非"有问题"）
 - 不要静默失败，遇到block就上报
+
+## ⚡ 用户审核机制（User Review Gate）【最高优先级】
+
+**每个阶段完成后，必须由用户（Orchestrator）审核通过才能进入下一阶段。**
+
+流程：
+1. Agent 完成工作 → 通知 Orchestrator
+2. Orchestrator 整理交付物摘要 + 关键决策点
+3. **向用户展示交付物并等待用户明确确认** ✋
+4. 用户批准 → 启动下一个 Agent
+5. 用户要求修改 → 将反馈转达给当前 Agent 迭代
+
+**严禁跳过用户审核直接推进下一阶段。**
