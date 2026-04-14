@@ -1,0 +1,105 @@
+<view class="container">
+  <view class="section-title">
+    <text class="title">西式算命</text>
+  </view>
+  
+  <view class="card-container">
+    <view class="card" bindtap="openTarotModal">
+      <view class="card-icon tarot"></view>
+      <text class="card-title">塔罗占卜</text>
+      <text class="card-desc">通过塔罗牌的神秘力量，揭示你的内心世界</text>
+      <view class="card-btn">开始测算</view>
+    </view>
+    
+    <view class="card" bindtap="openAstroModal">
+      <view class="card-icon astro"></view>
+      <text class="card-title">星盘解析</text>
+      <text class="card-desc">根据天体运行，解读你的人生轨迹</text>
+      <view class="card-btn">开始测算</view>
+    </view>
+  </view>
+  
+  <!-- 塔罗占卜弹窗 -->
+  <view class="modal" wx:if="{{showTarotModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">塔罗占卜</text>
+        <text class="modal-close" bindtap="closeTarotModal">&times;</text>
+      </view>
+      <form bindsubmit="submitTarotForm">
+        <view class="form-group">
+          <text class="form-label">您的问题</text>
+          <input type="text" name="question" placeholder="请输入您想咨询的问题" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">牌阵选择</text>
+          <picker name="spread" range="{{spreadRange}}" required>
+            <view class="picker">
+              {{selectedSpread ? selectedSpread : '请选择牌阵'}}
+            </view>
+          </picker>
+        </view>
+        <view class="form-group">
+          <text class="form-label">性别</text>
+          <picker name="gender" range="{{genderRange}}" required>
+            <view class="picker">
+              {{selectedTarotGender ? selectedTarotGender : '请选择性别'}}
+            </view>
+          </picker>
+        </view>
+        <button form-type="submit" class="btn western-btn">开始测算</button>
+      </form>
+      <view class="result" wx:if="{{showTarotResult}}">
+        <text class="result-title">塔罗占卜结果</text>
+        <text class="result-item"><text class="result-label">问题：</text>{{tarotResult.question}}</text>
+        <text class="result-item"><text class="result-label">牌阵：</text>{{tarotResult.spread}}</text>
+        <text class="result-item"><text class="result-label">性别：</text>{{tarotResult.gender}}</text>
+        <text class="result-item"><text class="result-label">牌面：</text>{{tarotResult.cards}}</text>
+        <text class="result-item"><text class="result-label">解读：</text>{{tarotResult.analysis}}</text>
+        <text class="result-item"><text class="result-label">建议：</text>{{tarotResult.suggestion}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 星盘解析弹窗 -->
+  <view class="modal" wx:if="{{showAstroModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">星盘解析</text>
+        <text class="modal-close" bindtap="closeAstroModal">&times;</text>
+      </view>
+      <form bindsubmit="submitAstroForm">
+        <view class="form-group">
+          <text class="form-label">出生年份</text>
+          <input type="number" name="year" placeholder="例如：1990" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">出生月份</text>
+          <input type="number" name="month" placeholder="1-12" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">出生日期</text>
+          <input type="number" name="day" placeholder="1-31" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">出生时间</text>
+          <input type="time" name="hour" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">出生地点</text>
+          <input type="text" name="location" placeholder="例如：北京" required />
+        </view>
+        <button form-type="submit" class="btn western-btn">开始测算</button>
+      </form>
+      <view class="result" wx:if="{{showAstroResult}}">
+        <text class="result-title">星盘解析结果</text>
+        <text class="result-item"><text class="result-label">出生信息：</text>{{astroResult.birthInfo}}</text>
+        <text class="result-item"><text class="result-label">太阳星座：</text>{{astroResult.sunSign}}</text>
+        <text class="result-item"><text class="result-label">月亮星座：</text>{{astroResult.moonSign}}</text>
+        <text class="result-item"><text class="result-label">上升星座：</text>{{astroResult.ascendant}}</text>
+        <text class="result-item"><text class="result-label">解读：</text>{{astroResult.analysis}}</text>
+        <text class="result-item"><text class="result-label">建议：</text>{{astroResult.suggestion}}</text>
+      </view>
+    </view>
+  </view>
+</view>

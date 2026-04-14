@@ -1,0 +1,108 @@
+<view class="container">
+  <view class="section-title">
+    <text class="title">中式算命</text>
+  </view>
+  
+  <view class="card-container">
+    <view class="card" bindtap="openBaziModal">
+      <view class="card-icon bazi"></view>
+      <text class="card-title">八字算命</text>
+      <text class="card-desc">根据出生年月日时，解析你的命运密码</text>
+      <view class="card-btn">开始测算</view>
+    </view>
+    
+    <view class="card" bindtap="openLiuyaoModal">
+      <view class="card-icon liuyao"></view>
+      <text class="card-title">周易六爻</text>
+      <text class="card-desc">通过六爻卦象，预测吉凶祸福</text>
+      <view class="card-btn">开始测算</view>
+    </view>
+  </view>
+  
+  <!-- 八字算命弹窗 -->
+  <view class="modal" wx:if="{{showBaziModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">八字算命</text>
+        <text class="modal-close" bindtap="closeBaziModal">&times;</text>
+      </view>
+      <form bindsubmit="submitBaziForm">
+        <view class="form-group">
+          <text class="form-label">出生年份</text>
+          <input type="number" name="year" placeholder="例如：1990" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">出生月份</text>
+          <input type="number" name="month" placeholder="1-12" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">出生日期</text>
+          <input type="number" name="day" placeholder="1-31" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">出生时辰</text>
+          <picker name="hour" range="{{timeRange}}" range-key="name" required>
+            <view class="picker">
+              {{selectedTime ? selectedTime.name : '请选择时辰'}}
+            </view>
+          </picker>
+        </view>
+        <view class="form-group">
+          <text class="form-label">性别</text>
+          <picker name="gender" range="{{genderRange}}" required>
+            <view class="picker">
+              {{selectedGender ? selectedGender : '请选择性别'}}
+            </view>
+          </picker>
+        </view>
+        <button form-type="submit" class="btn chinese-btn">开始测算</button>
+      </form>
+      <view class="result" wx:if="{{showBaziResult}}">
+        <text class="result-title">八字测算结果</text>
+        <text class="result-item"><text class="result-label">出生信息：</text>{{baziResult.birthInfo}}</text>
+        <text class="result-item"><text class="result-label">性别：</text>{{baziResult.gender}}</text>
+        <text class="result-item"><text class="result-label">八字：</text>{{baziResult.bazi}}</text>
+        <text class="result-item"><text class="result-label">命运分析：</text>{{baziResult.analysis}}</text>
+        <text class="result-item"><text class="result-label">建议：</text>{{baziResult.suggestion}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 周易六爻弹窗 -->
+  <view class="modal" wx:if="{{showLiuyaoModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">周易六爻</text>
+        <text class="modal-close" bindtap="closeLiuyaoModal">&times;</text>
+      </view>
+      <form bindsubmit="submitLiuyaoForm">
+        <view class="form-group">
+          <text class="form-label">您的问题</text>
+          <input type="text" name="question" placeholder="请输入您想咨询的问题" required />
+        </view>
+        <view class="form-group">
+          <text class="form-label">性别</text>
+          <picker name="gender" range="{{genderRange}}" required>
+            <view class="picker">
+              {{selectedLiuyaoGender ? selectedLiuyaoGender : '请选择性别'}}
+            </view>
+          </picker>
+        </view>
+        <view class="form-group">
+          <text class="form-label">测算日期</text>
+          <input type="date" name="date" required />
+        </view>
+        <button form-type="submit" class="btn chinese-btn">开始测算</button>
+      </form>
+      <view class="result" wx:if="{{showLiuyaoResult}}">
+        <text class="result-title">六爻测算结果</text>
+        <text class="result-item"><text class="result-label">问题：</text>{{liuyaoResult.question}}</text>
+        <text class="result-item"><text class="result-label">性别：</text>{{liuyaoResult.gender}}</text>
+        <text class="result-item"><text class="result-label">测算日期：</text>{{liuyaoResult.date}}</text>
+        <text class="result-item"><text class="result-label">卦象：</text>{{liuyaoResult.hexagram}}</text>
+        <text class="result-item"><text class="result-label">解读：</text>{{liuyaoResult.analysis}}</text>
+        <text class="result-item"><text class="result-label">建议：</text>{{liuyaoResult.suggestion}}</text>
+      </view>
+    </view>
+  </view>
+</view>

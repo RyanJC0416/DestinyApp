@@ -1,0 +1,23 @@
+{
+  "name": "destiny-fortune-dev",
+  "leadAgentId": "6c8b39004f084cdfb7dae7a72eff2bdb",
+  "workspacePath": "f:/Destiny",
+  "createdAt": "2026-04-14T16:34:43.929Z",
+  "options": {
+    "workspacePath": "f:/Destiny",
+    "isAutoTeam": false
+  },
+  "members": [
+    {
+      "memberId": "team-lead@destiny-fortune-dev",
+      "name": "team-lead",
+      "role": "Team Lead - coordinates the team and interacts with the user"
+    },
+    {
+      "memberId": "pm-agent@destiny-fortune-dev",
+      "name": "pm-agent",
+      "role": "PM产品规划与PRD撰写"
+    }
+  ],
+  "isAutoTeam": false
+}

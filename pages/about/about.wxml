@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="section-title">
+    <text class="title">关于我们</text>
+  </view>
+  
+  <view class="about-content">
+    <text class="about-text">命运占卜致力于为用户提供专业、准确的命理服务，融合中西方智慧，为你揭示命运的奥秘。</text>
+    
+    <view class="feature-section">
+      <text class="feature-title">我们的特色</text>
+      <view class="feature-list">
+        <view class="feature-item">
+          <view class="feature-icon">1</view>
+          <text class="feature-text">融合中西方算命智慧</text>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon">2</view>
+          <text class="feature-text">专业的测算方法</text>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon">3</view>
+          <text class="feature-text">简洁美观的用户界面</text>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon">4</view>
+          <text class="feature-text">精准的测算结果</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="contact-section">
+      <text class="contact-title">联系我们</text>
+      <text class="contact-text">如果您有任何问题或建议，欢迎联系我们：</text>
+      <text class="contact-info">邮箱：contact@mingyun.com</text>
+      <text class="contact-info">微信：mingyunzhanbu</text>
+    </view>
+  </view>
+</view>

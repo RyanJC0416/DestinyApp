@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/chinese/chinese",
+    "pages/western/western",
+    "pages/about/about"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f5f5f7",
+    "navigationBarTitleText": "命运占卜",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#555",
+    "selectedColor": "#0071e3",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/chinese/chinese",
+        "text": "中式算命",
+        "iconPath": "images/chinese.png",
+        "selectedIconPath": "images/chinese-active.png"
+      },
+      {
+        "pagePath": "pages/western/western",
+        "text": "西式算命",
+        "iconPath": "images/western.png",
+        "selectedIconPath": "images/western-active.png"
+      },
+      {
+        "pagePath": "pages/about/about",
+        "text": "关于我们",
+        "iconPath": "images/about.png",
+        "selectedIconPath": "images/about-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

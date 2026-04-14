@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="hero">
+    <view class="hero-content">
+      <text class="hero-title">探索你的命运</text>
+      <text class="hero-subtitle">融合中西方智慧，为你提供精准的命运指引</text>
+      <view class="cta-buttons">
+        <navigator url="/pages/chinese/chinese" class="btn chinese-btn">中式算命</navigator>
+        <navigator url="/pages/western/western" class="btn western-btn">西式算命</navigator>
+      </view>
+    </view>
+  </view>
+</view>
