@@ -1,22 +1,30 @@
-// western.js
+/**
+ * 交互层 - 西式算命页面
+ * 职责：负责UI展示和用户交互，所有计算逻辑委托给核心层引擎
+ */
+
+const TarotEngine = require('../../core/tarotEngine');
+const AstroEngine = require('../../core/astroEngine');
+const { SPREADS } = require('../../data/tarotData');
+
 Page({
   data: {
     showTarotModal: false,
     showAstroModal: false,
     showTarotResult: false,
     showAstroResult: false,
-    spreadRange: ['三牌阵', '凯尔特十字', '关系牌阵'],
+    spreadRange: Object.keys(SPREADS),
     genderRange: ['男', '女'],
     selectedSpread: null,
     selectedTarotGender: null,
     tarotResult: {},
     astroResult: {}
   },
-  
+
   onLoad() {
     console.log('西式算命页面加载');
   },
-  
+
   // 打开塔罗占卜弹窗
   openTarotModal() {
     this.setData({
@@ -24,7 +32,7 @@ Page({
       showTarotResult: false
     });
   },
-  
+
   // 关闭塔罗占卜弹窗
   closeTarotModal() {
     this.setData({
@@ -32,7 +40,7 @@ Page({
       showTarotResult: false
     });
   },
-  
+
   // 打开星盘解析弹窗
   openAstroModal() {
     this.setData({
@@ -40,7 +48,7 @@ Page({
       showAstroResult: false
     });
   },
-  
+
   // 关闭星盘解析弹窗
   closeAstroModal() {
     this.setData({
@@ -48,40 +56,39 @@ Page({
       showAstroResult: false
     });
   },
-  
-  // 塔罗占卜表单提交
+
+  // 塔罗占卜表单提交 -> 委托给核心层引擎
   submitTarotForm(e) {
     const { question, spread, gender } = e.detail.value;
-    
-    // 模拟测算结果
+
+    // 调用核心层引擎进行塔罗占卜
+    const result = TarotEngine.divinate(question, spread, gender);
+
     this.setData({
       showTarotResult: true,
-      tarotResult: {
-        question: question,
-        spread: spread,
-        gender: gender,
-        cards: '魔术师、女祭司、皇帝',
-        analysis: '您正处于一个充满创造力和机会的时期，需要运用智慧和权威来实现您的目标。',
-        suggestion: '相信自己的能力，保持平衡的心态，勇敢地追求您的梦想。'
-      }
+      tarotResult: result
     });
   },
-  
-  // 星盘解析表单提交
+
+  // 星盘解析表单提交 -> 委托给核心层引擎
   submitAstroForm(e) {
     const { year, month, day, hour, location } = e.detail.value;
     
-    // 模拟测算结果
+    // 解析小时
+    const hourNum = parseInt(hour.split(':')[0]) || 12;
+
+    // 调用核心层引擎进行星盘计算
+    const result = AstroEngine.generateReport(
+      parseInt(year),
+      parseInt(month),
+      parseInt(day),
+      hourNum,
+      location
+    );
+
     this.setData({
       showAstroResult: true,
-      astroResult: {
-        birthInfo: `${year}年${month}月${day}日 ${hour} ${location}`,
-        sunSign: '白羊座',
-        moonSign: '天蝎座',
-        ascendant: '狮子座',
-        analysis: '您具有白羊座的活力和领导力，月亮天蝎赋予您深刻的情感和直觉，上升狮子则让您在社交场合中充满自信。',
-        suggestion: '发挥您的领导才能，同时注意平衡情感和理性，保持积极的心态面对挑战。'
-      }
+      astroResult: result
     });
   }
-})
+});

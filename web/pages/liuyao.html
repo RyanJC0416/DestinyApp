@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>周易六爻 - 命运占卜</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="page-container">
+    <div class="nav-bar">
+      <a href="../index.html" class="back-btn">←</a>
+      <span class="title">周易六爻</span>
+    </div>
+
+    <div class="content-card">
+      <h2>心中默念所问之事</h2>
+      <form id="liuyao-form">
+        <div class="form-group">
+          <label>您的问题</label>
+          <input type="text" id="question" placeholder="例如：问事业发展" value="问事业发展" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>性别</label>
+            <select id="gender">
+              <option value="男" selected>男</option>
+              <option value="女">女</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>测算日期</label>
+            <input type="date" id="date" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">起卦测算</button>
+      </form>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="tip">
+      💡 提示：起卦前请静心默念所问之事，心诚则灵。六爻占卜结果仅供参考。
+    </div>
+  </div>
+
+  <script src="../js/engines.js"></script>
+  <script>
+    // 设置默认日期为今天
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+    document.getElementById('liuyao-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const question = document.getElementById('question').value;
+      const gender = document.getElementById('gender').value;
+      const date = document.getElementById('date').value;
+
+      const result = DestinyCore.liuyao.divinate(question, gender, date);
+
+      const fortuneClass = {
+        '大吉': 'fortune-da-ji',
+        '吉': 'fortune-ji',
+        '中平': 'fortune-ping',
+        '小吉': 'fortune-ji',
+        '小凶': 'fortune-xiong',
+        '凶': 'fortune-xiong'
+      }[result.fortune] || 'fortune-ping';
+
+      document.getElementById('result').innerHTML = `
+        <div class="result-card">
+          <h3>六爻测算结果</h3>
+
+          <div class="result-section">
+            <div class="hexagram-info">
+              <div class="name">${result.hexagram}</div>
+              <div class="fortune ${fortuneClass}">${result.fortune}</div>
+            </div>
+          </div>
+
+          <div class="result-section">
+            <h4>卦象</h4>
+            <div class="hexagram-visual">${result.yaoText.replace(/\n/g, '<br>')}</div>
+            <p style="text-align:center;color:var(--text-secondary);font-size:13px">
+              上卦：${result.upperGua} | 下卦：${result.lowerGua}
+              ${result.changingLinesCount > 0 ? `| 变爻数：${result.changingLinesCount}` : ''}
+            </p>
+          </div>
+
+          <div class="result-section">
+            <h4>卦辞</h4>
+            <p>${result.hexagramMeaning}</p>
+            <p style="margin-top:8px;color:var(--text-secondary);font-size:14px">${result.description}</p>
+          </div>
+
+          ${result.changingLinesCount > 0 ? `
+          <div class="result-section">
+            <h4>变爻分析</h4>
+            <p style="white-space:pre-line">${result.changingAnalysis}</p>
+          </div>
+          ` : ''}
+
+          <div class="result-section">
+            <h4>解读</h4>
+            <p>${result.analysis}</p>
+          </div>
+
+          <div class="result-section">
+            <h4>建议</h4>
+            <p>${result.suggestion}</p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</body>
+</html>

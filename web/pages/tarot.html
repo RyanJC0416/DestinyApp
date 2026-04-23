@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>塔罗占卜 - 命运占卜</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="page-container">
+    <div class="nav-bar">
+      <a href="../index.html" class="back-btn">←</a>
+      <span class="title">塔罗占卜</span>
+    </div>
+
+    <div class="content-card">
+      <h2>塔罗牌阵</h2>
+      <form id="tarot-form">
+        <div class="form-group">
+          <label>您的问题</label>
+          <input type="text" id="question" placeholder="例如：问感情发展" value="问感情发展" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>牌阵</label>
+            <select id="spread">
+              <option value="三牌阵" selected>三牌阵</option>
+              <option value="凯尔特十字">凯尔特十字</option>
+              <option value="关系牌阵">关系牌阵</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>性别</label>
+            <select id="gender">
+              <option value="男" selected>男</option>
+              <option value="女">女</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">开始抽牌</button>
+      </form>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="tip">
+      💡 提示：塔罗牌反映的是当下的能量状态，未来是可以改变的。保持开放的心态接受指引。
+    </div>
+  </div>
+
+  <script src="../js/engines.js"></script>
+  <script>
+    document.getElementById('tarot-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const question = document.getElementById('question').value;
+      const spread = document.getElementById('spread').value;
+      const gender = document.getElementById('gender').value;
+
+      const result = DestinyCore.tarot.divinate(question, spread, gender);
+
+      const cardsHtml = result.spreadResult.map(item => `
+        <div class="tarot-card ${item.card.isReversed ? 'reversed' : ''}">
+          <div class="position">${item.position}</div>
+          <div class="name">${item.card.name}</div>
+          ${item.card.isReversed ? '<div class="reversed-tag">逆位</div>' : ''}
+        </div>
+      `).join('');
+
+      const interpretationsHtml = result.spreadResult.map(item => `
+        <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border-color)">
+          <div style="font-weight:600;color:var(--primary);margin-bottom:4px">${item.position}</div>
+          <div style="font-size:15px">${item.card.name} ${item.card.isReversed ? '(逆位)' : ''}</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:4px">${item.interpretation}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('result').innerHTML = `
+        <div class="result-card">
+          <h3>塔罗占卜结果</h3>
+
+          <div class="result-section">
+            <h4>抽到的牌</h4>
+            <div class="tarot-cards">${cardsHtml}</div>
+          </div>
+
+          <div class="result-section">
+            <h4>牌阵解读</h4>
+            ${interpretationsHtml}
+          </div>
+
+          <div class="result-section">
+            <h4>综合建议</h4>
+            <p>${result.suggestion}</p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <title>命运占卜</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page-container">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="logo">🔮</div>
+      <h1>命运占卜</h1>
+      <p>探索命运奥秘，指引人生方向</p>
+    </div>
+
+    <!-- 功能卡片 -->
+    <div class="card-grid">
+      <a href="pages/bazi.html" class="feature-card">
+        <div class="icon chinese">☯️</div>
+        <h3>八字算命</h3>
+        <p>根据生辰八字<br>解析命运密码</p>
+      </a>
+
+      <a href="pages/liuyao.html" class="feature-card">
+        <div class="icon chinese">📜</div>
+        <h3>周易六爻</h3>
+        <p>通过卦象变化<br>预测吉凶祸福</p>
+      </a>
+
+      <a href="pages/tarot.html" class="feature-card">
+        <div class="icon western">🃏</div>
+        <h3>塔罗占卜</h3>
+        <p>借助神秘力量<br>揭示内心世界</p>
+      </a>
+
+      <a href="pages/astro.html" class="feature-card">
+        <div class="icon western">⭐</div>
+        <h3>星盘解析</h3>
+        <p>天体运行轨迹<br>解读人生密码</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- 微信分享配置 -->
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+  <script>
+    // 微信分享配置（需要后端配合签名）
+    if (typeof wx !== 'undefined') {
+      wx.ready(function() {
+        wx.updateAppMessageShareData({
+          title: '命运占卜 - 探索你的命运密码',
+          desc: '八字、六爻、塔罗、星盘，多种占卜方式为你指引方向',
+          link: window.location.href,
+          imgUrl: '',
+          success: function() {}
+        });
+        wx.updateTimelineShareData({
+          title: '命运占卜 - 探索你的命运密码',
+          link: window.location.href,
+          imgUrl: '',
+          success: function() {}
+        });
+      });
+    }
+  </script>
+</body>
+</html>

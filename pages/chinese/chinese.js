@@ -1,24 +1,19 @@
-// chinese.js
+/**
+ * 交互层 - 中式算命页面
+ * 职责：负责UI展示和用户交互，所有计算逻辑委托给核心层引擎
+ */
+
+const BaziEngine = require('../../core/baziEngine');
+const LiuyaoEngine = require('../../core/liuyaoEngine');
+const { SHI_CHEN } = require('../../data/baziData');
+
 Page({
   data: {
     showBaziModal: false,
     showLiuyaoModal: false,
     showBaziResult: false,
     showLiuyaoResult: false,
-    timeRange: [
-      { name: '子时 (23:00-01:00)' },
-      { name: '丑时 (01:00-03:00)' },
-      { name: '寅时 (03:00-05:00)' },
-      { name: '卯时 (05:00-07:00)' },
-      { name: '辰时 (07:00-09:00)' },
-      { name: '巳时 (09:00-11:00)' },
-      { name: '午时 (11:00-13:00)' },
-      { name: '未时 (13:00-15:00)' },
-      { name: '申时 (15:00-17:00)' },
-      { name: '酉时 (17:00-19:00)' },
-      { name: '戌时 (19:00-21:00)' },
-      { name: '亥时 (21:00-23:00)' }
-    ],
+    timeRange: SHI_CHEN.map(s => ({ name: `${s.name} (${s.time})` })),
     genderRange: ['男', '女'],
     selectedTime: null,
     selectedGender: null,
@@ -26,11 +21,11 @@ Page({
     baziResult: {},
     liuyaoResult: {}
   },
-  
+
   onLoad() {
     console.log('中式算命页面加载');
   },
-  
+
   // 打开八字算命弹窗
   openBaziModal() {
     this.setData({
@@ -38,7 +33,7 @@ Page({
       showBaziResult: false
     });
   },
-  
+
   // 关闭八字算命弹窗
   closeBaziModal() {
     this.setData({
@@ -46,7 +41,7 @@ Page({
       showBaziResult: false
     });
   },
-  
+
   // 打开周易六爻弹窗
   openLiuyaoModal() {
     this.setData({
@@ -54,7 +49,7 @@ Page({
       showLiuyaoResult: false
     });
   },
-  
+
   // 关闭周易六爻弹窗
   closeLiuyaoModal() {
     this.setData({
@@ -62,39 +57,37 @@ Page({
       showLiuyaoResult: false
     });
   },
-  
-  // 八字算命表单提交
+
+  // 八字算命表单提交 -> 委托给核心层引擎
   submitBaziForm(e) {
     const { year, month, day, hour, gender } = e.detail.value;
-    
-    // 模拟测算结果
+    const hourIndex = parseInt(hour) || 0;
+
+    // 调用核心层引擎进行八字计算
+    const result = BaziEngine.generateReport(
+      parseInt(year),
+      parseInt(month),
+      parseInt(day),
+      hourIndex,
+      gender
+    );
+
     this.setData({
       showBaziResult: true,
-      baziResult: {
-        birthInfo: `${year}年${month}月${day}日 ${hour}`,
-        gender: gender,
-        bazi: '甲子 乙丑 丙寅 丁卯',
-        analysis: '您的八字显示您为人聪明伶俐，做事有计划，财运较好，但需要注意人际关系的处理。',
-        suggestion: '保持乐观心态，多与他人交流，抓住机会发展事业。'
-      }
+      baziResult: result
     });
   },
-  
-  // 周易六爻表单提交
+
+  // 周易六爻表单提交 -> 委托给核心层引擎
   submitLiuyaoForm(e) {
     const { question, gender, date } = e.detail.value;
-    
-    // 模拟测算结果
+
+    // 调用核心层引擎进行六爻占卜
+    const result = LiuyaoEngine.divinate(question, gender, date);
+
     this.setData({
       showLiuyaoResult: true,
-      liuyaoResult: {
-        question: question,
-        gender: gender,
-        date: date,
-        hexagram: '乾卦',
-        analysis: '乾卦象征天，刚健中正，您的问题将会得到积极的解决，需要保持信心和耐心。',
-        suggestion: '勇往直前，积极行动，抓住机会，成功在望。'
-      }
+      liuyaoResult: result
     });
   }
-})
+});

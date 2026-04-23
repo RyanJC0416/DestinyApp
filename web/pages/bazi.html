@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>八字算命 - 命运占卜</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="page-container">
+    <!-- 导航栏 -->
+    <div class="nav-bar">
+      <a href="../index.html" class="back-btn">←</a>
+      <span class="title">八字算命</span>
+    </div>
+
+    <!-- 输入表单 -->
+    <div class="content-card">
+      <h2>输入出生信息</h2>
+      <form id="bazi-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>出生年份</label>
+            <input type="number" id="year" placeholder="1990" value="1990" required>
+          </div>
+          <div class="form-group">
+            <label>出生月份</label>
+            <input type="number" id="month" placeholder="1-12" value="5" min="1" max="12" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>出生日期</label>
+            <input type="number" id="day" placeholder="1-31" value="15" min="1" max="31" required>
+          </div>
+          <div class="form-group">
+            <label>出生时辰</label>
+            <select id="hour" required>
+              <option value="0">子时 (23-01)</option>
+              <option value="1">丑时 (01-03)</option>
+              <option value="2">寅时 (03-05)</option>
+              <option value="3">卯时 (05-07)</option>
+              <option value="4">辰时 (07-09)</option>
+              <option value="5" selected>巳时 (09-11)</option>
+              <option value="6">午时 (11-13)</option>
+              <option value="7">未时 (13-15)</option>
+              <option value="8">申时 (15-17)</option>
+              <option value="9">酉时 (17-19)</option>
+              <option value="10">戌时 (19-21)</option>
+              <option value="11">亥时 (21-23)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>性别</label>
+          <select id="gender" required>
+            <option value="男" selected>男</option>
+            <option value="女">女</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">开始测算</button>
+      </form>
+    </div>
+
+    <!-- 结果展示 -->
+    <div id="result"></div>
+
+    <div class="tip">
+      💡 提示：八字算命基于传统命理学，结果仅供参考，人生掌握在自己手中。
+    </div>
+  </div>
+
+  <script src="../js/engines.js"></script>
+  <script>
+    document.getElementById('bazi-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const year = parseInt(document.getElementById('year').value);
+      const month = parseInt(document.getElementById('month').value);
+      const day = parseInt(document.getElementById('day').value);
+      const hour = parseInt(document.getElementById('hour').value);
+      const gender = document.getElementById('gender').value;
+
+      const result = DestinyCore.bazi.generateReport(year, month, day, hour, gender);
+
+      const wuxingColors = {
+        '金': '#FFD700', '木': '#4CAF50', '水': '#2196F3',
+        '火': '#F44336', '土': '#FF9800'
+      };
+
+      const wuxingBars = Object.entries(result.wuxing.wuxingCount).map(([wx, count]) => {
+        const percent = (count / 8 * 100);
+        return `
+          <div class="wuxing-bar">
+            <span class="label" style="color:${wuxingColors[wx]}">${wx}</span>
+            <div class="bar">
+              <div class="bar-fill" style="width:${percent}%;background:${wuxingColors[wx]}"></div>
+            </div>
+            <span class="count">${count}</span>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('result').innerHTML = `
+        <div class="result-card">
+          <h3>八字测算结果</h3>
+
+          <div class="result-section">
+            <h4>四柱八字</h4>
+            <div class="pillars-grid">
+              <div class="pillar-item">
+                <div class="label">年柱</div>
+                <div class="value">${result.yearPillar}</div>
+              </div>
+              <div class="pillar-item">
+                <div class="label">月柱</div>
+                <div class="value">${result.monthPillar}</div>
+              </div>
+              <div class="pillar-item">
+                <div class="label">日柱</div>
+                <div class="value">${result.dayPillar}</div>
+              </div>
+              <div class="pillar-item">
+                <div class="label">时柱</div>
+                <div class="value">${result.hourPillar}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-section">
+            <h4>五行分析</h4>
+            ${wuxingBars}
+            <p style="margin-top:12px;font-size:13px;color:var(--text-secondary)">
+              日主五行：<span class="highlight">${result.wuxing.dayGanWuxing}</span> |
+              身强身弱：<span class="highlight">${result.wuxing.strength === 'strong' ? '身强' : (result.wuxing.strength === 'weak' ? '身弱' : '平衡')}</span>
+            </p>
+          </div>
+
+          <div class="result-section">
+            <h4>命运分析</h4>
+            <p>${result.analysis}</p>
+          </div>
+
+          <div class="result-section">
+            <h4>人生建议</h4>
+            <p>${result.suggestion}</p>
+          </div>
+        </div>
+      `;
+
+      // 滚动到结果
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</body>
+</html>

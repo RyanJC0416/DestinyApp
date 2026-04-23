@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>星盘解析 - 命运占卜</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="page-container">
+    <div class="nav-bar">
+      <a href="../index.html" class="back-btn">←</a>
+      <span class="title">星盘解析</span>
+    </div>
+
+    <div class="content-card">
+      <h2>输入出生信息</h2>
+      <form id="astro-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>出生年份</label>
+            <input type="number" id="year" placeholder="1990" value="1990" required>
+          </div>
+          <div class="form-group">
+            <label>出生月份</label>
+            <input type="number" id="month" placeholder="1-12" value="5" min="1" max="12" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>出生日期</label>
+            <input type="number" id="day" placeholder="1-31" value="15" min="1" max="31" required>
+          </div>
+          <div class="form-group">
+            <label>出生小时</label>
+            <input type="number" id="hour" placeholder="0-23" value="14" min="0" max="23" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>出生地点</label>
+          <input type="text" id="location" placeholder="例如：北京" value="北京" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">生成星盘</button>
+      </form>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="tip">
+      💡 提示：星盘反映的是出生时天体的位置，是个人特质的蓝图。星盘只是指引，人生由自己创造。
+    </div>
+  </div>
+
+  <script src="../js/engines.js"></script>
+  <script>
+    document.getElementById('astro-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const year = parseInt(document.getElementById('year').value);
+      const month = parseInt(document.getElementById('month').value);
+      const day = parseInt(document.getElementById('day').value);
+      const hour = parseInt(document.getElementById('hour').value);
+      const location = document.getElementById('location').value;
+
+      const result = DestinyCore.astro.generateReport(year, month, day, hour, location);
+
+      document.getElementById('result').innerHTML = `
+        <div class="result-card">
+          <h3>星盘解析结果</h3>
+
+          <div class="result-section">
+            <h4>个人星盘</h4>
+            <div class="pillars-grid">
+              <div class="pillar-item">
+                <div class="label">太阳星座</div>
+                <div class="value" style="font-size:28px">${result.sunSignSymbol}</div>
+                <div style="font-size:13px;color:var(--text-secondary);margin-top:4px">${result.sunSign}</div>
+              </div>
+              <div class="pillar-item">
+                <div class="label">月亮星座</div>
+                <div class="value" style="font-size:28px">${result.moonSignSymbol}</div>
+                <div style="font-size:13px;color:var(--text-secondary);margin-top:4px">${result.moonSign}</div>
+              </div>
+              <div class="pillar-item">
+                <div class="label">上升星座</div>
+                <div class="value" style="font-size:28px">${result.ascendantSymbol}</div>
+                <div style="font-size:13px;color:var(--text-secondary);margin-top:4px">${result.ascendant}</div>
+              </div>
+              <div class="pillar-item">
+                <div class="label">太阳元素</div>
+                <div class="value" style="font-size:20px">${result.sunSignElement}</div>
+                <div style="font-size:13px;color:var(--text-secondary);margin-top:4px">${result.sunSignElement === '火' ? '🔥' : (result.sunSignElement === '土' ? '🌍' : (result.sunSignElement === '风' ? '💨' : '💧'))}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-section">
+            <h4>个性分析</h4>
+            <p>${result.analysis}</p>
+          </div>
+
+          <div class="result-section">
+            <h4>人生建议</h4>
+            <p>${result.suggestion}</p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</body>
+</html>
