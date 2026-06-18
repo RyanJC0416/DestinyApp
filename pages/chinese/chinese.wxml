@@ -100,6 +100,8 @@
         <text class="result-item"><text class="result-label">性别：</text>{{liuyaoResult.gender}}</text>
         <text class="result-item"><text class="result-label">测算日期：</text>{{liuyaoResult.date}}</text>
         <text class="result-item"><text class="result-label">卦象：</text>{{liuyaoResult.hexagram}}</text>
+        <text class="result-item" selectable="true"><text class="result-label">原始排盘：</text>\n{{liuyaoResult.copyText}}</text>
+        <button class="btn chinese-btn" bindtap="copyLiuyaoResult">一键复制给 AI</button>
         <text class="result-item"><text class="result-label">解读：</text>{{liuyaoResult.analysis}}</text>
         <text class="result-item"><text class="result-label">建议：</text>{{liuyaoResult.suggestion}}</text>
       </view>

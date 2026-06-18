@@ -1,0 +1,8 @@
+.DS_Store
+.destiny-server.log
+.destiny-server.pid
+
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/

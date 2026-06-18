@@ -172,7 +172,7 @@ struct HomeView: View {
                 icon: "🃏",
                 title: "塔罗占卜",
                 subtitle: "神秘牌阵 · 揭示内心",
-                gradientColors: [Color(hex: "#4E1B2D"), color: "#30101a"]
+                gradientColors: [Color(hex: "#4E1B2D"), Color(hex: "#30101a")]
             )
             QuickAccessCard(
                 icon: "⭐",

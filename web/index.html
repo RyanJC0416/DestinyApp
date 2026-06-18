@@ -1,72 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="format-detection" content="telephone=no">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f1f3f6">
   <title>命运占卜</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260618-4">
 </head>
 <body>
-  <div class="page-container">
-    <!-- Hero -->
-    <div class="hero">
-      <div class="logo">🔮</div>
-      <h1>命运占卜</h1>
-      <p>探索命运奥秘，指引人生方向</p>
-    </div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">命</span>
+        <div><strong>命运占卜</strong><small>Destiny</small></div>
+      </div>
+      <nav class="nav" aria-label="功能导航">
+        <button class="nav-item active" data-view="liuyao"><span>☷</span>六爻</button>
+        <button class="nav-item" data-view="tarot"><span>▤</span>塔罗</button>
+        <button class="nav-item" data-view="jiaobei"><span>◖</span>珓杯</button>
+      </nav>
+      <p class="sidebar-note">文化娱乐与自我反思工具</p>
+    </aside>
 
-    <!-- 功能卡片 -->
-    <div class="card-grid">
-      <a href="pages/bazi.html" class="feature-card">
-        <div class="icon chinese">☯️</div>
-        <h3>八字算命</h3>
-        <p>根据生辰八字<br>解析命运密码</p>
-      </a>
+    <main class="workspace">
+      <section id="liuyao-view" class="tool-view active">
+        <div class="input-pane">
+          <header class="tool-header">
+            <p class="eyebrow">东方易学</p>
+            <h1>周易六爻</h1>
+            <p>专注一个具体问题，使用三枚铜钱法生成本卦与变卦。</p>
+          </header>
+          <form id="liuyao-form" class="tool-form">
+            <label>所问之事
+              <textarea name="question" rows="5" maxlength="160" placeholder="例如：接下来三个月项目进展如何？" required></textarea>
+            </label>
+            <fieldset><legend>性别</legend>
+              <div class="segments">
+                <label><input type="radio" name="gender" value="男" checked><span>男</span></label>
+                <label><input type="radio" name="gender" value="女"><span>女</span></label>
+              </div>
+            </fieldset>
+            <fieldset><legend>分析模块</legend>
+              <div class="segments topic-segments">
+                <label><input type="radio" name="topic" value="事业" checked><span>事业</span></label>
+                <label><input type="radio" name="topic" value="家庭"><span>家庭</span></label>
+                <label><input type="radio" name="topic" value="健康"><span>健康</span></label>
+                <label><input type="radio" name="topic" value="感情"><span>感情</span></label>
+              </div>
+            </fieldset>
+            <label>起卦日期<input type="datetime-local" name="date" required></label>
+            <button class="primary-button" type="submit">开始起卦</button>
+          </form>
+          <p class="disclaimer">结果不替代医疗、法律、财务或其他专业决策。</p>
+        </div>
+        <div id="liuyao-result" class="result-pane" aria-live="polite">
+          <div class="empty-state"><span>☷</span><h2>等待起卦</h2><p>填写问题后开始起卦。</p></div>
+        </div>
+      </section>
 
-      <a href="pages/liuyao.html" class="feature-card">
-        <div class="icon chinese">📜</div>
-        <h3>周易六爻</h3>
-        <p>通过卦象变化<br>预测吉凶祸福</p>
-      </a>
+      <section id="tarot-view" class="tool-view">
+        <div class="input-pane">
+          <header class="tool-header">
+            <p class="eyebrow">Rider-Waite-Smith</p>
+            <h1>塔罗占卜</h1>
+            <p>选择牌阵，从完整的 78 张经典牌组中抽牌。</p>
+          </header>
+          <form id="tarot-form" class="tool-form">
+            <label>想要厘清的问题
+              <textarea name="question" rows="5" maxlength="160" placeholder="例如：我该如何推进目前的项目？" required></textarea>
+            </label>
+            <label>牌阵
+              <select name="spread">
+                <option>三牌阵</option><option>关系牌阵</option><option>凯尔特十字</option>
+              </select>
+            </label>
+            <fieldset><legend>性别</legend>
+              <div class="segments">
+                <label><input type="radio" name="gender" value="男" checked><span>男</span></label>
+                <label><input type="radio" name="gender" value="女"><span>女</span></label>
+              </div>
+            </fieldset>
+            <button class="primary-button" type="submit">洗牌并抽牌</button>
+          </form>
+          <p class="disclaimer">牌面来自 1909 年公版 Rider-Waite-Smith 牌组。</p>
+        </div>
+        <div id="tarot-result" class="result-pane" aria-live="polite">
+          <div class="empty-state"><span>▤</span><h2>等待抽牌</h2><p>选择牌阵并写下问题。</p></div>
+        </div>
+      </section>
 
-      <a href="pages/tarot.html" class="feature-card">
-        <div class="icon western">🃏</div>
-        <h3>塔罗占卜</h3>
-        <p>借助神秘力量<br>揭示内心世界</p>
-      </a>
-
-      <a href="pages/astro.html" class="feature-card">
-        <div class="icon western">⭐</div>
-        <h3>星盘解析</h3>
-        <p>天体运行轨迹<br>解读人生密码</p>
-      </a>
-    </div>
+      <section id="jiaobei-view" class="tool-view">
+        <div class="input-pane">
+          <header class="tool-header">
+            <p class="eyebrow">民俗请示</p>
+            <h1>珓杯</h1>
+            <p>先掷杯确认请示对象是否在座，得圣杯后才能问具体事情。</p>
+          </header>
+          <form id="jiaobei-form" class="tool-form">
+            <div class="jiaobei-step"><span>1</span><strong>先问谁</strong></div>
+            <label>请示对象
+              <input name="invitee" maxlength="40" placeholder="例如：妈祖、关圣帝君、土地公" required>
+            </label>
+            <button id="jiaobei-presence" class="primary-button" type="button">掷杯请示是否在座</button>
+            <div id="jiaobei-presence-result" class="presence-result" hidden></div>
+            <div id="jiaobei-presence-confirmed" class="presence-confirmed" hidden>✓ 已得圣杯，可以具体问事</div>
+            <div class="jiaobei-step locked" id="jiaobei-question-step"><span>2</span><strong>再问具体事情</strong></div>
+            <label>所问之事
+              <textarea name="question" rows="5" maxlength="160" placeholder="例如：我现在是否适合推进这件事？" required disabled></textarea>
+            </label>
+            <button class="primary-button" type="submit" disabled>请示具体事项</button>
+            <button id="jiaobei-reset" class="secondary-button" type="button">重新请示</button>
+          </form>
+          <div class="jiaobei-legend">
+            <p><strong>圣杯</strong>一阴一阳·允可</p>
+            <p><strong>笑杯</strong>双阳·问法或时机未定</p>
+            <p><strong>阴杯</strong>双阴·暂不允可</p>
+          </div>
+          <p class="disclaimer">民俗文化体验，不替代专业决策。</p>
+        </div>
+        <div id="jiaobei-result" class="result-pane" aria-live="polite">
+          <div class="empty-state"><span>◖</span><h2>第一步：先问谁</h2><p>填写请示对象，确认是否在座。</p></div>
+        </div>
+      </section>
+    </main>
   </div>
-
-  <!-- 微信分享配置 -->
-  <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
-  <script>
-    // 微信分享配置（需要后端配合签名）
-    if (typeof wx !== 'undefined') {
-      wx.ready(function() {
-        wx.updateAppMessageShareData({
-          title: '命运占卜 - 探索你的命运密码',
-          desc: '八字、六爻、塔罗、星盘，多种占卜方式为你指引方向',
-          link: window.location.href,
-          imgUrl: '',
-          success: function() {}
-        });
-        wx.updateTimelineShareData({
-          title: '命运占卜 - 探索你的命运密码',
-          link: window.location.href,
-          imgUrl: '',
-          success: function() {}
-        });
-      });
-    }
-  </script>
+  <script src="js/shared-core-loader.js?v=20260618-4"></script>
+  <script src="js/app.js?v=20260618-4"></script>
 </body>
 </html>

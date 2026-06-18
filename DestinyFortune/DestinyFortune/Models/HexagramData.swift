@@ -163,7 +163,7 @@ enum HexagramData {
         advice: Advice(
             career: "工作中可能出现意外情况，保持冷静应对。",
             love: "感情中需防范第三者干扰，珍惜眼前人。",
-           财富: "小财可进，大财暂缓，保守理财为宜。",
+           wealth: "小财可进，大财暂缓，保守理财为宜。",
             warning: "小心突如其来的变化，不要被表象迷惑。"
         ),
         bianGua: BianGuaInfo(
@@ -253,7 +253,7 @@ enum HexagramData {
         advice: Advice(
             career: "当前环境不利，建议稳守阵地，寻找内部改善机会。",
             love: "多沟通少指责，给关系修复的空间和时间。",
-           财富: "减少开支，保留现金，等待市场回暖。",
+           wealth: "减少开支，保留现金，等待市场回暖。",
             warning: "最困难的时刻往往就是转折点的前夜，切勿轻言放弃。"
         ),
         bianGua: BianGuaInfo(
@@ -298,7 +298,7 @@ enum HexagramData {
         advice: Advice(
             career: "在做重大决策前，充分收集信息和分析数据。",
             love: "用心去理解伴侣的需求和感受。",
-           财富: "研究透彻再投资，不跟风不盲从。",
+           wealth: "研究透彻再投资，不跟风不盲从。",
             warning: "看得清才能走得稳，急于求成容易出错。"
         ),
         bianGua: BianGuaInfo(
@@ -343,7 +343,7 @@ enum HexagramData {
         advice: Advice(
             career: "收缩战线，专注于核心业务，削减非必要开支。",
             love: "感情需要更多维护和投入，不要忽视细节。",
-           财富: "资产配置要保守为主，现金为王。",
+           wealth: "资产配置要保守为主，现金为王。",
             warning: "越是困难时期越要保持清醒头脑，不要病急乱投医。"
         ),
         bianGua: BianGuaInfo(
@@ -388,7 +388,7 @@ enum HexagramData {
         advice: Advice(
             career: "事业发展进入快车道，大胆追求目标。",
             love: "感情运势极佳，适合表白或深化关系。",
-           财富: "财务状况大幅改善，可适当增加投资。",
+           wealth: "财务状况大幅改善，可适当增加投资。",
             warning: "成功时更要保持谦逊，骄兵必败。"
         ),
         bianGua: BianGuaInfo(
@@ -433,7 +433,7 @@ enum HexagramData {
         advice: Advice(
             career: "事业达到高峰，可考虑更大的目标。",
             love: "感情圆满，珍惜当下美好时光。",
-           财富: "财富自由近在咫尺，合理规划使用。",
+           wealth: "财富自由近在咫尺，合理规划使用。",
             warning: "月满则亏，水满则溢。成功时更要注意平衡。"
         ),
         bianGua: BianGuaInfo(
@@ -479,7 +479,7 @@ enum HexagramData {
         advice: Advice(
             career: "当前困难是暂时的，每一步都要脚踏实地。",
             love: "共同经历风雨的感情更加坚固。",
-           财富: "紧缩开支，确保现金流安全。",
+           wealth: "紧缩开支，确保现金流安全。",
             warning: "最大的敌人不是外部困难而是内心的恐惧。"
         ),
         bianGua: BianGuaInfo(
@@ -524,7 +524,7 @@ enum HexagramData {
         advice: Advice(
             career: "制定合理的工作计划和优先级排序。",
             love: "在感情中保持独立性和健康的界限感。",
-           财富: "建立预算制度，严格执行财务纪律。",
+           wealth: "建立预算制度，严格执行财务纪律。",
             warning: "节制不是限制而是保护，找到属于自己的平衡点。"
         ),
         bianGua: BianGuaInfo(
@@ -570,7 +570,7 @@ enum HexagramData {
         advice: Advice(
             career: "创业或转型初期要有心理准备，困难是正常的。",
             love: "新感情需要时间培养，不要急于求成。",
-           财富: "初期投入大于回报，这是必然的过程。",
+           wealth: "初期投入大于回报，这是必然的过程。",
             warning: "最黑暗的时刻就在黎明之前，千万不要放弃。"
         ),
         bianGua: BianGuaInfo(
@@ -602,8 +602,8 @@ enum HexagramData {
         allusion: "水在火上，既济。君子以思患而豫防之。",
         poem: "功成名就莫忘形\n慎终如始保长青\n居安思危防微渐\n基业长青万代兴",
         poemMeaning: "成功不是终点，持续的努力才能保持成就。",
-        qainDetail: "【事业】目标达成，巩固成果。<br>【财运】收益稳定，注意保值。<br>【感情】关系和谐美满。<br>【健康】保持良好的生活习惯。",
-        qainYiJi: "<b>宜：</b>巩固、完善、预防<br><b>忌：**自满、松懈、冒险",
+        qianDetail: "【事业】目标达成，巩固成果。<br>【财运】收益稳定，注意保值。<br>【感情】关系和谐美满。<br>【健康】保持良好的生活习惯。",
+        qianYiJi: "<b>宜：</b>巩固、完善、预防<br><b>忌：**自满、松懈、冒险",
         yaos: [
             YaoInfo(type: 8, title: "初九·曳其轮濡其尾无咎", original: "曳其轮，濡其尾，无咎。", allusion: "拉住车轮弄湿车尾。", interpretation: "谨慎前行可以避免失误。"),
             YaoInfo(type: 9, title: "六二·妇丧其茀勿逐七日得", original: "妇丧其茀，勿逐，七日得。", allusion: "丢失了首饰不用追。", interpretation: "失去的东西自然会回来。"),
@@ -615,7 +615,7 @@ enum HexagramData {
         advice: Advice(
             career: "取得阶段性胜利后要趁热打铁巩固地位。",
             love: "珍惜来之不易的幸福，持续经营感情。",
-           财富: "收益到手后要做好资产保护和增值规划。",
+           wealth: "收益到手后要做好资产保护和增值规划。",
             warning: "很多失败不是发生在奋斗过程中而是在成功之后。"
         ),
         bianGua: BianGuaInfo(
@@ -648,8 +648,8 @@ enum HexagramData {
         allusion: "兼山，艮。君子思不出其位。",
         poem: "巍峨青山不动摇\n心如止水任逍遥\n静观世事风云变幻\n稳坐钓鱼台看潮",
         poemMeaning: "在纷繁复杂的世界中保持内心的平静是最高的智慧。",
-        qainDetail: "【事业】宜稳扎稳打，不宜冒进。<br>【财运】保守理财，持有现金。<br>【感情】冷静思考感情走向。<br>【健康】静养调理。",
-        qainYiJi: "<b>宜：</b>静止、思考、内修<br><b>忌：**冒进、频繁变动",
+        qianDetail: "【事业】宜稳扎稳打，不宜冒进。<br>【财运】保守理财，持有现金。<br>【感情】冷静思考感情走向。<br>【健康】静养调理。",
+        qianYiJi: "<b>宜：</b>静止、思考、内修<br><b>忌：**冒进、频繁变动",
         yaos: [
             YaoInfo(type: 8, title: "初六·艮其趾无咎利永贞", original: "艮其趾，无咎，利永贞。", allusion: "停住脚趾。", interpretation: "从一开始就保持谨慎。"),
             YaoInfo(type: 8, title: "六二·艮其腓不拯其随其心不快", original: "艮其腓，不拯其随，其心不快。", allusion: "停下小腿不能跟上。", interpretation: "想行动却受限时会感到不快。"),
@@ -661,7 +661,7 @@ enum HexagramData {
         advice: Advice(
             career: "现在是评估和规划的最好时机，不要急于行动。",
             love: "给彼此空间和时间来理清思路。",
-           财富: "观望市场走势，不要在不确定时做出重大财务决定。",
+           wealth: "观望市场走势，不要在不确定时做出重大财务决定。",
             warning: "静止不等于停滞，而是在为下一步做准备。"
         ),
         bianGua: BianGuaInfo(
@@ -693,8 +693,8 @@ enum HexagramData {
         allusion: "山下有火，贲。君子以明庶政，无敢折狱。",
         poem: "锦上添花更增辉\n内外兼修显芳菲\n文质彬彬君子风\n美名远扬天下知",
         poemMeaning: "好的内容配上好的呈现方式才能发挥最大价值。",
-        qainDetail: "【事业】注重个人品牌和专业形象的打造。<br>【财运】合理消费提升生活品质。<br>【感情】注重仪表和浪漫氛围。<br>【健康】内外兼修保养身心。",
-        qainYiJi: "<b>宜：</b>美化、修饰、展示<br><b>忌：**浮夸、虚假、过度装饰",
+        qianDetail: "【事业】注重个人品牌和专业形象的打造。<br>【财运】合理消费提升生活品质。<br>【感情】注重仪表和浪漫氛围。<br>【健康】内外兼修保养身心。",
+        qianYiJi: "<b>宜：</b>美化、修饰、展示<br><b>忌：**浮夸、虚假、过度装饰",
         yaos: [
             YaoInfo(type: 8, title: "初九·贲其趾舍车而徒", original: "贲其趾，舍车而徒。", allusion: "装饰脚趾步行不乘车。", interpretation: "宁可朴实也不要虚荣。"),
             YaoInfo(type: 8, title: "六二·贲其须", original: "贲其须。", allusion: "装饰胡须。", interpretation: "适当的修饰是有必要的。"),
@@ -706,7 +706,7 @@ enum HexagramData {
         advice: Advice(
             career: "花时间打磨作品和个人形象，这会带来意想不到的回报。",
             love: "用心营造浪漫的氛围，细节决定成败。",
-           财富: "适当投资于提升生活质量和形象的项目上。",
+           wealth: "适当投资于提升生活质量和形象的项目上。",
             warning: "外表很重要但不能只重表面，内在才是根本。"
         ),
         bianGua: BianGuaInfo(
@@ -739,8 +739,8 @@ enum HexagramData {
         allusion: "洊雷，震。君子以恐惧修省。",
         poem: "一声惊雷震四方\n万象更新换旧装\n处变不惊显定力\转危为安谱华章",
         poemMeaning: "每一次震动都是重新洗牌的机会，关键是能否稳住阵脚。",
-        qainDetail: "【事业】可能面临突然的变化或机遇。<br>【财运】市场波动带来机会。<br>【感情】突发事件考验感情基础。<br>【健康】注意心脏和神经系统。",
-        qainYiJi: "<b>宜：</b>应变、创新、突破<br><b>忌：**恐慌、固执",
+        qianDetail: "【事业】可能面临突然的变化或机遇。<br>【财运】市场波动带来机会。<br>【感情】突发事件考验感情基础。<br>【健康】注意心脏和神经系统。",
+        qianYiJi: "<b>宜：</b>应变、创新、突破<br><b>忌：**恐慌、固执",
         yaos: [
             YaoInfo(type: 8, title: "初九·震来虩虩后笑言哑哑吉", original: "震来虩虩，后笑言哑哑，吉。", allusion: "雷声令人恐惧随后欢笑。", interpretation: "最初的恐慌过去后会发现其实没那么可怕。"),
             YaoInfo(type: 8, title: "六二·震来厉亿丧贝跻于九陵勿逐七日得", original: "震来厉，亿丧贝，跻于九陵，勿逐，七日得。", allusion: "雷声猛烈损失巨大。", interpretation: "损失的东西不必急着追回，它会回来的。"),
@@ -752,7 +752,7 @@ enum HexagramData {
         advice: Advice(
             career: "突如其来的变化可能是升职或转型的契机，保持开放心态。",
             love: "意外的共同经历可能会加深感情连接。",
-           财富: "市场波动中蕴藏着投资机会，需要敏锐的眼光。",
+           wealth: "市场波动中蕴藏着投资机会，需要敏锐的眼光。",
             warning: "最大的风险不是变化本身而是对变化的反应方式。"
         ),
         bianGua: BianGaoInfo(
@@ -785,8 +785,8 @@ enum HexagramData {
         allusion: "随风，巽。君子以申命行事。",
         poem: "清风徐来万物生\n柔能克刚显神通\n循序渐进登高峰\n润物无声功自成",
         poemMeaning: "温柔的力量往往比强硬更持久有效。",
-        qainDetail: "【事业】以温和方式推进工作。<br>【财务管理细致有序。<br>【感情】温柔体贴增进感情。<br>【健康】舒缓放松。",
-        qainYiJi: "<b>宜：</b>柔和、渗透、渐进<br><b>忌：**强硬、急躁",
+        qianDetail: "【事业】以温和方式推进工作。<br>【财务管理细致有序。<br>【感情】温柔体贴增进感情。<br>【健康】舒缓放松。",
+        qianYiJi: "<b>宜：</b>柔和、渗透、渐进<br><b>忌：**强硬、急躁",
         yaos: [
             YaoInfo(type: 8, title: "初六·进退利武人之贞", original: "进退，利武人之贞。", allusion: "进退不决。", interpretation: "在犹豫时采取果断态度比较好。"),
             YaoInfo(type: 8, title: "九二·巽在床下用史巫纷若吉无咎", original: "巽在床下，用史巫纷若，吉，无咎。", allusion: "伏在床下。", interpretation: "谦卑的姿态可以获得帮助。"),
@@ -831,8 +831,8 @@ enum HexagramData {
         allusion: "明两作，离。大人以继明照于四方。",
         poem: "双辉日月耀乾坤\n光芒四射照人心\n明辨是非行正道\德行天下传佳音",
         poemMeaning: "光明磊落的品格和卓越的能力会让世界看到你的价值。",
-        qainDetail: "【事业】适合公开演讲、展示才华。<br>【财运】名声带来财富。<br>【感情】热情洋溢魅力十足。<br>【健康】精力充沛活力四射。",
-        qainYiJi: "<b>宜：</b>展示、宣传、表达<br><b>忌：**隐藏、沉默、低调",
+        qianDetail: "【事业】适合公开演讲、展示才华。<br>【财运】名声带来财富。<br>【感情】热情洋溢魅力十足。<br>【健康】精力充沛活力四射。",
+        qianYiJi: "<b>宜：</b>展示、宣传、表达<br><b>忌：**隐藏、沉默、低调",
         yaos: [
             YaoInfo(type: 9, title: "初九·履错然敬之无咎", original: "履错然，敬之，无咎。", allusion: "脚步慌张。", interpretation: "即使犯错只要恭敬对待就不会有大问题。"),
             YaoInfo(type: 8, title: "六二·黄离元吉", original: "黄离，元吉。", allusion: "黄色的光明。", interpretation: "中正的光明最为吉祥。"),
@@ -844,7 +844,7 @@ enum HexagramData {
         advice: Advice(
             career: "现在是展示能力和建立个人品牌的最佳时机。",
             love: "热情奔放地表达爱意让对方感受到你的真心。",
-           财富: "利用知名度和影响力创造更多收入渠道。",
+           wealth: "利用知名度和影响力创造更多收入渠道。",
             warning: "光芒太盛也要注意不要灼伤周围的人。"
         ),
         bianGua: BianGuaInfo(
@@ -877,8 +877,8 @@ enum HexagramData {
         allusion: "地势坤，君子以厚德载物。",
         poem: "厚德载物容万物\n大地母亲育众生\n柔顺包容纳百川\福泽深厚万年长",
         poemMeaning: "最强大的力量来自包容和承载而非对抗和控制。",
-        qainDetail: "【事业】以合作共赢的方式发展。<br>【财务管理稳健保守。<br>【感情】宽容体谅构建和谐关系。<br>【健康】注重调养。",
-        qainYiJi: "<b>宜：</b>包容、合作、积累<br><b>忌：**对抗、激进",
+        qianDetail: "【事业】以合作共赢的方式发展。<br>【财务管理稳健保守。<br>【感情】宽容体谅构建和谐关系。<br>【健康】注重调养。",
+        qianYiJi: "<b>宜：</b>包容、合作、积累<br><b>忌：**对抗、激进",
         yaos: [
             YaoInfo(type: 8, title: "初六·履霜坚冰至", original: "履霜，坚冰至。", allusion: "踩到霜就知道冰冻时节到了。", interpretation: "见微知著，防患于未然。"),
             YaoInfo(type: 8, title: "六二·直方大不习无不利", original: "直，方，大，不习，无不利。", allusion: "正直方正广大无需学习。", interpretation: "本性纯正自然就很好。"),
@@ -890,7 +890,7 @@ enum HexagramData {
         advice: Advice(
             career: "以合作和团队的方式取得成绩比单打独斗更有效。",
             love: "包容和理解是长久关系的基石。",
-           财富: "稳健的投资策略加上时间的复利效应。",
+           wealth: "稳健的投资策略加上时间的复利效应。",
             warning: "柔弱不代表无力，大地承载万物正是因为它的柔软。"
         ),
         bianGua: BianGuaInfo(
@@ -923,8 +923,8 @@ enum HexagramData {
         allusion: "丽泽，兑。君子以朋友讲习。",
         poem: "和颜悦色暖人心\n欢声笑语聚千金\n以德报怨显胸襟\快乐人生处处春",
         poemMeaning: "积极乐观的心态是最好的护身符，能吸引好运和人脉。",
-        qainDetail: "【事业】人际关系助力事业。<br>【财运】人脉带来商机。<br>【感情】欢乐和谐甜蜜。<br>【健康**心情愉快身心健康。",
-        qainYiJi: "<b>宜：**交流、合作、庆祝<br><b>忌：**抱怨、孤僻、消极",
+        qianDetail: "【事业】人际关系助力事业。<br>【财运】人脉带来商机。<br>【感情】欢乐和谐甜蜜。<br>【健康**心情愉快身心健康。",
+        qianYiJi: "<b>宜：**交流、合作、庆祝<br><b>忌：**抱怨、孤僻、消极",
         yaos: [
             YaoInfo(type: 9, title: "初九·和兑吉", original: "和兑，吉。", allusion: "平和喜悦。", interpretation: "发自内心的欢喜最为珍贵。"),
             YaoInfo(type: 8, title: "九二·孚兑吉悔亡", original: "孚兑，吉，悔亡。", allusion: "诚信带来的喜悦。", interpretation: "真诚待人获得的快乐没有遗憾。"),
@@ -936,7 +936,7 @@ enum HexagramData {
         advice: Advice(
             career: "积极的人际关系网络是职业发展的加速器。",
             love: "快乐和幽默感是感情最好的调味剂。",
-           财富: "良好的口碑和信誉会带来更多的商业机会。",
+           wealth: "良好的口碑和信誉会带来更多的商业机会。",
             warning: "喜悦要有度，过度的享乐会让人迷失方向。"
         ),
         bianGua: BianGuaInfo(
@@ -955,56 +955,56 @@ enum HexagramData {
     )
     
     // ====== 占位符（其余56卦简化定义）======
-    static let hexagram_临 = Hexagram(name: "地泽临", symbol: "䷒", upper: "坤(地)", lower: "兑(泽)", palace: "坤宫", element: "土", judge: "吉", lines: [8,8,9,8,8,8], guaCi: "元亨利贞。至于八月有凶。", meaning: "君临天下之象，利于治理和管理。", allusion: "泽上有地，临。", poem: "君临天下展宏图\n审时度势展宏图", poemMeaning: "把握时机大展宏图。", qainDetail: "事业顺利，宜进取。", qainYiJi: "宜进取|忌退缩", yaos: [], advice: Advice(career: "事业顺利", love: "感情和睦", wealth: "财运亨通", warning: "注意八月"), bianGua: BianGuaInfo(name: "地天泰", symbol: "䷊", upper: "坤(天)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", nature: "通泰安康", trend: "阴阳交泰", meaning: "天地交合万物通达。", advice: "把握大好时机。"))
+    static let hexagram_临 = Hexagram(name: "地泽临", symbol: "䷒", upper: "坤(地)", lower: "兑(泽)", palace: "坤宫", element: "土", judge: "吉", lines: [8,8,9,8,8,8], guaCi: "元亨利贞。至于八月有凶。", meaning: "君临天下之象，利于治理和管理。", allusion: "泽上有地，临。", poem: "君临天下展宏图\n审时度势展宏图", poemMeaning: "把握时机大展宏图。", qianDetail: "事业顺利，宜进取。", qianYiJi: "宜进取|忌退缩", yaos: [], advice: Advice(career: "事业顺利", love: "感情和睦", wealth: "财运亨通", warning: "注意八月"), bianGua: BianGuaInfo(name: "地天泰", symbol: "䷊", upper: "坤(天)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", nature: "通泰安康", trend: "阴阳交泰", meaning: "天地交合万物通达。", advice: "把握大好时机。"))
     
-    static let hexagram_泰 = Hexagram(name: "地天泰", symbol: "䷊", upper: "坤(地)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", lines: [8,8,8,9,7,9], guaCi: "小往大来，吉亨。", meaning: "天地交泰、万物通达之象。诸事顺遂，是最佳的卦象之一。", allusion: "天地交，泰。", poem: "三阳开泰运亨通\n万事如意乐融融\n阴阳调和百业兴\n国泰民安享太平", poemMeaning: "最美好的时期，一切都在朝着好的方向发展。", qainDetail: "【事业】大展宏图。【财运】财源滚滚。【感情】美满幸福。【健康】身心康健。", qainYiJi: "宜进取|忌保守", yaos: [], advice: Advice(career: "事业巅峰期", love: "感情最甜蜜", wealth: "财运最佳", warning: "物极必反"), bianGua: BianGuaInfo(name: "天地否", symbol: "䷋", upper: "乾(天)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "凶", nature: "闭塞不通", trend: "阴阳不交", meaning: "天地不交万物受阻。", advice: "耐心等待转机。"))
+    static let hexagram_泰 = Hexagram(name: "地天泰", symbol: "䷊", upper: "坤(地)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", lines: [8,8,8,9,7,9], guaCi: "小往大来，吉亨。", meaning: "天地交泰、万物通达之象。诸事顺遂，是最佳的卦象之一。", allusion: "天地交，泰。", poem: "三阳开泰运亨通\n万事如意乐融融\n阴阳调和百业兴\n国泰民安享太平", poemMeaning: "最美好的时期，一切都在朝着好的方向发展。", qianDetail: "【事业】大展宏图。【财运】财源滚滚。【感情】美满幸福。【健康】身心康健。", qianYiJi: "宜进取|忌保守", yaos: [], advice: Advice(career: "事业巅峰期", love: "感情最甜蜜", wealth: "财运最佳", warning: "物极必反"), bianGua: BianGuaInfo(name: "天地否", symbol: "䷋", upper: "乾(天)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "凶", nature: "闭塞不通", trend: "阴阳不交", meaning: "天地不交万物受阻。", advice: "耐心等待转机。"))
 
-    static let hexagram_大壮 = Hexagram(name: "雷天大壮", symbol: "䷡", upper: "震(雷)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "吉", lines: [8,8,9,9,7,9], guaCi: "利贞。", meaning: "强盛壮大之象。气势如虹，利于进取但需守正道。", allusion: "雷在天上，大壮。", poem: "雷声震天势如虹\n壮志凌云建奇功\n守正持中行大道\功成名就万人崇", poemMeaning: "实力强大时要坚守正道才能长久。", qainDetail: "事业强势发展。", qainYiJi: "宜进取|忌骄傲", yaos: [], advice: Advice(career: "强势崛起", love: "关系稳固", wealth: "收益大增", warning: "戒骄戒躁"), bianGua: BianGuaInfo(name: "泽天夬", symbol: "䷪", upper: "兑(泽)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "吉", nature: "决断果敢", trend: "去除小人", meaning: "果决决断之象。", advice: "果断处理问题。"))
+    static let hexagram_大壮 = Hexagram(name: "雷天大壮", symbol: "䷡", upper: "震(雷)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "吉", lines: [8,8,9,9,7,9], guaCi: "利贞。", meaning: "强盛壮大之象。气势如虹，利于进取但需守正道。", allusion: "雷在天上，大壮。", poem: "雷声震天势如虹\n壮志凌云建奇功\n守正持中行大道\功成名就万人崇", poemMeaning: "实力强大时要坚守正道才能长久。", qianDetail: "事业强势发展。", qianYiJi: "宜进取|忌骄傲", yaos: [], advice: Advice(career: "强势崛起", love: "关系稳固", wealth: "收益大增", warning: "戒骄戒躁"), bianGua: BianGuaInfo(name: "泽天夬", symbol: "䷪", upper: "兑(泽)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "吉", nature: "决断果敢", trend: "去除小人", meaning: "果决决断之象。", advice: "果断处理问题。"))
 
-    static let hexagram_夬 = Hexagram(name: "泽天夬", symbol: "䷪", upper: "兑(泽)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "吉", lines: [9,8,9,9,7,9], guaCi: "扬于王庭，孚号有厉。告自邑，不利即戎。利有攸往。", meaning: "刚决柔之象。宜果敢决断，清除障碍。", allusion: "泽上于天，夬。", poem: "果敢决断除障碍\n正气凛然扫阴霾\n除恶务尽不留患\n拨云见日展雄才", poemMeaning: "关键时刻需要果敢的行动来解决问题。", qainDetail: "宜果断处理问题。", qainYiJi: "宜决断|忌犹豫", yaos: [], advice: Advice(career: "果断决策", love: "明确立场",财富: "清理债务", warning: "不要优柔寡断"), bianGua: BianGuaInfo(name: "天水需", symbol: "䷄", upper: "乾(天)", lower: "坎(水)", palace: "坤宫", element: "土", judge: "吉", nature: "耐心等待", trend: "时机未到", meaning: "需等待时机。", advice: "耐心等待不要急躁。"))
+    static let hexagram_夬 = Hexagram(name: "泽天夬", symbol: "䷪", upper: "兑(泽)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "吉", lines: [9,8,9,9,7,9], guaCi: "扬于王庭，孚号有厉。告自邑，不利即戎。利有攸往。", meaning: "刚决柔之象。宜果敢决断，清除障碍。", allusion: "泽上于天，夬。", poem: "果敢决断除障碍\n正气凛然扫阴霾\n除恶务尽不留患\n拨云见日展雄才", poemMeaning: "关键时刻需要果敢的行动来解决问题。", qianDetail: "宜果断处理问题。", qianYiJi: "宜决断|忌犹豫", yaos: [], advice: Advice(career: "果断决策", love: "明确立场",wealth: "清理债务", warning: "不要优柔寡断"), bianGua: BianGuaInfo(name: "天水需", symbol: "䷄", upper: "乾(天)", lower: "坎(水)", palace: "坤宫", element: "土", judge: "吉", nature: "耐心等待", trend: "时机未到", meaning: "需等待时机。", advice: "耐心等待不要急躁。"))
     
     // 更多卦象占位符...
-    static let hexagram_需 = Hexagram(name: "天水需", symbol: "䷄", upper: "乾(天)", lower: "坎(水)", palace: "坤宫", element: "土", judge: "吉", lines: [9,7,9,8,9,8], guaCi: "有孚，光亨，贞吉。利涉大川。", meaning: "耐心等待之象。时机未到需耐心等候，不可操之过急。", allusion: "云上于天，需。", poem: "耐心等待时机至\n磨砺剑锋待出鞘\n厚积薄发终有时\n一朝成名天下知", poemMeaning: "等待本身也是一种积极的准备。", qainDetail: "【事业】等待合适机会。<br>【财运】不宜急于投资。<br>【感情】缘分需要等待。", qainYiJi: "宜等待|忌急躁", yaos: [], advice: Advice(career: "耐心筹备", love: "等待缘分", wealth: "持币观望", warning: "不要因为等待而焦虑"), bianGua: BianGuaInfo(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "吉", nature: "亲近依附", trend: "团结协作", meaning: "比卦，亲密团结。", advice: "加强合作与联盟。"))
+    static let hexagram_需 = Hexagram(name: "天水需", symbol: "䷄", upper: "乾(天)", lower: "坎(水)", palace: "坤宫", element: "土", judge: "吉", lines: [9,7,9,8,9,8], guaCi: "有孚，光亨，贞吉。利涉大川。", meaning: "耐心等待之象。时机未到需耐心等候，不可操之过急。", allusion: "云上于天，需。", poem: "耐心等待时机至\n磨砺剑锋待出鞘\n厚积薄发终有时\n一朝成名天下知", poemMeaning: "等待本身也是一种积极的准备。", qianDetail: "【事业】等待合适机会。<br>【财运】不宜急于投资。<br>【感情】缘分需要等待。", qianYiJi: "宜等待|忌急躁", yaos: [], advice: Advice(career: "耐心筹备", love: "等待缘分", wealth: "持币观望", warning: "不要因为等待而焦虑"), bianGua: BianGuaInfo(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "吉", nature: "亲近依附", trend: "团结协作", meaning: "比卦，亲密团结。", advice: "加强合作与联盟。"))
 
-    static let hexagram_比 = Hexagram(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "大吉", lines: [8,8,9,8,9,8], guaCi: "吉。原筮元永贞，无咎。不宁方来，后夫凶。", meaning: "亲辅团结之象。利于合作结盟，广交朋友，互帮互助。", allusion: "地上有水，比。", poem: "四海之内皆兄弟\n携手同行共进退\n团结一心力量大\众志成城创奇迹", poemMeaning: "团结的力量可以克服任何困难。", qainDetail: "【事业】合作共赢。<br>【财运】合伙经营。<br>【感情】相互扶持。", qainYiJi: "宜合作|忌孤立", yaos: [], advice: Advice(career: "团队合作", love: "相互扶持",财富: "合资共赢", warning: "选对合作伙伴"), bianGua: BianGuaInfo(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "大吉", nature: "循环往复", trend: "维持", meaning: "维持现状。", advice: "继续保持良好状态。"))
+    static let hexagram_比 = Hexagram(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "大吉", lines: [8,8,9,8,9,8], guaCi: "吉。原筮元永贞，无咎。不宁方来，后夫凶。", meaning: "亲辅团结之象。利于合作结盟，广交朋友，互帮互助。", allusion: "地上有水，比。", poem: "四海之内皆兄弟\n携手同行共进退\n团结一心力量大\众志成城创奇迹", poemMeaning: "团结的力量可以克服任何困难。", qianDetail: "【事业】合作共赢。<br>【财运】合伙经营。<br>【感情】相互扶持。", qianYiJi: "宜合作|忌孤立", yaos: [], advice: Advice(career: "团队合作", love: "相互扶持",wealth: "合资共赢", warning: "选对合作伙伴"), bianGua: BianGuaInfo(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "大吉", nature: "循环往复", trend: "维持", meaning: "维持现状。", advice: "继续保持良好状态。"))
 
     // 其余占位卦...
-    static let hexagram_丰 = Hexagram(name: "雷火丰", symbol: "䷶", upper: "震(雷)", lower: "离(火)", palace: "坎宫", element: "水", judge: "大吉", lines: [9,8,9,7,9,8], guaCi: "亨。王假之，勿忧，宜日中。", meaning: "丰盛盛大之象，如日中天，光明照耀。", allusion: "雷电皆至，丰。", poem: "日月同辉照九州\n丰功伟绩万古留\n盛极之时须谨慎\居安思危方无忧", poemMeaning: "丰盛之时更要保持清醒。", qainDetail: "运势鼎盛。", qainYiJi: "宜展示|忌自满", yaos: [], advice: Advice(career: "事业巅峰", love: "感情美满",wealth: "财运鼎盛", warning: "盛极而衰"), bianGua: BianGuaInfo(name: "地火明夷", symbol: "䷣", upper: "坤(地)", lower: "离(火)", palace: "坎宫", element: "水", judge: "小凶", nature: "光明受损", trend: "韬光养晦", meaning: "明夷，韬光养晦。", advice: "隐藏实力等待时机。"))
+    static let hexagram_丰 = Hexagram(name: "雷火丰", symbol: "䷶", upper: "震(雷)", lower: "离(火)", palace: "坎宫", element: "水", judge: "大吉", lines: [9,8,9,7,9,8], guaCi: "亨。王假之，勿忧，宜日中。", meaning: "丰盛盛大之象，如日中天，光明照耀。", allusion: "雷电皆至，丰。", poem: "日月同辉照九州\n丰功伟绩万古留\n盛极之时须谨慎\居安思危方无忧", poemMeaning: "丰盛之时更要保持清醒。", qianDetail: "运势鼎盛。", qianYiJi: "宜展示|忌自满", yaos: [], advice: Advice(career: "事业巅峰", love: "感情美满",wealth: "财运鼎盛", warning: "盛极而衰"), bianGua: BianGuaInfo(name: "地火明夷", symbol: "䷣", upper: "坤(地)", lower: "离(火)", palace: "坎宫", element: "水", judge: "小凶", nature: "光明受损", trend: "韬光养晦", meaning: "明夷，韬光养晦。", advice: "隐藏实力等待时机。"))
 
-    static let hexagram_明夷 = Hexagram(name: "地火明夷", symbol: "䷣", upper: "坤(地)", lower: "离(火)", palace: "坎宫", element: "水", judge: "小凶", lines: [8,8,9,7,9,8], guaCi: "利艰贞。", meaning: "光明受伤之象。宜韬光养晦，隐忍待时。", allusion: "明入地中，明夷。", poem: "韬光养晦待时日\n卧薪尝胆志不移\n暗夜终将迎黎明\n凤凰涅槃再展翼", poemMeaning: "低谷期正是积蓄力量的最佳时机。", qainDetail: "【事业】低调行事。<br>【财运】保守理财。<br>【感情】默默守护。", qainYiJi: "宜隐忍|忌张扬", yaos: [], advice: Advice(career: "低调发展", love: "默默守护", wealth: "保守理财", warning: "黎明前的黑暗最难熬"), bianGua: BianGuaInfo(name: "火地晋", symbol: "䷢", upper: "离(火)", lower: "坤(地)", palace: "坎宫", element: "水", judge: "大吉", nature: "光明再现", trend: "走出困境", meaning: "光明重现，走出困境。", advice: "把握新的机遇。"))
+    static let hexagram_明夷 = Hexagram(name: "地火明夷", symbol: "䷣", upper: "坤(地)", lower: "离(火)", palace: "坎宫", element: "水", judge: "小凶", lines: [8,8,9,7,9,8], guaCi: "利艰贞。", meaning: "光明受伤之象。宜韬光养晦，隐忍待时。", allusion: "明入地中，明夷。", poem: "韬光养晦待时日\n卧薪尝胆志不移\n暗夜终将迎黎明\n凤凰涅槃再展翼", poemMeaning: "低谷期正是积蓄力量的最佳时机。", qianDetail: "【事业】低调行事。<br>【财运】保守理财。<br>【感情】默默守护。", qianYiJi: "宜隐忍|忌张扬", yaos: [], advice: Advice(career: "低调发展", love: "默默守护", wealth: "保守理财", warning: "黎明前的黑暗最难熬"), bianGua: BianGuaInfo(name: "火地晋", symbol: "䷢", upper: "离(火)", lower: "坤(地)", palace: "坎宫", element: "水", judge: "大吉", nature: "光明再现", trend: "走出困境", meaning: "光明重现，走出困境。", advice: "把握新的机遇。"))
 
-    static let hexagram_师 = Hexagram(name: "地水师", symbol: "䷆", upper: "坤(地)", lower: "坎(水)", palace: "坎宫", element: "水", judge: "小吉", lines: [8,8,8,9,8,8], guaCi: "贞，丈人吉，无咎。", meaning: "行军打仗之象。需要有组织有纪律地行动。", allusion: "地中有水，师。", poem: "运筹帷幄决胜千里\n军令如山纪律严\n统帅有方战必胜\凯旋归来庆功宴", poemMeaning: "有组织的行动才能取得胜利。", qainDetail: "【事业】团队作战。<br>【财运】集体投资。<br>【感情】共同努力。", qainYiJi: "宜组织|忌散漫", yaos: [], advice: Advice(career: "带领团队", love: "共同经营", wealth: "集体理财", warning: "纪律是成功的关键"), bianGua: BianGuaInfo(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "大吉", nature: "团结协作", trend: "合作共赢", meaning: "转为团结协作。", advice: "加强团队合作。"))
+    static let hexagram_师 = Hexagram(name: "地水师", symbol: "䷆", upper: "坤(地)", lower: "坎(水)", palace: "坎宫", element: "水", judge: "小吉", lines: [8,8,8,9,8,8], guaCi: "贞，丈人吉，无咎。", meaning: "行军打仗之象。需要有组织有纪律地行动。", allusion: "地中有水，师。", poem: "运筹帷幄决胜千里\n军令如山纪律严\n统帅有方战必胜\凯旋归来庆功宴", poemMeaning: "有组织的行动才能取得胜利。", qianDetail: "【事业】团队作战。<br>【财运】集体投资。<br>【感情】共同努力。", qianYiJi: "宜组织|忌散漫", yaos: [], advice: Advice(career: "带领团队", love: "共同经营", wealth: "集体理财", warning: "纪律是成功的关键"), bianGua: BianGuaInfo(name: "水地比", symbol: "䷇", upper: "坎(水)", lower: "坤(地)", palace: "坤宫", element: "土", judge: "大吉", nature: "团结协作", trend: "合作共赢", meaning: "转为团结协作。", advice: "加强团队合作。"))
 
     // 艮宫补充
-    static let hexagram_损 = Hexagram(name: "山泽损", symbol: "䷨", upper: "艮(山)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "平", lines: [8,8,7,9,8,8], guaCi: "有孚，元吉，无咎，可贞，利有攸往。曷之用？二簋可用享。", meaning: "减损之象。有失必有得，舍得之间见智慧。", allusion: "山下有泽，损。", poem: "失之东隅收桑榆\n舍小得大智无穷\n退一步海阔天空\n放下方能得始终", poemMeaning: "有时候失去是为了更好的得到。", qainDetail: "【事业】短期利益换取长期发展。<br>【财运】先投入后产出。<br>【感情】付出才有收获。", qainYiJi: "宜舍弃|忌贪婪", yaos: [], advice: Advice(career: "以退为进", love: "学会付出", wealth: "先投后赚", warning: "不要计较一时得失"), bianGua: BianGuaInfo(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "大吉", nature: "增益成长", trend: "日益精进", meaning: "增益之象，越来越好。", advice: "把握增长的机会。"))
+    static let hexagram_损 = Hexagram(name: "山泽损", symbol: "䷨", upper: "艮(山)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "平", lines: [8,8,7,9,8,8], guaCi: "有孚，元吉，无咎，可贞，利有攸往。曷之用？二簋可用享。", meaning: "减损之象。有失必有得，舍得之间见智慧。", allusion: "山下有泽，损。", poem: "失之东隅收桑榆\n舍小得大智无穷\n退一步海阔天空\n放下方能得始终", poemMeaning: "有时候失去是为了更好的得到。", qianDetail: "【事业】短期利益换取长期发展。<br>【财运】先投入后产出。<br>【感情】付出才有收获。", qianYiJi: "宜舍弃|忌贪婪", yaos: [], advice: Advice(career: "以退为进", love: "学会付出", wealth: "先投后赚", warning: "不要计较一时得失"), bianGua: BianGuaInfo(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "大吉", nature: "增益成长", trend: "日益精进", meaning: "增益之象，越来越好。", advice: "把握增长的机会。"))
 
-    static let hexagram_睽 = Hexagram(name: "火泽睽", symbol: "䷥", upper: "离(火)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "小凶", lines: [9,8,9,8,9,8], guaCi: "小事吉。", meaning: "乖离对立之象。意见分歧，需求同存异。", allusion: "上火下泽，睽。", poem: "同床异梦难同心\n求同存异化干戈\殊途同归终相聚\理解和解万事兴", poemMeaning: "差异并不意味着对立，理解可以化解一切。", qainDetail: "【事业】协调各方意见。<br>【财运】平衡风险收益。<br>【感情】化解矛盾分歧。", qainYiJi: "宜沟通|忌对立", yaos: [], advice: Advice(career: "协调沟通", love: "化解矛盾", wealth: "平衡配置", warning: "不要让分歧演变成对立"), bianGua: BianGuaInfo(name: "天泽履", symbol: "䷉", upper: "乾(天)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "吉", nature: "谨慎践行", trend: "循规蹈矩", meaning: "履行实践之象。", advice: "谨慎行事按规矩办。"))
+    static let hexagram_睽 = Hexagram(name: "火泽睽", symbol: "䷥", upper: "离(火)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "小凶", lines: [9,8,9,8,9,8], guaCi: "小事吉。", meaning: "乖离对立之象。意见分歧，需求同存异。", allusion: "上火下泽，睽。", poem: "同床异梦难同心\n求同存异化干戈\殊途同归终相聚\理解和解万事兴", poemMeaning: "差异并不意味着对立，理解可以化解一切。", qianDetail: "【事业】协调各方意见。<br>【财运】平衡风险收益。<br>【感情】化解矛盾分歧。", qianYiJi: "宜沟通|忌对立", yaos: [], advice: Advice(career: "协调沟通", love: "化解矛盾", wealth: "平衡配置", warning: "不要让分歧演变成对立"), bianGua: BianGuaInfo(name: "天泽履", symbol: "䷉", upper: "乾(天)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "吉", nature: "谨慎践行", trend: "循规蹈矩", meaning: "履行实践之象。", advice: "谨慎行事按规矩办。"))
 
-    static let hexagram_履 = Hexagram(name: "天泽履", symbol: "䷉", upper: "乾(天)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "吉", lines: [9,7,9,8,9,8], guaCi: "履虎尾，不咥人，亨。", meaning: "谨慎践行之象。如踩老虎尾巴般小心谨慎，反而平安无事。", allusion: "上天下泽，履。", poem: "小心翼翼踏征途\n如履薄冰志不改\n谨慎行事保平安\n步步为营达彼岸", poemMeaning: "谨慎不是胆怯而是智慧的体现。", qainDetail: "【事业】谨慎推进项目。<br>【财务管理风险。<br>【感情】细心呵护关系。", qainYiJi: "宜谨慎|忌鲁莽", yaos: [], advice: Advice(career: "谨慎推进", love: "细心呵护", wealth: "风险管理", warning: "粗心大意是大忌"), bianGua: BianGuaInfo(name: "地天泰", symbol: "䷊", upper: "坤(地)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", nature: "通达顺畅", trend: "万事亨通", meaning: "转为通泰之象。", advice: "大胆行动。"))
+    static let hexagram_履 = Hexagram(name: "天泽履", symbol: "䷉", upper: "乾(天)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "吉", lines: [9,7,9,8,9,8], guaCi: "履虎尾，不咥人，亨。", meaning: "谨慎践行之象。如踩老虎尾巴般小心谨慎，反而平安无事。", allusion: "上天下泽，履。", poem: "小心翼翼踏征途\n如履薄冰志不改\n谨慎行事保平安\n步步为营达彼岸", poemMeaning: "谨慎不是胆怯而是智慧的体现。", qianDetail: "【事业】谨慎推进项目。<br>【财务管理风险。<br>【感情】细心呵护关系。", qianYiJi: "宜谨慎|忌鲁莽", yaos: [], advice: Advice(career: "谨慎推进", love: "细心呵护", wealth: "风险管理", warning: "粗心大意是大忌"), bianGua: BianGuaInfo(name: "地天泰", symbol: "䷊", upper: "坤(地)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", nature: "通达顺畅", trend: "万事亨通", meaning: "转为通泰之象。", advice: "大胆行动。"))
 
-    static let hexagram_中孚 = Hexagram(name: "风泽中孚", symbol: "䷼", upper: "巽(风)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "大吉", lines: [9,8,9,8,9,8], guaCi: "豚鱼，吉，利涉大川，利贞。", meaning: "诚信中正之象。以诚待人，信守诺言，必获信任。", allusion: "泽上有风，中孚。", poem: "一言九鼎重千金\n诚实守信立根本\以诚感人金石开\德行天下传美名", poemMeaning: "诚信是这个世界上最宝贵的无形资产。", qainDetail: "【事业】以诚信为本。<br>【财运】信用带来财富。<br>【感情】真诚换来真爱。", qainYiJi: "宜诚信|忌欺骗", yaos: [], advice: Advice(career: "诚信经营", love: "以诚相待", wealth: "信用理财", warning: "失信代价巨大"), bianGua: BianGuaInfo(name: "山雷颐", symbol: "䷐", upper: "艮(山)", lower: "震(雷)", palace: "艮宫", element: "土", judge: "吉", nature: "养育修养", trend: "充实自我", meaning: "颐卦，修养养育。", advice: "注重自我提升。"))
+    static let hexagram_中孚 = Hexagram(name: "风泽中孚", symbol: "䷼", upper: "巽(风)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "大吉", lines: [9,8,9,8,9,8], guaCi: "豚鱼，吉，利涉大川，利贞。", meaning: "诚信中正之象。以诚待人，信守诺言，必获信任。", allusion: "泽上有风，中孚。", poem: "一言九鼎重千金\n诚实守信立根本\以诚感人金石开\德行天下传美名", poemMeaning: "诚信是这个世界上最宝贵的无形资产。", qianDetail: "【事业】以诚信为本。<br>【财运】信用带来财富。<br>【感情】真诚换来真爱。", qianYiJi: "宜诚信|忌欺骗", yaos: [], advice: Advice(career: "诚信经营", love: "以诚相待", wealth: "信用理财", warning: "失信代价巨大"), bianGua: BianGuaInfo(name: "山雷颐", symbol: "䷐", upper: "艮(山)", lower: "震(雷)", palace: "艮宫", element: "土", judge: "吉", nature: "养育修养", trend: "充实自我", meaning: "颐卦，修养养育。", advice: "注重自我提升。"))
 
-    static let hexagram_渐 = Hexagram(name: "风山渐", symbol: "䷴", upper: "巽(风)", lower: "艮(山)", palace: "艮宫", element: "土", judge: "吉", lines: [8,8,7,7,9,8], guaCi: "女归吉，利贞。", meaning: "循序渐进之象。如鸿雁南飞，一步步接近目标。", allusion: "山上有木，渐。", poem: "鸿雁南飞循序进\n步步为营稳扎营\水滴石穿终有日\积跬步致千里程", poemMeaning: "成功从来都不是一蹴而就的，而是日积月累的结果。", qainDetail: "【事业】稳步发展。<br>【财运】长期投资。<br>【感情】慢慢培养。", qainYiJi: "宜渐进|忌急进", yaos: [], advice: Advice(career: "稳步发展", love: "慢慢培养",财富: "长期投资", warning: "欲速则不达"), bianGua: BianGuaInfo(name: "泽地萃", symbol: "䷢", upper: "兑(泽)", lower: "坤(地)", palace: "兑宫", element: "金", judge: "吉", nature: "聚合汇聚", trend: "团结力量", meaning: "聚合之象。", advice: "凝聚力量共创未来。"))
+    static let hexagram_渐 = Hexagram(name: "风山渐", symbol: "䷴", upper: "巽(风)", lower: "艮(山)", palace: "艮宫", element: "土", judge: "吉", lines: [8,8,7,7,9,8], guaCi: "女归吉，利贞。", meaning: "循序渐进之象。如鸿雁南飞，一步步接近目标。", allusion: "山上有木，渐。", poem: "鸿雁南飞循序进\n步步为营稳扎营\水滴石穿终有日\积跬步致千里程", poemMeaning: "成功从来都不是一蹴而就的，而是日积月累的结果。", qianDetail: "【事业】稳步发展。<br>【财运】长期投资。<br>【感情】慢慢培养。", qianYiJi: "宜渐进|忌急进", yaos: [], advice: Advice(career: "稳步发展", love: "慢慢培养",wealth: "长期投资", warning: "欲速则不达"), bianGua: BianGuaInfo(name: "泽地萃", symbol: "䷢", upper: "兑(泽)", lower: "坤(地)", palace: "兑宫", element: "金", judge: "吉", nature: "聚合汇聚", trend: "团结力量", meaning: "聚合之象。", advice: "凝聚力量共创未来。"))
 
     // 震宫补充
-    static let hexagram_随 = Hexagram(name: "雷泽随", symbol: "䷐", upper: "震(雷)", lower: "兑(泽)", palace: "震宫", element: "木", judge: "大吉", lines: [9,8,9,8,9,8], guaCi: "元亨利贞，无咎。", meaning: "随从顺随之象。与时俱进，顺势而为，灵活变通。", allusion: "泽中有雷，随。", poem: "顺风行船快如飞\n因势利导显智慧\随机应变转乾坤\与时俱进创辉煌", poemMeaning: "最聪明的人不是改变世界而是适应世界。", qainDetail: "【事业】紧跟趋势。<br>【财运】顺势投资。<br>【感情**随缘相处。", qainYiJi: "宜随顺|忌固执", yaos: [], advice: Advice(career: "紧跟趋势", love: "随缘相处", wealth: "顺势投资", warning: "不要逆势而行"), bianGua: BianGuaInfo(name: "天雷无妄", symbol: "䷘", upper: "乾(天)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "吉", nature: "无妄而得", trend: "意外之福", meaning: "无妄之象。", advice: "保持平常心。"))
+    static let hexagram_随 = Hexagram(name: "雷泽随", symbol: "䷐", upper: "震(雷)", lower: "兑(泽)", palace: "震宫", element: "木", judge: "大吉", lines: [9,8,9,8,9,8], guaCi: "元亨利贞，无咎。", meaning: "随从顺随之象。与时俱进，顺势而为，灵活变通。", allusion: "泽中有雷，随。", poem: "顺风行船快如飞\n因势利导显智慧\随机应变转乾坤\与时俱进创辉煌", poemMeaning: "最聪明的人不是改变世界而是适应世界。", qianDetail: "【事业】紧跟趋势。<br>【财运】顺势投资。<br>【感情**随缘相处。", qianYiJi: "宜随顺|忌固执", yaos: [], advice: Advice(career: "紧跟趋势", love: "随缘相处", wealth: "顺势投资", warning: "不要逆势而行"), bianGua: BianGuaInfo(name: "天雷无妄", symbol: "䷘", upper: "乾(天)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "吉", nature: "无妄而得", trend: "意外之福", meaning: "无妄之象。", advice: "保持平常心。"))
 
-    static let hexagram_无妄 = Hexagram(name: "天雷无妄", symbol: "䷘", upper: "乾(天)", lower: "震(雷)", palace: "震宫", element: "木", judge: "吉", lines: [9,7,9,8,9,8], guaCi: "元亨利贞。其匪正有眚，不利有攸往。", meaning: "无妄而得之象。不存妄想，顺其自然，反而有意外的收获。", allusion: "天下雷行，物与无妄。", poem: "无心插柳柳成荫\n顺其自然福自来\n不存妄念心坦荡\无心之举显情怀", poemMeaning: "有时候最好的结果来自于不刻意的努力。", qainDetail: "【事业】顺其自然。<br>【财运】意外收获。<br>【感情**缘分天注定。", qainYiJi: "宜平常心|忌妄念", yaos: [], advice: Advice(career: "顺其自然", love: "缘分天定", wealth: "意外之财", warning: "不要强求"), bianGua: BianGuaInfo(name: "火雷噬嗑", symbol: "䷔", upper: "离(火)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "吉", nature: "决断执行", trend: "破除障碍", meaning: "噬嗑，咬合决断。", advice: "果断处理问题。"))
+    static let hexagram_无妄 = Hexagram(name: "天雷无妄", symbol: "䷘", upper: "乾(天)", lower: "震(雷)", palace: "震宫", element: "木", judge: "吉", lines: [9,7,9,8,9,8], guaCi: "元亨利贞。其匪正有眚，不利有攸往。", meaning: "无妄而得之象。不存妄想，顺其自然，反而有意外的收获。", allusion: "天下雷行，物与无妄。", poem: "无心插柳柳成荫\n顺其自然福自来\n不存妄念心坦荡\无心之举显情怀", poemMeaning: "有时候最好的结果来自于不刻意的努力。", qianDetail: "【事业】顺其自然。<br>【财运】意外收获。<br>【感情**缘分天注定。", qianYiJi: "宜平常心|忌妄念", yaos: [], advice: Advice(career: "顺其自然", love: "缘分天定", wealth: "意外之财", warning: "不要强求"), bianGua: BianGuaInfo(name: "火雷噬嗑", symbol: "䷔", upper: "离(火)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "吉", nature: "决断执行", trend: "破除障碍", meaning: "噬嗑，咬合决断。", advice: "果断处理问题。"))
 
-    static let hexagram_噬嗑 = Hexagram(name: "火雷噬嗑", symbol: "䷔", upper: "离(火)", lower: "震(雷)", palace: "震宫", element: "木", judge: "吉", lines: [9,8,9,9,9,8], guaCi: "亨。利用狱。", meaning: "咬合决断之象。面对障碍要果断处理，如同咀嚼食物一般彻底。", allusion: "雷电噬嗑。", poem: "当断则断不拖延\n雷厉风行除障碍\咬碎困难吞下去\破茧成蝶展翅翔", poemMeaning: "面对问题时果断行动往往比犹豫不决要好得多。", qainDetail: "【事业】果断决策。<br>【财运】快速反应。<br>【感情**直面问题。", qainYiJi: "宜决断|忌拖延", yaos: [], advice: Advice(career: "果断决策", love: "直面问题", wealth: "快速反应", warning: "犹豫不决会错过良机"), bianGua: BianGuaInfo(name: "山雷颐", symbol: "䷑", upper: "艮(山)", lower: "震(雷)", palace: "艮宫", element: "土", judge: "吉", nature: "养育修养", trend: "充实内在", meaning: "颐卦，修养养育。", advice: "注重内在修养。"))
+    static let hexagram_噬嗑 = Hexagram(name: "火雷噬嗑", symbol: "䷔", upper: "离(火)", lower: "震(雷)", palace: "震宫", element: "木", judge: "吉", lines: [9,8,9,9,9,8], guaCi: "亨。利用狱。", meaning: "咬合决断之象。面对障碍要果断处理，如同咀嚼食物一般彻底。", allusion: "雷电噬嗑。", poem: "当断则断不拖延\n雷厉风行除障碍\咬碎困难吞下去\破茧成蝶展翅翔", poemMeaning: "面对问题时果断行动往往比犹豫不决要好得多。", qianDetail: "【事业】果断决策。<br>【财运】快速反应。<br>【感情**直面问题。", qianYiJi: "宜决断|忌拖延", yaos: [], advice: Advice(career: "果断决策", love: "直面问题", wealth: "快速反应", warning: "犹豫不决会错过良机"), bianGua: BianGuaInfo(name: "山雷颐", symbol: "䷑", upper: "艮(山)", lower: "震(雷)", palace: "艮宫", element: "土", judge: "吉", nature: "养育修养", trend: "充实内在", meaning: "颐卦，修养养育。", advice: "注重内在修养。"))
 
-    static let hexagram_颐 = Hexagram(name: "山雷颐", symbol: "䷑", upper: "艮(山)", lower: "震(雷)", palace: "震宫", element: "木", judge: "吉", lines: [8,8,7,9,8,8], guaCi: "贞吉。观颐，自求口实。", meaning: "颐养修炼之象。注重内在修养和能力提升，充实自己。", allusion: "山下有雷，颐。", poem: "十年磨剑待今朝\n潜心修行练内功\腹有诗书气自华\修养到家万事通", poemMeaning: "投资自己是永远不会亏损的选择。", qainDetail: "【事业】提升技能。<br>【财力投资自己。<br>【感情】修炼性格。", qainYiJi: "宜修养|忌浮躁", yaos: [], advice: Advice(career: "提升能力", love: "修炼性格", wealth: "投资自己", warning: "不要急于求成"), bianGua: BianGuaInfo(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "大吉", nature: "增益成长", trend: "日益精进", meaning: "益卦，增益成长。", advice: "把握每一个成长的机会。"))
+    static let hexagram_颐 = Hexagram(name: "山雷颐", symbol: "䷑", upper: "艮(山)", lower: "震(雷)", palace: "震宫", element: "木", judge: "吉", lines: [8,8,7,9,8,8], guaCi: "贞吉。观颐，自求口实。", meaning: "颐养修炼之象。注重内在修养和能力提升，充实自己。", allusion: "山下有雷，颐。", poem: "十年磨剑待今朝\n潜心修行练内功\腹有诗书气自华\修养到家万事通", poemMeaning: "投资自己是永远不会亏损的选择。", qianDetail: "【事业】提升技能。<br>【财力投资自己。<br>【感情】修炼性格。", qianYiJi: "宜修养|忌浮躁", yaos: [], advice: Advice(career: "提升能力", love: "修炼性格", wealth: "投资自己", warning: "不要急于求成"), bianGua: BianGuaInfo(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "大吉", nature: "增益成长", trend: "日益精进", meaning: "益卦，增益成长。", advice: "把握每一个成长的机会。"))
 
     static let hexagram_屯2 = hexagram_屯  // 复用
 
-    static let hexagram_复 = Hexagram(name: "地雷复", symbol: "䷗", upper: "坤(地)", lower: "震(雷)", palace: "震宫", element: "木", judge: "大吉", lines: [8,8,8,9,8,8], guaCi: "亨。出入无疾，朋来无咎。反复其道，七日来复，利有攸往。", meaning: "一阳来复之象。冬至阳生，万物复苏，否极泰来的转折点。", allusion: "雷在地中，复。", poem: "一阳来复万物生\n冬去春来又一年\否极泰来转机现\重整旗鼓再向前", poemMeaning: "最坏的时刻往往是好转的开始，永远不要放弃希望。", qainDetail: "【事业】触底反弹。<br>【财运】回暖迹象。<br>【感情】破镜重圆。", qainYiJi: "宜重启|忌放弃", yaos: [], advice: Advice(career: "重新出发", love: "挽回感情", wealth: "抄底布局", warning: "转折点需要勇气把握"), bianGua: BianGuaInfo(name: "山地剥", symbol: "䷖", upper: "艮(山)", lower: "坤(地)", palace: "乾宫", element: "金", judge: "小凶", nature: "剥落损耗", trend: "固本培元", meaning: "剥卦，根基受损。", advice: "稳固基础。"))
+    static let hexagram_复 = Hexagram(name: "地雷复", symbol: "䷗", upper: "坤(地)", lower: "震(雷)", palace: "震宫", element: "木", judge: "大吉", lines: [8,8,8,9,8,8], guaCi: "亨。出入无疾，朋来无咎。反复其道，七日来复，利有攸往。", meaning: "一阳来复之象。冬至阳生，万物复苏，否极泰来的转折点。", allusion: "雷在地中，复。", poem: "一阳来复万物生\n冬去春来又一年\否极泰来转机现\重整旗鼓再向前", poemMeaning: "最坏的时刻往往是好转的开始，永远不要放弃希望。", qianDetail: "【事业】触底反弹。<br>【财运】回暖迹象。<br>【感情】破镜重圆。", qianYiJi: "宜重启|忌放弃", yaos: [], advice: Advice(career: "重新出发", love: "挽回感情", wealth: "抄底布局", warning: "转折点需要勇气把握"), bianGua: BianGuaInfo(name: "山地剥", symbol: "䷖", upper: "艮(山)", lower: "坤(地)", palace: "乾宫", element: "金", judge: "小凶", nature: "剥落损耗", trend: "固本培元", meaning: "剥卦，根基受损。", advice: "稳固基础。"))
 
-    static let hexagram_益 = Hexagram(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "震宫", element: "木", judge: "大吉", lines: [9,8,9,9,9,8], guaCi: "利有攸往，利涉大川。", meaning: "增益受益之象。如风吹助雷鸣之势，各方面都在增长进步。", allusion: "风雷，益。", poem: "风助雷威声势浩\n日新月异步步高\锦上添花更上一层\蒸蒸日上领风骚", poemMeaning: "当所有因素都有利于你时，成功就是自然而然的结果。", qainDetail: "【事业】快速增长。<br>【财运】收益增加。<br>【感情】关系升温。", qainYiJi: "宜进取|忌保守", yaos: [], advice: Advice(career: "快速发展", love: "感情升温", wealth: "收益大增", warning: "高速发展也要注意质量"), bianGua: BianGuaInfo(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "大吉", nature: "循环向上", trend: "持续增长", meaning: "持续增益。", advice: "继续保持增长势头。"))
+    static let hexagram_益 = Hexagram(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "震宫", element: "木", judge: "大吉", lines: [9,8,9,9,9,8], guaCi: "利有攸往，利涉大川。", meaning: "增益受益之象。如风吹助雷鸣之势，各方面都在增长进步。", allusion: "风雷，益。", poem: "风助雷威声势浩\n日新月异步步高\锦上添花更上一层\蒸蒸日上领风骚", poemMeaning: "当所有因素都有利于你时，成功就是自然而然的结果。", qianDetail: "【事业】快速增长。<br>【财运】收益增加。<br>【感情】关系升温。", qianYiJi: "宜进取|忌保守", yaos: [], advice: Advice(career: "快速发展", love: "感情升温", wealth: "收益大增", warning: "高速发展也要注意质量"), bianGua: BianGuaInfo(name: "风雷益", symbol: "䷩", upper: "巽(风)", lower: "震(雷)", palace: "巽宫", element: "木", judge: "大吉", nature: "循环向上", trend: "持续增长", meaning: "持续增益。", advice: "继续保持增长势头。"))
 
     // 巽宫补充
-    static let hexagram_小畜 = Hexagram(name: "风天小畜", symbol: "䷈", upper: "巽(风)", lower: "乾(天)", palace: "巽宫", element: "木", judge: "小吉", lines: [9,8,9,9,7,9], guaCi: "亨。密云不雨，自我西郊。", meaning: "小有积蓄之象。虽然进展不大但稳步前进，积少成多。", allusion: "风行天上，小畜。", poem: "积沙成塔聚滴水\跬步千里始于足\点滴积累终成海\持之以恒必有所成", poemMeaning: "伟大的成就都是由无数个小进步积累而成的。", qainDetail: "【事业】稳步推进。<br>【财运**小额积累。<br>【感情**慢慢培养。", qainYiJi: "宜积累|忌急躁", yaos: [], advice: Advice(career: "稳步推进", love: "细水长流",财富: "小额定投", warning: "不要嫌进步慢"), bianGua: BianGuaInfo(name: "天火同人", symbol: "䷌", upper: "乾(天)", lower: "离(火)", palace: "离宫", element: "火", judge: "大吉", nature: "同心协力", trend: "合作共赢", meaning: "同人，志同道合。", advice: "寻找志同道合的伙伴。"))
+    static let hexagram_小畜 = Hexagram(name: "风天小畜", symbol: "䷈", upper: "巽(风)", lower: "乾(天)", palace: "巽宫", element: "木", judge: "小吉", lines: [9,8,9,9,7,9], guaCi: "亨。密云不雨，自我西郊。", meaning: "小有积蓄之象。虽然进展不大但稳步前进，积少成多。", allusion: "风行天上，小畜。", poem: "积沙成塔聚滴水\跬步千里始于足\点滴积累终成海\持之以恒必有所成", poemMeaning: "伟大的成就都是由无数个小进步积累而成的。", qianDetail: "【事业】稳步推进。<br>【财运**小额积累。<br>【感情**慢慢培养。", qianYiJi: "宜积累|忌急躁", yaos: [], advice: Advice(career: "稳步推进", love: "细水长流",wealth: "小额定投", warning: "不要嫌进步慢"), bianGua: BianGuaInfo(name: "天火同人", symbol: "䷌", upper: "乾(天)", lower: "离(火)", palace: "离宫", element: "火", judge: "大吉", nature: "同心协力", trend: "合作共赢", meaning: "同人，志同道合。", advice: "寻找志同道合的伙伴。"))
 
-    static let hexagram_家人 = Hexagram(name: "风火家人", symbol: "䷤", upper: "巽(风)", lower: "离(火)", palace: "巽宫", element: "木", judge: "吉", lines: [9,8,9,7,9,8], guaCi: "利女贞。", meaning: "家庭伦理之象。家和万事兴，注重家庭关系和内部和谐。", allusion: "风自火出，家人。", poem: "家和万事兴百业旺\父慈子孝乐融融\相亲相爱一家人\温暖港湾挡风浪", poemMeaning: "家庭和谐是一切幸福的基石。", qainDetail: "【事业】团队如家。<br>【财力家庭理财。<br>【感情】家庭和睦。", qainYiJi: "宜和谐|忌争吵", yaos: [], advice: Advice(career: "团队建设", love: "家庭和睦",财富: "家庭理财", warning: "家和万事兴"), bianGua: BianGuaInfo(name: "风火家人", symbol: "䷤", upper: "巽(风)", lower: "离(火)", palace: "巽宫", element: "木", judge: "吉", nature: "循环往复", trend: "维持", meaning: "维持和谐。", advice: "继续维护良好关系。"))
+    static let hexagram_家人 = Hexagram(name: "风火家人", symbol: "䷤", upper: "巽(风)", lower: "离(火)", palace: "巽宫", element: "木", judge: "吉", lines: [9,8,9,7,9,8], guaCi: "利女贞。", meaning: "家庭伦理之象。家和万事兴，注重家庭关系和内部和谐。", allusion: "风自火出，家人。", poem: "家和万事兴百业旺\父慈子孝乐融融\相亲相爱一家人\温暖港湾挡风浪", poemMeaning: "家庭和谐是一切幸福的基石。", qianDetail: "【事业】团队如家。<br>【财力家庭理财。<br>【感情】家庭和睦。", qianYiJi: "宜和谐|忌争吵", yaos: [], advice: Advice(career: "团队建设", love: "家庭和睦",wealth: "家庭理财", warning: "家和万事兴"), bianGua: BianGuaInfo(name: "风火家人", symbol: "䷤", upper: "巽(风)", lower: "离(火)", palace: "巽宫", element: "木", judge: "吉", nature: "循环往复", trend: "维持", meaning: "维持和谐。", advice: "继续维护良好关系。"))
 
     static let hexagram_益2 = hexagram_益  // 复用
 
@@ -1014,22 +1014,22 @@ enum HexagramData {
 
     static let hexagram_颐2 = hexagram_颐  // 复用
 
-    static let hexagram_蛊 = Hexagram(name: "山风蛊", symbol: "䷑", upper: "艮(山)", lower: "巽(风)", palace: "巽宫", element: "木", judge: "小凶", lines: [8,8,7,9,8,8], guaCi: "元亨，利涉大川。先甲三日，后甲三日。", meaning: "整顿改革之象。事物败坏需要从根本上进行整顿和革新。", allusion: "山下有风，蛊。", poem: "刮骨疗毒治沉疴\推陈出新焕生机\大胆改革破陈规\凤凰涅槃再起飞", poemMeaning: "有时候彻底的改变是唯一的出路。", qainDetail: "【事业】改革整顿。<br>【财运清理债务。<br>【感情**修复关系。", qainYiJi: "宜改革|忌守旧", yaos: [], advice: Advice(career: "改革整顿", love: "修复关系",财富: "清理重组", warning: "不破不立"), bianGua: BianGuaInfo(name: "地风升", symbol: "䷭", upper: "坤(地)", lower: "巽(风)", palace: "巽宫", element: "木", judge: "大吉", nature: "上升发展", trend: "步步高升", meaning: "升卦，上升发展。", advice: "把握上升的机会。"))
+    static let hexagram_蛊 = Hexagram(name: "山风蛊", symbol: "䷑", upper: "艮(山)", lower: "巽(风)", palace: "巽宫", element: "木", judge: "小凶", lines: [8,8,7,9,8,8], guaCi: "元亨，利涉大川。先甲三日，后甲三日。", meaning: "整顿改革之象。事物败坏需要从根本上进行整顿和革新。", allusion: "山下有风，蛊。", poem: "刮骨疗毒治沉疴\推陈出新焕生机\大胆改革破陈规\凤凰涅槃再起飞", poemMeaning: "有时候彻底的改变是唯一的出路。", qianDetail: "【事业】改革整顿。<br>【财运清理债务。<br>【感情**修复关系。", qianYiJi: "宜改革|忌守旧", yaos: [], advice: Advice(career: "改革整顿", love: "修复关系",wealth: "清理重组", warning: "不破不立"), bianGua: BianGuaInfo(name: "地风升", symbol: "䷭", upper: "坤(地)", lower: "巽(风)", palace: "巽宫", element: "木", judge: "大吉", nature: "上升发展", trend: "步步高升", meaning: "升卦，上升发展。", advice: "把握上升的机会。"))
 
     // 离宫补充
-    static let hexagram_旅 = Hexagram(name: "火山旅", symbol: "䷷", upper: "离(火)", lower: "艮(山)", palace: "离宫", element: "火", judge: "小吉", lines: [9,8,9,8,8,8], guaCi: "小亨。旅贞吉。", meaning: "旅行漂泊之象。身处异乡或变动之中，需要适应环境和保持初心。", allusion: "山上有火，旅。", poem: "天涯何处无芳草\身在异乡念故乡\随遇而安心自在\他乡亦是好风光", poemMeaning: "无论身在何地都能找到属于自己的位置和价值。", qainDetail: "【事业】外出发展。<br>【财运异地赚钱。<br>【感情**异地恋/新认识。", qainYiJi: "宜适应|忌固执", yaos: [], advice: Advice(career: "外出发展", love: "异地相处", wealth: "异地投资", warning: "入乡随俗"), bianGua: BianGuaInfo(name: "火风鼎", symbol: "䷱", upper: "离(火)", lower: "巽(风)", palace: "离宫", element: "火", judge: "大吉", nature: "鼎新变革", trend: "革故鼎新", meaning: "鼎卦，革故鼎新。", advice: "勇于改革创新。"))
+    static let hexagram_旅 = Hexagram(name: "火山旅", symbol: "䷷", upper: "离(火)", lower: "艮(山)", palace: "离宫", element: "火", judge: "小吉", lines: [9,8,9,8,8,8], guaCi: "小亨。旅贞吉。", meaning: "旅行漂泊之象。身处异乡或变动之中，需要适应环境和保持初心。", allusion: "山上有火，旅。", poem: "天涯何处无芳草\身在异乡念故乡\随遇而安心自在\他乡亦是好风光", poemMeaning: "无论身在何地都能找到属于自己的位置和价值。", qianDetail: "【事业】外出发展。<br>【财运异地赚钱。<br>【感情**异地恋/新认识。", qianYiJi: "宜适应|忌固执", yaos: [], advice: Advice(career: "外出发展", love: "异地相处", wealth: "异地投资", warning: "入乡随俗"), bianGua: BianGuaInfo(name: "火风鼎", symbol: "䷱", upper: "离(火)", lower: "巽(风)", palace: "离宫", element: "火", judge: "大吉", nature: "鼎新变革", trend: "革故鼎新", meaning: "鼎卦，革故鼎新。", advice: "勇于改革创新。"))
 
-    static let hexagram_鼎 = Hexagram(name: "火风鼎", symbol: "䷱", upper: "离(火)", lower: "巽(风)", palace: "离宫", element: "火", judge: "大吉", lines: [9,8,9,8,9,8], guaCi: "元吉，亨。", meaning: "鼎新革故之象。如烹煮美食般精心打造新的事物，去芜存菁。", allusion: "木上有火，鼎。", poem: "革故鼎新创伟业\去粗取精铸辉煌\精益求精出精品\匠心独运传四方", poemMeaning: "只有不断地改进和创新才能创造出真正有价值的东西。", qainDetail: "【事业】创新改革。<br>【财运打造产品。<br>【感情**重塑关系。", qainYiJi: "宜创新|忌守旧", yaos: [], advice: Advice(career: "改革创新", love: "重塑关系", wealth: "打造产品", warning: "不进则退"), bianGua: BianGuaInfo(name: "火天大有", symbol: "䷍", upper: "离(火)", lower: "乾(天)", palace: "乾宫", element: "金", judge: "大吉", nature: "丰盛昌隆", trend: "繁荣发展", meaning: "大有，丰盛昌隆。", advice: "充分利用现有优势。"))
+    static let hexagram_鼎 = Hexagram(name: "火风鼎", symbol: "䷱", upper: "离(火)", lower: "巽(风)", palace: "离宫", element: "火", judge: "大吉", lines: [9,8,9,8,9,8], guaCi: "元吉，亨。", meaning: "鼎新革故之象。如烹煮美食般精心打造新的事物，去芜存菁。", allusion: "木上有火，鼎。", poem: "革故鼎新创伟业\去粗取精铸辉煌\精益求精出精品\匠心独运传四方", poemMeaning: "只有不断地改进和创新才能创造出真正有价值的东西。", qianDetail: "【事业】创新改革。<br>【财运打造产品。<br>【感情**重塑关系。", qianYiJi: "宜创新|忌守旧", yaos: [], advice: Advice(career: "改革创新", love: "重塑关系", wealth: "打造产品", warning: "不进则退"), bianGua: BianGuaInfo(name: "火天大有", symbol: "䷍", upper: "离(火)", lower: "乾(天)", palace: "乾宫", element: "金", judge: "大吉", nature: "丰盛昌隆", trend: "繁荣发展", meaning: "大有，丰盛昌隆。", advice: "充分利用现有优势。"))
 
-    static let hexagram_未济 = Hexagram(name: "火水未济", symbol: "䷿", upper: "离(火)", lower: "坎(水)", palace: "离宫", element: "火", judge: "平", lines: [9,8,8,8,9,8], guaCi: "亨。小狐汔济，濡其尾，无攸利。", meaning: "事未完成之象。虽然尚未成功但也不必气馁，继续努力终将达成目标。", allusion: "火在水上，未济。", poem: "功亏一篑惜未成\再接再厉续长征\坚持到底终不负\水滴石穿事竟成", poemMeaning: "未完成并不等于失败，只是还需要更多的时间和努力。", qainDetail: "【事业】接近成功。<br>【财运**即将见效。<br>【感情**只差一步。", qainYiJi: "宜坚持|忌放弃", yaos: [], advice: Advice(career: "坚持到底", love: "再努把力",财富: "耐心等待", warning: "黎明前最黑暗"), bianGua: BianGuaInfo(name: "水火既济", symbol: "䷾", upper: "坎(水)", lower: "离(火)", palace: "坎宫", element: "水", judge: "吉", nature: "功德圆满", trend: "善始善终", meaning: "既济，功德圆满。", advice: "完美收官。"))
+    static let hexagram_未济 = Hexagram(name: "火水未济", symbol: "䷿", upper: "离(火)", lower: "坎(水)", palace: "离宫", element: "火", judge: "平", lines: [9,8,8,8,9,8], guaCi: "亨。小狐汔济，濡其尾，无攸利。", meaning: "事未完成之象。虽然尚未成功但也不必气馁，继续努力终将达成目标。", allusion: "火在水上，未济。", poem: "功亏一篑惜未成\再接再厉续长征\坚持到底终不负\水滴石穿事竟成", poemMeaning: "未完成并不等于失败，只是还需要更多的时间和努力。", qianDetail: "【事业】接近成功。<br>【财运**即将见效。<br>【感情**只差一步。", qianYiJi: "宜坚持|忌放弃", yaos: [], advice: Advice(career: "坚持到底", love: "再努把力",wealth: "耐心等待", warning: "黎明前最黑暗"), bianGua: BianGuaInfo(name: "水火既济", symbol: "䷾", upper: "坎(水)", lower: "离(火)", palace: "坎宫", element: "水", judge: "吉", nature: "功德圆满", trend: "善始善终", meaning: "既济，功德圆满。", advice: "完美收官。"))
 
-    static let hexagram_蒙 = Hexagram(name: "山水蒙", symbol: "䷃", upper: "艮(山)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小吉", lines: [8,8,7,9,8,8], guaCi: "亨。匪我求童蒙，童蒙求我。初筮告，再三渎，渎则不告。利贞。", meaning: "启蒙教导之象。处于学习探索阶段，虚心求教，开启智慧之门。", allusion: "山下出泉，蒙。", poem: "学海无涯苦作舟\启蒙明智开慧眼\虚心求学得真知\博古通今成大器", poemMeaning: "保持学习的态度是通往成功的必经之路。", qainDetail: "【事业】学习阶段。<br>【财力投资教育。<br>【感情**互相学习。", qainYiJi: "宜学习|忌自满", yaos: [], advice: Advice(career: "学习进修", love: "共同成长", wealth: "教育投资", warning: "活到老学到老"), bianGua: BianGuaInfo(name: "山风蛊", symbol: "䷑", upper: "艮(山)", lower: "巽(风)", palace: "巽宫", element: "木", judge: "小凶", nature: "整顿改革", trend: "破旧立新", meaning: "蛊卦，整顿改革。", advice: "勇于改革和创新。"))
+    static let hexagram_蒙 = Hexagram(name: "山水蒙", symbol: "䷃", upper: "艮(山)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小吉", lines: [8,8,7,9,8,8], guaCi: "亨。匪我求童蒙，童蒙求我。初筮告，再三渎，渎则不告。利贞。", meaning: "启蒙教导之象。处于学习探索阶段，虚心求教，开启智慧之门。", allusion: "山下出泉，蒙。", poem: "学海无涯苦作舟\启蒙明智开慧眼\虚心求学得真知\博古通今成大器", poemMeaning: "保持学习的态度是通往成功的必经之路。", qianDetail: "【事业】学习阶段。<br>【财力投资教育。<br>【感情**互相学习。", qianYiJi: "宜学习|忌自满", yaos: [], advice: Advice(career: "学习进修", love: "共同成长", wealth: "教育投资", warning: "活到老学到老"), bianGua: BianGuaInfo(name: "山风蛊", symbol: "䷑", upper: "艮(山)", lower: "巽(风)", palace: "巽宫", element: "木", judge: "小凶", nature: "整顿改革", trend: "破旧立新", meaning: "蛊卦，整顿改革。", advice: "勇于改革和创新。"))
 
-    static let hexagram_涣 = Hexagram(name: "风水涣", symbol: "䷺", upper: "巽(风)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小凶", lines: [9,8,9,8,9,8], guaCi: "亨。王假有庙，利涉大川，利贞。", meaning: "离散涣散之象。原有结构正在解体需要重新整合，也可以理解为打破束缚获得自由。", allusion: "风行水上，涣。", poem: "烟消云散见晴空\破茧成蝶获自由\打散重来更坚强\涅槃重生展宏图", poemMeaning: "有时候解散是为了更好地重组，放手是为了更好地拥有。", qainDetail: "【事业】重组调整。<br>【财力分散投资。<br>【感情**给予空间。", qainYiJi: "宜分散|忌集中", yaos: [], advice: Advice(career: "重组调整", love: "给予空间", wealth: "分散配置", warning: "分散不等于混乱"), bianGua: BianGuaInfo(name: "天水讼", symbol: "䷅", upper: "乾(天)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小凶", nature: "争端诉讼", trend: "以和为贵", meaning: "讼卦，争论诉讼。", advice: "尽量避免冲突。"))
+    static let hexagram_涣 = Hexagram(name: "风水涣", symbol: "䷺", upper: "巽(风)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小凶", lines: [9,8,9,8,9,8], guaCi: "亨。王假有庙，利涉大川，利贞。", meaning: "离散涣散之象。原有结构正在解体需要重新整合，也可以理解为打破束缚获得自由。", allusion: "风行水上，涣。", poem: "烟消云散见晴空\破茧成蝶获自由\打散重来更坚强\涅槃重生展宏图", poemMeaning: "有时候解散是为了更好地重组，放手是为了更好地拥有。", qianDetail: "【事业】重组调整。<br>【财力分散投资。<br>【感情**给予空间。", qianYiJi: "宜分散|忌集中", yaos: [], advice: Advice(career: "重组调整", love: "给予空间", wealth: "分散配置", warning: "分散不等于混乱"), bianGua: BianGuaInfo(name: "天水讼", symbol: "䷅", upper: "乾(天)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小凶", nature: "争端诉讼", trend: "以和为贵", meaning: "讼卦，争论诉讼。", advice: "尽量避免冲突。"))
 
-    static let hexagram_讼 = Hexagram(name: "天水讼", symbol: "䷅", upper: "乾(天)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小凶", lines: [9,7,9,8,9,8], guaCi: "有孚窒。惕中吉。终凶。利见大人，不利涉大川。", meaning: "争端争议之象。容易与他人发生分歧和冲突，宜退让和解。", allusion: "天与水违行，讼。", poem: "退一步海阔天空\让三分心平气和\争强好胜伤和气\以和为贵万事兴", poemMeaning: "赢得争论往往意味着失去关系，有时候退让是更大的智慧。", qainDetail: "【事业】避免纠纷。<br>【财力法律风险。<br>【感情**化解矛盾。", qainYiJi: "宜和解|忌争斗", yaos: [], advice: Advice(career: "避免冲突", love: "化解矛盾", wealth: "规避法务", warning: "和气生财"), bianGua: BianGuaInfo(name: "地天泰", symbol: "䷊", upper: "坤(地)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", nature: "和解通泰", trend: "重归于好", meaning: "转为通泰之象。", advice: "握手言和。"))
+    static let hexagram_讼 = Hexagram(name: "天水讼", symbol: "䷅", upper: "乾(天)", lower: "坎(水)", palace: "离宫", element: "火", judge: "小凶", lines: [9,7,9,8,9,8], guaCi: "有孚窒。惕中吉。终凶。利见大人，不利涉大川。", meaning: "争端争议之象。容易与他人发生分歧和冲突，宜退让和解。", allusion: "天与水违行，讼。", poem: "退一步海阔天空\让三分心平气和\争强好胜伤和气\以和为贵万事兴", poemMeaning: "赢得争论往往意味着失去关系，有时候退让是更大的智慧。", qianDetail: "【事业】避免纠纷。<br>【财力法律风险。<br>【感情**化解矛盾。", qianYiJi: "宜和解|忌争斗", yaos: [], advice: Advice(career: "避免冲突", love: "化解矛盾", wealth: "规避法务", warning: "和气生财"), bianGua: BianGuaInfo(name: "地天泰", symbol: "䷊", upper: "坤(地)", lower: "乾(天)", palace: "坤宫", element: "土", judge: "大吉", nature: "和解通泰", trend: "重归于好", meaning: "转为通泰之象。", advice: "握手言和。"))
 
-    static let hexagram_同人 = Hexagram(name: "天火同人", symbol: "䷌", upper: "乾(天)", lower: "离(火)", palace: "离宫", element: "火", judge: "大吉", lines: [9,7,9,9,9,8], guaCi: "同人于野，亨。利涉大川，利君子贞。", meaning: "志同道合之象。找到与自己理念相同的人和伙伴，团结协作共创辉煌。", allusion: "天与火，同人。", poem: "志同道合聚一堂\同心协力创辉煌\众人拾柴火焰高\携手同行共远方", poemMeaning: "找到对的伙伴可以让成功的道路变得轻松许多。", qainDetail: "【事业】寻找合伙人。<br>【财运合作共赢。<br>【感情**灵魂伴侣。", qainYiJi: "宜合作|忌独行", yaos: [], advice: Advice(career: "寻找伙伴", love: "志同道合",财富: "合作共赢", warning: "一个人走得快一群人走得远"), bianGua: BianGuaInfo(name: "火天大有", symbol: "䷍", upper: "离(火)", lower: "乾(天)", palace: "乾宫", element: "金", judge: "大吉", nature: "丰盛昌隆", trend: "繁荣发展", meaning: "大有，丰盛昌隆。", advice: "充分利用资源。"))
+    static let hexagram_同人 = Hexagram(name: "天火同人", symbol: "䷌", upper: "乾(天)", lower: "离(火)", palace: "离宫", element: "火", judge: "大吉", lines: [9,7,9,9,9,8], guaCi: "同人于野，亨。利涉大川，利君子贞。", meaning: "志同道合之象。找到与自己理念相同的人和伙伴，团结协作共创辉煌。", allusion: "天与火，同人。", poem: "志同道合聚一堂\同心协力创辉煌\众人拾柴火焰高\携手同行共远方", poemMeaning: "找到对的伙伴可以让成功的道路变得轻松许多。", qianDetail: "【事业】寻找合伙人。<br>【财运合作共赢。<br>【感情**灵魂伴侣。", qianYiJi: "宜合作|忌独行", yaos: [], advice: Advice(career: "寻找伙伴", love: "志同道合",wealth: "合作共赢", warning: "一个人走得快一群人走得远"), bianGua: BianGuaInfo(name: "火天大有", symbol: "䷍", upper: "离(火)", lower: "乾(天)", palace: "乾宫", element: "金", judge: "大吉", nature: "丰盛昌隆", trend: "繁荣发展", meaning: "大有，丰盛昌隆。", advice: "充分利用资源。"))
 
     // 坤宫补充
     static let hexagram_复2 = hexagram_复  // 复用
@@ -1037,17 +1037,17 @@ enum HexagramData {
     static let hexagram_临2 = hexagram_临  // 复用
 
     // 兑宫补充
-    static let hexagram_困 = Hexagram(name: "泽水困", symbol: "䷮", upper: "兑(泽)", lower: "坎(水)", palace: "兑宫", element: "金", judge: "小凶", lines: [8,9,8,8,9,8], guaCi: "亨。贞大人吉，无咎。有言不信。", meaning: "困境穷乏之象。处于困难之中但并非绝境，需要保持信心和耐心。", allusion: "泽无水，困。", poem: "困顿之中志不移\卧薪尝胆待天机\宝剑锋从磨砺出\梅花香自苦寒来", poemMeaning: "困难只是暂时的考验，坚持下来你会变得更强。", qainDetail: "【事业】面临困境。<br>【财力资金紧张。<br>【感情**经受考验。", qainYiJi: "宜坚持|忌放弃", yaos: [], advice: Advice(career: "咬牙坚持", love: "共度难关", wealth: "缩减开支", warning: "困难是成长的催化剂"), bianGua: BianGuaInfo(name: "泽地萃", symbol: "䷢", upper: "兑(泽)", lower: "坤(地)", palace: "兑宫", element: "金", judge: "吉", nature: "聚集汇聚", trend: "凝聚力量", meaning: "萃卦，聚合汇聚。", advice: "凝聚力量共同发展。"))
+    static let hexagram_困 = Hexagram(name: "泽水困", symbol: "䷮", upper: "兑(泽)", lower: "坎(水)", palace: "兑宫", element: "金", judge: "小凶", lines: [8,9,8,8,9,8], guaCi: "亨。贞大人吉，无咎。有言不信。", meaning: "困境穷乏之象。处于困难之中但并非绝境，需要保持信心和耐心。", allusion: "泽无水，困。", poem: "困顿之中志不移\卧薪尝胆待天机\宝剑锋从磨砺出\梅花香自苦寒来", poemMeaning: "困难只是暂时的考验，坚持下来你会变得更强。", qianDetail: "【事业】面临困境。<br>【财力资金紧张。<br>【感情**经受考验。", qianYiJi: "宜坚持|忌放弃", yaos: [], advice: Advice(career: "咬牙坚持", love: "共度难关", wealth: "缩减开支", warning: "困难是成长的催化剂"), bianGua: BianGuaInfo(name: "泽地萃", symbol: "䷢", upper: "兑(泽)", lower: "坤(地)", palace: "兑宫", element: "金", judge: "吉", nature: "聚集汇聚", trend: "凝聚力量", meaning: "萃卦，聚合汇聚。", advice: "凝聚力量共同发展。"))
 
-    static let hexagram_萃 = Hexagram(name: "泽地萃", symbol: "䷢", upper: "兑(泽)", lower: "坤(地)", palace: "兑宫", element: "金", judge: "吉", lines: [8,8,9,8,9,8], guaCi: "亨。王假有庙，利见大人，亨，利贞。用大牲吉。利有攸往。", meaning: **聚集荟萃之象。人才和资源聚集在一起，形成合力。适合团队合作和资源整合。", allusion: "泽上于地，萃。", poem: "群英荟萃聚一堂\各展所长创辉煌\集聚资源力量大\携手同行谱华章", poemMeaning: "当优秀的资源和人汇聚在一起时就会产生惊人的化学反应。", qainDetail: "【事业】资源整合。<br>【财力集合投资。<br>【感情**圈子社交。", qainYiJi: "宜聚集|忌分散", yaos: [], advice: Advice(career: "资源整合", love: "融入圈子", wealth: "集合投资", warning: "聚沙成塔"), bianGua: BianGuaInfo(name: "泽山咸", symbol: "䷞", upper: "兑(泽)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "大吉", nature: "感应吸引", trend: "心灵相通", meaning: "咸卦，感应相通。", advice: "用心感受对方。"))
+    static let hexagram_萃 = Hexagram(name: "泽地萃", symbol: "䷢", upper: "兑(泽)", lower: "坤(地)", palace: "兑宫", element: "金", judge: "吉", lines: [8,8,9,8,9,8], guaCi: "亨。王假有庙，利见大人，亨，利贞。用大牲吉。利有攸往。", meaning: **聚集荟萃之象。人才和资源聚集在一起，形成合力。适合团队合作和资源整合。", allusion: "泽上于地，萃。", poem: "群英荟萃聚一堂\各展所长创辉煌\集聚资源力量大\携手同行谱华章", poemMeaning: "当优秀的资源和人汇聚在一起时就会产生惊人的化学反应。", qianDetail: "【事业】资源整合。<br>【财力集合投资。<br>【感情**圈子社交。", qianYiJi: "宜聚集|忌分散", yaos: [], advice: Advice(career: "资源整合", love: "融入圈子", wealth: "集合投资", warning: "聚沙成塔"), bianGua: BianGuaInfo(name: "泽山咸", symbol: "䷞", upper: "兑(泽)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "大吉", nature: "感应吸引", trend: "心灵相通", meaning: "咸卦，感应相通。", advice: "用心感受对方。"))
 
-    static let hexagram_咸 = Hexagram(name: "泽山咸", symbol: "䷞", upper: "兑(泽)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "大吉", lines: [8,8,7,9,9,8], guaCi: "亨，利贞。取女吉。", meaning: **感应交流之象。心有灵犀一点通，情感上的默契和共鸣。", allusion: "山上有泽，咸。", poem: "心有灵犀一点通\相视一笑意无穷\默契无需言语诉\情深义重两心同", poemMeaning: "真正的连接不需要太多语言，一个眼神就足够。", qainDetail: "【事业】默契配合。<br>【财运直觉判断。<br>【感情**心灵相通。", qainYiJi: "宜感应|忌强迫", yaos: [], advice: Advice(career: "默契配合", love: "心灵相通", wealth: "相信直觉", warning: "强扭的瓜不甜"), bianGua: BianGuaInfo(name: "蹇", symbol: "䷦", upper: "坎(水)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小凶", nature: "艰难险阻", trend: "迎难而上", meaning: "蹇卦，艰难险阻。", advice: "勇敢面对困难。"))
+    static let hexagram_咸 = Hexagram(name: "泽山咸", symbol: "䷞", upper: "兑(泽)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "大吉", lines: [8,8,7,9,9,8], guaCi: "亨，利贞。取女吉。", meaning: **感应交流之象。心有灵犀一点通，情感上的默契和共鸣。", allusion: "山上有泽，咸。", poem: "心有灵犀一点通\相视一笑意无穷\默契无需言语诉\情深义重两心同", poemMeaning: "真正的连接不需要太多语言，一个眼神就足够。", qianDetail: "【事业】默契配合。<br>【财运直觉判断。<br>【感情**心灵相通。", qianYiJi: "宜感应|忌强迫", yaos: [], advice: Advice(career: "默契配合", love: "心灵相通", wealth: "相信直觉", warning: "强扭的瓜不甜"), bianGua: BianGuaInfo(name: "蹇", symbol: "䷦", upper: "坎(水)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小凶", nature: "艰难险阻", trend: "迎难而上", meaning: "蹇卦，艰难险阻。", advice: "勇敢面对困难。"))
 
-    static let hexagram蹇 = Hexagram(name: "水山蹇", symbol: "䷦", upper: "坎(水)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小凶", lines: [8,9,8,8,7,8], guaCi: "利西南，不利东北。利见大人。贞吉。", meaning: "艰难困苦之象。前路充满障碍和困难，需要毅力和智慧来克服。", allusion: "山上有水，蹇。", poem: "披荆斩棘勇向前\千难万险只等闲\世上无难事有心\铁杵磨成绣花针", poemMeaning: "所有的困难都是为了考验我们是否有资格获得最终的奖赏。", qainDetail: "【事业】困难重重。<br>【财力举步维艰。<br>【感情**历经波折。", qainYiJi: "宜坚持|忌退缩", yaos: [], advice: Advice(career: "迎难而上", love: "共渡难关", wealth: "坚守阵地", warning: "困难越大收获越大"), bianGua: BianGuaInfo(name: "地山谦", symbol: "䷎", upper: "坤(地)", lower: "艮(山)", palace: "兑宫", element: "土", judge: "大吉", nature: "谦逊低调", trend: "以退为进", meaning: "谦卦，谦逊有福。", advice: "保持谦虚谨慎。"))
+    static let hexagram蹇 = Hexagram(name: "水山蹇", symbol: "䷦", upper: "坎(水)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小凶", lines: [8,9,8,8,7,8], guaCi: "利西南，不利东北。利见大人。贞吉。", meaning: "艰难困苦之象。前路充满障碍和困难，需要毅力和智慧来克服。", allusion: "山上有水，蹇。", poem: "披荆斩棘勇向前\千难万险只等闲\世上无难事有心\铁杵磨成绣花针", poemMeaning: "所有的困难都是为了考验我们是否有资格获得最终的奖赏。", qianDetail: "【事业】困难重重。<br>【财力举步维艰。<br>【感情**历经波折。", qianYiJi: "宜坚持|忌退缩", yaos: [], advice: Advice(career: "迎难而上", love: "共渡难关", wealth: "坚守阵地", warning: "困难越大收获越大"), bianGua: BianGuaInfo(name: "地山谦", symbol: "䷎", upper: "坤(地)", lower: "艮(山)", palace: "兑宫", element: "土", judge: "大吉", nature: "谦逊低调", trend: "以退为进", meaning: "谦卦，谦逊有福。", advice: "保持谦虚谨慎。"))
 
-    static let hexagram_谦 = Hexagram(name: "地山谦", symbol: "䷎", upper: "坤(地)", lower: "艮(山)", palace: "兑宫", element: "土", judge: "大吉", lines: [8,8,8,8,7,8], guaCi: "亨，君子有终。", meaning: **谦逊有德之象。谦虚使人进步，骄傲使人落后。谦逊的人最受欢迎也最有福气。", allusion: "地中有山，谦。", poem: "虚怀若谷纳百川\谦恭下士得人心\满招损来谦受益\低调做人高调做事", poemMeaning: "真正的强者从不炫耀因为他们不需要证明什么。", qainDetail: "【事业】谦虚谨慎。<br>【财运低调理财。<br>【感情**谦和相处。", qainYiJi: "宜谦虚|忌骄傲", yaos: [], advice: Advice(career: "谦虚谨慎", love: "谦和相处", wealth: "低调理财", warning: "骄傲是失败的开始"), bianGua: BianGuaInfo(name: "雷山小过", symbol: "䷽", upper: "震(雷)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小吉", nature: "小有过失", trend: "及时修正", meaning: "小过卦，小的过失。", advice: "及时发现并改正小问题。"))
+    static let hexagram_谦 = Hexagram(name: "地山谦", symbol: "䷎", upper: "坤(地)", lower: "艮(山)", palace: "兑宫", element: "土", judge: "大吉", lines: [8,8,8,8,7,8], guaCi: "亨，君子有终。", meaning: **谦逊有德之象。谦虚使人进步，骄傲使人落后。谦逊的人最受欢迎也最有福气。", allusion: "地中有山，谦。", poem: "虚怀若谷纳百川\谦恭下士得人心\满招损来谦受益\低调做人高调做事", poemMeaning: "真正的强者从不炫耀因为他们不需要证明什么。", qianDetail: "【事业】谦虚谨慎。<br>【财运低调理财。<br>【感情**谦和相处。", qianYiJi: "宜谦虚|忌骄傲", yaos: [], advice: Advice(career: "谦虚谨慎", love: "谦和相处", wealth: "低调理财", warning: "骄傲是失败的开始"), bianGua: BianGuaInfo(name: "雷山小过", symbol: "䷽", upper: "震(雷)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小吉", nature: "小有过失", trend: "及时修正", meaning: "小过卦，小的过失。", advice: "及时发现并改正小问题。"))
 
-    static let hexagram_小过 = Hexagram(name: "雷山小过", symbol: "䷽", upper: "震(雷)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小吉", lines: [8,8,7,9,8,8], guaCi: "亨，利贞。可小事，不可大事。飞鸟遗之音，不宜上宜下，大吉。", meaning: "小有过失之象。有些小的偏差和过失需要及时纠正，不影响大局。", allusion: "山上有雷，小过。", poem: "人非圣贤孰无过\过而能改善莫大焉\小错及时修正好\防微杜渐免大祸", poemMeaning: "犯错不可怕可怕的是不知道自己在犯错或者知道了不改正。", qainDetail: "【事业】小问题修正。<br>【财力小误差调整。<br>【感情**小摩擦化解。", qainYiJi: "宜修正|忌放大", yaos: [], advice: Advice(career: "修正偏差", love: "化解小摩擦", wealth: "调整策略", warning: "小错不改酿大祸"), bianGua: BianGuaInfo(name: "泽雷随", symbol: "䷐", upper: "兑(泽)", lower: "震(雷)", palace: "震宫", element: "木", judge: "大吉", nature: "顺时应势", trend: "灵活应变", meaning: "随卦，顺势而为。", advice: "灵活适应变化。"))
+    static let hexagram_小过 = Hexagram(name: "雷山小过", symbol: "䷽", upper: "震(雷)", lower: "艮(山)", palace: "兑宫", element: "金", judge: "小吉", lines: [8,8,7,9,8,8], guaCi: "亨，利贞。可小事，不可大事。飞鸟遗之音，不宜上宜下，大吉。", meaning: "小有过失之象。有些小的偏差和过失需要及时纠正，不影响大局。", allusion: "山上有雷，小过。", poem: "人非圣贤孰无过\过而能改善莫大焉\小错及时修正好\防微杜渐免大祸", poemMeaning: "犯错不可怕可怕的是不知道自己在犯错或者知道了不改正。", qianDetail: "【事业】小问题修正。<br>【财力小误差调整。<br>【感情**小摩擦化解。", qianYiJi: "宜修正|忌放大", yaos: [], advice: Advice(career: "修正偏差", love: "化解小摩擦", wealth: "调整策略", warning: "小错不改酿大祸"), bianGua: BianGuaInfo(name: "泽雷随", symbol: "䷐", upper: "兑(泽)", lower: "震(雷)", palace: "震宫", element: "木", judge: "大吉", nature: "顺时应势", trend: "灵活应变", meaning: "随卦，顺势而为。", advice: "灵活适应变化。"))
 
-    static let hexagram_归妹 = Hexagram(name: "雷泽归妹", symbol: "䷵", upper: "震(雷)", lower: "兑(泽)", palace: "兑宫", element: "金", judge: "小凶", lines: [9,8,9,8,9,8], guaCi: "征凶，无攸利。", meaning: "归宿归宿之象。寻找属于自己的位置和归属，过程可能曲折但终点值得期待。", allusion: "泽上有雷，归妹。", poem: "千里寻寻觅归宿\历尽千帆终靠岸\家是温暖的港湾\心安之处即是家", poemMeaning: "无论走了多远最终都会找到属于自己的地方。", qainDetail: "【事业】寻找定位。<br>【财力确定方向。<br>【感情**寻找归属。", qainYiJi: "宜寻找|忌迷茫", yaos: [], advice: Advice(career: "找准定位", love: "寻找归属", wealth: "明确方向", warning: "方向比速度更重要"), bianGua: BianGuaInfo(name: "火泽睽", symbol: "䷥", upper: "离(火)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "小凶", nature: "乖离不合", trend: "求同存异", meaning: "睽卦，差异分歧。", advice: "尊重差异求同存异。"))
+    static let hexagram_归妹 = Hexagram(name: "雷泽归妹", symbol: "䷵", upper: "震(雷)", lower: "兑(泽)", palace: "兑宫", element: "金", judge: "小凶", lines: [9,8,9,8,9,8], guaCi: "征凶，无攸利。", meaning: "归宿归宿之象。寻找属于自己的位置和归属，过程可能曲折但终点值得期待。", allusion: "泽上有雷，归妹。", poem: "千里寻寻觅归宿\历尽千帆终靠岸\家是温暖的港湾\心安之处即是家", poemMeaning: "无论走了多远最终都会找到属于自己的地方。", qianDetail: "【事业】寻找定位。<br>【财力确定方向。<br>【感情**寻找归属。", qianYiJi: "宜寻找|忌迷茫", yaos: [], advice: Advice(career: "找准定位", love: "寻找归属", wealth: "明确方向", warning: "方向比速度更重要"), bianGua: BianGuaInfo(name: "火泽睽", symbol: "䷥", upper: "离(火)", lower: "兑(泽)", palace: "艮宫", element: "土", judge: "小凶", nature: "乖离不合", trend: "求同存异", meaning: "睽卦，差异分歧。", advice: "尊重差异求同存异。"))
 }

@@ -36,7 +36,7 @@ struct ChineseFortuneView: View {
     private var functionCards: some View {
         VStack(spacing: 16) {
             // 六爻卡片（主要功能）
-            NavigationLink(destination: LiuyaoFormView()) {
+            NavigationLink(destination: LiuyaoWorkspaceView()) {
                 ChineseFunctionCard(
                     icon: "🔮",
                     title: "周易六爻",
@@ -78,7 +78,7 @@ struct ChineseFortuneView: View {
                 tagColor: "#5A5A6E",
                 gradientColors: [
                     Color(hex: "#2D3D1B"),
-                    color: "#182808",
+                    Color(hex: "#182808"),
                     Color(hex: "#0D1406")
                 ],
                 isPrimary: false,

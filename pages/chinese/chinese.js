@@ -89,5 +89,12 @@ Page({
       showLiuyaoResult: true,
       liuyaoResult: result
     });
+  },
+
+  copyLiuyaoResult() {
+    wx.setClipboardData({
+      data: this.data.liuyaoResult.copyText || '',
+      success: () => wx.showToast({ title: '已复制，可发给 AI', icon: 'success' })
+    });
   }
 });

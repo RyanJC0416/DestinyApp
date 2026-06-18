@@ -70,6 +70,13 @@ Page({
     });
   },
 
+  copyTarotResult() {
+    wx.setClipboardData({
+      data: this.data.tarotResult.copyText || '',
+      success: () => wx.showToast({ title: '已复制，可发给 AI', icon: 'success' })
+    });
+  },
+
   // 星盘解析表单提交 -> 委托给核心层引擎
   submitAstroForm(e) {
     const { year, month, day, hour, location } = e.detail.value;

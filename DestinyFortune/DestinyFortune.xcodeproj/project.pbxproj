@@ -21,6 +21,17 @@
 		A100001E /* WesternFortuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001D /* WesternFortuneView.swift */; };
 		A1000020 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001F /* ProfileView.swift */; };
 		A1000022 /* HexagramData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000021 /* HexagramData.swift */; };
+		D1000001 /* SharedCoreModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000000 /* SharedCoreModels.swift */; };
+		D1000003 /* SharedCoreBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000002 /* SharedCoreBridge.swift */; };
+		D1000005 /* LiuyaoWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000004 /* LiuyaoWorkspaceView.swift */; };
+		D1000007 /* TarotWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000006 /* TarotWorkspaceView.swift */; };
+		D1000011 /* hexagramData.js in Resources */ = {isa = PBXBuildFile; fileRef = D1000010 /* hexagramData.js */; };
+		D1000013 /* tarotData.js in Resources */ = {isa = PBXBuildFile; fileRef = D1000012 /* tarotData.js */; };
+		D1000015 /* liuyaoEngine.js in Resources */ = {isa = PBXBuildFile; fileRef = D1000014 /* liuyaoEngine.js */; };
+		D1000017 /* tarotEngine.js in Resources */ = {isa = PBXBuildFile; fileRef = D1000016 /* tarotEngine.js */; };
+		D1000018 /* yaoData.js in Resources */ = {isa = PBXBuildFile; fileRef = D1000019 /* yaoData.js */; };
+		D1000022 /* JiaobeiWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000021 /* JiaobeiWorkspaceView.swift */; };
+		D1000024 /* jiaobeiEngine.js in Resources */ = {isa = PBXBuildFile; fileRef = D1000023 /* jiaobeiEngine.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +50,17 @@
 		A100001D /* WesternFortuneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WesternFortuneView.swift; sourceTree = "<group>"; };
 		A100001F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A1000021 /* HexagramData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagramData.swift; sourceTree = "<group>"; };
+		D1000000 /* SharedCoreModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedCoreModels.swift; sourceTree = "<group>"; };
+		D1000002 /* SharedCoreBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedCoreBridge.swift; sourceTree = "<group>"; };
+		D1000004 /* LiuyaoWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiuyaoWorkspaceView.swift; sourceTree = "<group>"; };
+		D1000006 /* TarotWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TarotWorkspaceView.swift; sourceTree = "<group>"; };
+		D1000010 /* hexagramData.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = hexagramData.js; path = ../data/hexagramData.js; sourceTree = SOURCE_ROOT; };
+		D1000012 /* tarotData.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = tarotData.js; path = ../data/tarotData.js; sourceTree = SOURCE_ROOT; };
+		D1000014 /* liuyaoEngine.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = liuyaoEngine.js; path = ../core/liuyaoEngine.js; sourceTree = SOURCE_ROOT; };
+		D1000016 /* tarotEngine.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = tarotEngine.js; path = ../core/tarotEngine.js; sourceTree = SOURCE_ROOT; };
+		D1000019 /* yaoData.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = yaoData.js; path = ../data/yaoData.js; sourceTree = SOURCE_ROOT; };
+		D1000021 /* JiaobeiWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JiaobeiWorkspaceView.swift; sourceTree = "<group>"; };
+		D1000023 /* jiaobeiEngine.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = jiaobeiEngine.js; path = ../core/jiaobeiEngine.js; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,12 +77,13 @@
 		A100FFF6 = {
 			isa = PBXGroup;
 			children = (
-				A1000001 /* DestinyFortune */,
-				A1000000 /* Products */,
+				B1000001 /* DestinyFortune */,
+				D1000020 /* Shared Core */,
+				B1000000 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		A1000000 /* Products */ = {
+		B1000000 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				A0FFFFFF /* DestinyFortune.app */,
@@ -68,15 +91,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A1000001 /* DestinyFortune */ = {
+		B1000001 /* DestinyFortune */ = {
 			isa = PBXGroup;
 			children = (
 				A1000000 /* DestinyFortuneApp.swift */,
 				A1000002 /* ContentView.swift */,
 				A100000E /* Models */,
-				A1000012 /* Views */,
-				A1000010 /* Services */,
-				A1000004 /* Resources */,
+				B1000012 /* Views */,
+				B1000010 /* Services */,
+				B1000004 /* Resources */,
 				A1000006 /* Preview Content */,
 			);
 			path = DestinyFortune;
@@ -95,19 +118,21 @@
 			children = (
 				A100000F /* Hexagram.swift */,
 				A1000021 /* HexagramData.swift */,
+				D1000000 /* SharedCoreModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		A1000010 /* Services */ = {
+		B1000010 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				A1000011 /* LiuyaoEngine.swift */,
+				D1000002 /* SharedCoreBridge.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		A1000012 /* Views */ = {
+		B1000012 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				A1000013 /* HomeView.swift */,
@@ -117,11 +142,14 @@
 				A100001B /* LiuyaoResultView.swift */,
 				A100001D /* WesternFortuneView.swift */,
 				A100001F /* ProfileView.swift */,
+				D1000004 /* LiuyaoWorkspaceView.swift */,
+				D1000006 /* TarotWorkspaceView.swift */,
+				D1000021 /* JiaobeiWorkspaceView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		A1000004 /* Resources */ = {
+		B1000004 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				A1000004 /* Assets.xcassets */,
@@ -129,12 +157,25 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		D1000020 /* Shared Core */ = {
+			isa = PBXGroup;
+			children = (
+				D1000019 /* yaoData.js */,
+				D1000010 /* hexagramData.js */,
+				D1000012 /* tarotData.js */,
+				D1000014 /* liuyaoEngine.js */,
+				D1000016 /* tarotEngine.js */,
+				D1000023 /* jiaobeiEngine.js */,
+			);
+			name = "Shared Core";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		A100FFFE /* DestinyFortune */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A1000014 /* Build configuration list for PBXNativeTarget "DestinyFortune" */;
+			buildConfigurationList = C1000014 /* Build configuration list for PBXNativeTarget "DestinyFortune" */;
 			buildPhases = (
 				A100FFFB /* Sources */,
 				A100FFFC /* Frameworks */,
@@ -174,7 +215,7 @@
 				"zh-Hans",
 			);
 			mainGroup = A100FFF6;
-			productRefGroup = A1000000 /* Products */;
+			productRefGroup = B1000000 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -190,6 +231,12 @@
 			files = (
 				A1000008 /* Preview Assets.xcassets in Resources */,
 				A1000005 /* Assets.xcassets in Resources */,
+				D1000011 /* hexagramData.js in Resources */,
+				D1000018 /* yaoData.js in Resources */,
+				D1000013 /* tarotData.js in Resources */,
+				D1000015 /* liuyaoEngine.js in Resources */,
+				D1000017 /* tarotEngine.js in Resources */,
+				D1000024 /* jiaobeiEngine.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,23 +249,18 @@
 			files = (
 				A1000001 /* DestinyFortuneApp.swift in Sources */,
 				A1000003 /* ContentView.swift in Sources */,
-				A1000010 /* Hexagram.swift in Sources */,
-				A1000012 /* LiuyaoEngine.swift in Sources */,
-				A1000014 /* HomeView.swift in Sources */,
-				A1000016 /* ChineseFortuneView.swift in Sources */,
-				A1000018 /* LiuyaoFormView.swift in Sources */,
-				A100001A /* LiuyaoLoadingView.swift in Sources */,
-				A100001C /* LiuyaoResultView.swift in Sources */,
-				A100001E /* WesternFortuneView.swift in Sources */,
-				A1000020 /* ProfileView.swift in Sources */,
-				A1000022 /* HexagramData.swift in Sources */,
+				D1000001 /* SharedCoreModels.swift in Sources */,
+				D1000003 /* SharedCoreBridge.swift in Sources */,
+				D1000005 /* LiuyaoWorkspaceView.swift in Sources */,
+				D1000007 /* TarotWorkspaceView.swift in Sources */,
+				D1000022 /* JiaobeiWorkspaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		A1000015 /* Debug */ = {
+		C1000015 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -269,20 +311,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		A1000016 /* Release */ = {
+		C1000016 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -327,18 +368,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
-		A1000017 /* Debug */ = {
+		C1000017 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -365,11 +405,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		A1000018 /* Release */ = {
+		C1000018 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -396,7 +435,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -406,17 +444,17 @@
 		A100FFFA /* Build configuration list for PBXProject "DestinyFortune" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A1000015 /* Debug */,
-				A1000016 /* Release */,
+				C1000015 /* Debug */,
+				C1000016 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A1000014 /* Build configuration list for PBXNativeTarget "DestinyFortune" */ = {
+		C1000014 /* Build configuration list for PBXNativeTarget "DestinyFortune" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A1000017 /* Debug */,
-				A1000018 /* Release */,
+				C1000017 /* Debug */,
+				C1000018 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

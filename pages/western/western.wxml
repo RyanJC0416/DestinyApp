@@ -55,6 +55,8 @@
         <text class="result-item"><text class="result-label">牌阵：</text>{{tarotResult.spread}}</text>
         <text class="result-item"><text class="result-label">性别：</text>{{tarotResult.gender}}</text>
         <text class="result-item"><text class="result-label">牌面：</text>{{tarotResult.cards}}</text>
+        <text class="result-item" selectable="true"><text class="result-label">原始牌面：</text>\n{{tarotResult.copyText}}</text>
+        <button class="btn western-btn" bindtap="copyTarotResult">一键复制给 AI</button>
         <text class="result-item"><text class="result-label">解读：</text>{{tarotResult.analysis}}</text>
         <text class="result-item"><text class="result-label">建议：</text>{{tarotResult.suggestion}}</text>
       </view>

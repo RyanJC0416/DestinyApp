@@ -1,78 +1,82 @@
-//
-//  ContentView.swift
-//  命运占卜 - Main Tab Container
-//
-
 import SwiftUI
 
-enum Tab {
-    case home
-    case chinese
-    case western
-    case profile
+enum AppSection: String, CaseIterable, Identifiable {
+    case liuyao = "六爻"
+    case tarot = "塔罗"
+    case jiaobei = "珓杯"
+
+    var id: Self { self }
+    var icon: String {
+        switch self {
+        case .liuyao: return "circle.hexagongrid.fill"
+        case .tarot: return "rectangle.stack.fill"
+        case .jiaobei: return "capsule.portrait.fill"
+        }
+    }
 }
 
 struct ContentView: View {
-    @State private var selectedTab: Tab = .home
-    
+    @State private var selection: AppSection? = .liuyao
+
     var body: some View {
-        TabView(selection: $selectedTab) {
-            HomeView()
-                .tabItem {
-                    Label("首页", systemImage: "house.fill")
+        NavigationSplitView {
+            List(AppSection.allCases) { section in
+                Button {
+                    selection = section
+                } label: {
+                    Label(section.rawValue, systemImage: section.icon)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 5)
+                        .contentShape(Rectangle())
                 }
-                .tag(Tab.home)
-            
-            ChineseFortuneView()
-                .tabItem {
-                    Label("中式算命", systemImage: "circle.hexagongrid.fill")
-                }
-                .tag(Tab.chinese)
-            
-            WesternFortuneView()
-                .tabItem {
-                    Label("西式占卜", systemImage: "star.fill")
-                }
-                .tag(Tab.western)
-            
-            ProfileView()
-                .tabItem {
-                    Label("我的", systemImage: "person.fill")
-                }
-                .tag(Tab.profile)
+                .buttonStyle(.plain)
+                .contentShape(Rectangle())
+                .listRowBackground(selection == section ? AppTheme.gold.opacity(0.16) : Color.clear)
+            }
+            .navigationTitle("命运占卜")
+            .navigationSplitViewColumnWidth(min: 180, ideal: 210, max: 250)
+        } detail: {
+            ZStack {
+                workspace(.liuyao) { LiuyaoWorkspaceView() }
+                workspace(.tarot) { TarotWorkspaceView() }
+                workspace(.jiaobei) { JiaobeiWorkspaceView() }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(AppTheme.background)
+            .foregroundStyle(AppTheme.textPrimary)
         }
-        .accentColor(Color(hex: "#C9A96E"))
-        .preferredColorScheme(.dark)
+        .tint(AppTheme.gold)
+        .preferredColorScheme(.light)
+    }
+
+    private func isSelected(_ section: AppSection) -> Bool {
+        (selection ?? .liuyao) == section
+    }
+
+    private func workspace<Content: View>(_ section: AppSection, @ViewBuilder content: () -> Content) -> some View {
+        content()
+            .opacity(isSelected(section) ? 1 : 0)
+            .allowsHitTesting(isSelected(section))
+            .accessibilityHidden(!isSelected(section))
     }
 }
 
-// MARK: - Color Extension
-extension Color {
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (1, 1, 1, 0)
-        }
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue: Double(b) / 255,
-            opacity: Double(a) / 255
-        )
-    }
+enum AppTheme {
+    static let background = Color(red: 0.945, green: 0.949, blue: 0.957)
+    static let panel = Color.white
+    static let panelRaised = Color(red: 0.975, green: 0.978, blue: 0.984)
+    static let border = Color.black.opacity(0.12)
+    static let gold = Color(red: 0.54, green: 0.34, blue: 0.08)
+    static let textPrimary = Color(red: 0.10, green: 0.11, blue: 0.14)
+    static let textSecondary = Color(red: 0.34, green: 0.37, blue: 0.43)
 }
 
-#Preview {
-    ContentView()
+extension View {
+    func toolPanel() -> some View {
+        padding(20)
+            .background(AppTheme.panel)
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(AppTheme.border))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .foregroundStyle(AppTheme.textPrimary)
+    }
 }
