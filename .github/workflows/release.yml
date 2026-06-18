@@ -1,0 +1,57 @@
+name: Package release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to package (for example v1.0.0)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: macos-15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select release tag
+        run: echo "RELEASE_TAG=${{ inputs.tag || github.ref_name }}" >> "$GITHUB_ENV"
+
+      - name: Build macOS app
+        run: |
+          xcodebuild \
+            -project DestinyFortune/DestinyFortune.xcodeproj \
+            -scheme DestinyFortune \
+            -configuration Release \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            ONLY_ACTIVE_ARCH=NO \
+            ARCHS="arm64 x86_64" \
+            build
+          codesign --force --deep --sign - build/DerivedData/Build/Products/Release/DestinyFortune.app
+          ditto -c -k --sequesterRsrc --keepParent \
+            build/DerivedData/Build/Products/Release/DestinyFortune.app \
+            "DestinyFortune-${RELEASE_TAG}-macOS.zip"
+
+      - name: Package web app
+        run: |
+          sh scripts/package-web.sh build/web
+          ditto -c -k --sequesterRsrc --keepParent build/web "DestinyFortune-${RELEASE_TAG}-web.zip"
+
+      - name: Upload packages to GitHub Release
+        run: |
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --verify-tag --generate-notes
+          fi
+          gh release upload "$RELEASE_TAG" \
+            "DestinyFortune-${RELEASE_TAG}-macOS.zip" \
+            "DestinyFortune-${RELEASE_TAG}-web.zip" \
+            --clobber
