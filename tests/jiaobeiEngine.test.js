@@ -1,5 +1,5 @@
 const assert = require('assert');
-const JiaobeiEngine = require('../core/jiaobeiEngine');
+const JiaobeiEngine = require('../shared/core/jiaobeiEngine');
 
 const flat = { side: '平面', nature: '阳', key: 'flat' };
 const round = { side: '凸面', nature: '阴', key: 'round' };

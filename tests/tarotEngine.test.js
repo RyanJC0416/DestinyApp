@@ -1,11 +1,11 @@
 const assert = require('assert');
 
-const TarotEngine = require('../core/tarotEngine');
+const TarotEngine = require('../shared/core/tarotEngine');
 const {
   MINOR_ARCANA_SUIT,
   TAROT_ANALYSIS_TEMPLATES,
   TAROT_ANALYSIS_DATABASE
-} = require('../data/tarotData');
+} = require('../shared/data/tarotData');
 
 function testMinorArcanaHaveCardSpecificMeanings() {
   const deck = TarotEngine.generateFullDeck();

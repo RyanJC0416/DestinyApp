@@ -1,6 +1,6 @@
 const assert = require('assert');
-const LiuyaoEngine = require('../core/liuyaoEngine');
-const { SIXTY_FOUR_GUA } = require('../data/hexagramData');
+const LiuyaoEngine = require('../shared/core/liuyaoEngine');
+const { SIXTY_FOUR_GUA } = require('../shared/data/hexagramData');
 
 SIXTY_FOUR_GUA.forEach(hexagram => {
   hexagram.yaoLines.filter(line => line.position <= 6).forEach(line => {

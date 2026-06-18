@@ -1,6 +1,6 @@
 const assert = require('assert');
-const LiuyaoEngine = require('../core/liuyaoEngine');
-const TarotEngine = require('../core/tarotEngine');
+const LiuyaoEngine = require('../shared/core/liuyaoEngine');
+const TarotEngine = require('../shared/core/tarotEngine');
 
 const liuyao = LiuyaoEngine.divinate('这个项目是否适合现在推进？', '男', '2026-06-18T12:00:00+08:00', '事业');
 assert.ok(liuyao.copyText.includes('【六爻排盘原始结果】'));
