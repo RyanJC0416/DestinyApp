@@ -52,13 +52,13 @@
 
 ## Platforms / 平台
 
-- **Web**: runs in modern browsers and can also be opened directly from \`platforms/web/index.html\` for local use.
+- **Web**: runs in modern browsers and can also be opened directly from `platforms/web/index.html` for local use.
 - **macOS**: native SwiftUI app for macOS 13 and later.
-- **WeChat Mini Program source**: source files are included under \`platforms/miniprogram\`.
+- **WeChat Mini Program source**: source files are included under `platforms/miniprogram`.
 
-- **网页端**：支持现代浏览器，也可以直接打开 \`platforms/web/index.html\` 本地使用。
+- **网页端**：支持现代浏览器，也可以直接打开 `platforms/web/index.html` 本地使用。
 - **macOS 端**：SwiftUI 原生应用，支持 macOS 13 及以上。
-- **微信小程序源码**：位于 \`platforms/miniprogram\`。
+- **微信小程序源码**：位于 `platforms/miniprogram`。
 
 ## Experience / 交互体验
 
@@ -93,17 +93,17 @@ Open directly:
 
 直接打开：
 
-\`\`\`bash
+```bash
 open platforms/web/index.html
-\`\`\`
+```
 
 Or package the web app:
 
 或打包网页端：
 
-\`\`\`bash
+```bash
 sh scripts/package-web.sh build/web
-\`\`\`
+```
 
 ### macOS
 
@@ -111,13 +111,13 @@ Build with Xcode:
 
 使用 Xcode 构建：
 
-\`\`\`bash
+```bash
 xcodebuild \
   -project platforms/macos/DestinyFortune/DestinyFortune.xcodeproj \
   -scheme DestinyFortune \
   -configuration Debug \
   build
-\`\`\`
+```
 
 The macOS release package is ad-hoc signed and is not notarized by Apple.
 
@@ -125,14 +125,14 @@ macOS Release 包使用 ad-hoc 签名，未经 Apple 公证。
 
 ## Project structure / 项目结构
 
-\`\`\`text
+```text
 shared/                 Shared data and divination engines / 共享数据与核心算法
 platforms/web/          Web app / 网页端
 platforms/macos/        Native macOS app / macOS 原生端
 platforms/miniprogram/  WeChat Mini Program source / 微信小程序源码
 assets/                 Tarot images and app assets / 塔罗图片与应用资源
 tests/                  Core validation tests / 核心测试
-\`\`\`
+```
 
 ## License and third-party assets / 许可与第三方资源
 
