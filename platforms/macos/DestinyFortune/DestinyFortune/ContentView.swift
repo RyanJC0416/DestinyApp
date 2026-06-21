@@ -150,6 +150,8 @@ final class UpdateManager: ObservableObject {
     private let latestReleaseURL = URL(string: "https://api.github.com/repos/RyanJC0416/DestinyApp/releases/latest")!
     private let updatesDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent("Library/Application Support/DestinyFortune/updates", isDirectory: true)
+    private let requestTimeout: TimeInterval = 20
+    private let downloadTimeout: TimeInterval = 90
 
     func checkForUpdates() {
         guard !isChecking else { return }
@@ -201,21 +203,18 @@ final class UpdateManager: ObservableObject {
     }
 
     private func fetchLatestRelease() async throws -> GitHubRelease {
-        let json = try runCapturingOutput(
-            "/usr/bin/curl",
-            arguments: [
-                "-fsSL",
-                "-H", "Accept: application/vnd.github+json",
-                "-H", "User-Agent: DestinyFortune",
-                latestReleaseURL.absoluteString
-            ]
-        )
+        var request = URLRequest(url: latestReleaseURL, timeoutInterval: requestTimeout)
+        request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        request.setValue("DestinyFortune", forHTTPHeaderField: "User-Agent")
 
-        guard let data = json.data(using: .utf8) else {
+        let (data, response) = try await URLSession.shared.data(for: request)
+        try validateHTTPResponse(response, context: "读取最新 release")
+
+        do {
+            return try JSONDecoder().decode(GitHubRelease.self, from: data)
+        } catch {
             throw UpdateError.releaseLookupFailed
         }
-
-        return try JSONDecoder().decode(GitHubRelease.self, from: data)
     }
 
     private func downloadAndInstall(assetURL: URL) async throws {
@@ -224,17 +223,27 @@ final class UpdateManager: ObservableObject {
             .appendingPathComponent("DestinyFortuneUpdate-\(UUID().uuidString)", isDirectory: true)
         let archiveURL = tempDirectory.appendingPathComponent("DestinyFortune-macOS.zip")
         let extractURL = tempDirectory.appendingPathComponent("extracted", isDirectory: true)
+        var shouldCleanUp = true
+        defer {
+            if shouldCleanUp {
+                try? fileManager.removeItem(at: tempDirectory)
+            }
+        }
 
         try fileManager.createDirectory(at: updatesDirectory, withIntermediateDirectories: true)
         try fileManager.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
         try fileManager.createDirectory(at: extractURL, withIntermediateDirectories: true)
 
-        try run(
-            "/usr/bin/curl",
-            arguments: ["-fL", "-sS", "--retry", "2", "-o", archiveURL.path, assetURL.absoluteString]
-        )
+        var request = URLRequest(url: assetURL, timeoutInterval: downloadTimeout)
+        request.setValue("DestinyFortune", forHTTPHeaderField: "User-Agent")
+        let (downloadedURL, response) = try await URLSession.shared.download(for: request)
+        try validateHTTPResponse(response, context: "下载更新包")
+        if fileManager.fileExists(atPath: archiveURL.path) {
+            try fileManager.removeItem(at: archiveURL)
+        }
+        try fileManager.moveItem(at: downloadedURL, to: archiveURL)
 
-        try run("/usr/bin/unzip", arguments: ["-q", archiveURL.path, "-d", extractURL.path])
+        try run("/usr/bin/unzip", arguments: ["-q", archiveURL.path, "-d", extractURL.path], timeout: 30)
 
         let newAppURL = extractURL.appendingPathComponent("DestinyFortune.app", isDirectory: true)
         guard fileManager.fileExists(atPath: newAppURL.path) else {
@@ -242,17 +251,33 @@ final class UpdateManager: ObservableObject {
         }
 
         try launchInstallerScript(newAppURL: newAppURL, tempDirectory: tempDirectory)
+        shouldCleanUp = false
         NSApp.terminate(nil)
     }
 
-    private func run(_ executablePath: String, arguments: [String]) throws {
+    private func validateHTTPResponse(_ response: URLResponse, context: String) throws {
+        guard let httpResponse = response as? HTTPURLResponse else { return }
+        guard (200..<300).contains(httpResponse.statusCode) else {
+            throw UpdateError.httpRequestFailed(context, httpResponse.statusCode)
+        }
+    }
+
+    private func run(_ executablePath: String, arguments: [String], timeout: TimeInterval = 30) throws {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: executablePath)
         process.arguments = arguments
         let errorPipe = Pipe()
         process.standardError = errorPipe
         try process.run()
-        process.waitUntilExit()
+        let deadline = Date().addingTimeInterval(timeout)
+        while process.isRunning && Date() < deadline {
+            Thread.sleep(forTimeInterval: 0.05)
+        }
+
+        if process.isRunning {
+            process.terminate()
+            throw UpdateError.commandTimedOut(executablePath)
+        }
 
         guard process.terminationStatus == 0 else {
             let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
@@ -260,31 +285,6 @@ final class UpdateManager: ObservableObject {
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             throw UpdateError.commandFailed(executablePath, errorText)
         }
-    }
-
-    private func runCapturingOutput(_ executablePath: String, arguments: [String]) throws -> String {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: executablePath)
-        process.arguments = arguments
-
-        let outputPipe = Pipe()
-        let errorPipe = Pipe()
-        process.standardOutput = outputPipe
-        process.standardError = errorPipe
-
-        try process.run()
-        process.waitUntilExit()
-
-        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
-
-        guard process.terminationStatus == 0 else {
-            let errorText = String(data: errorData, encoding: .utf8)?
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            throw UpdateError.commandFailed(executablePath, errorText)
-        }
-
-        return String(data: outputData, encoding: .utf8) ?? ""
     }
 
     private func launchInstallerScript(newAppURL: URL, tempDirectory: URL) throws {
@@ -401,6 +401,8 @@ private enum UpdateError: LocalizedError {
     case releaseLookupFailed
     case appBundleMissing
     case commandFailed(String, String?)
+    case commandTimedOut(String)
+    case httpRequestFailed(String, Int)
 
     var errorDescription: String? {
         switch self {
@@ -413,6 +415,10 @@ private enum UpdateError: LocalizedError {
                 return "\(command) 执行失败：\(detail)"
             }
             return "\(command) 执行失败。"
+        case .commandTimedOut(let command):
+            return "\(command) 执行超时，请稍后重试。"
+        case .httpRequestFailed(let context, let statusCode):
+            return "\(context)失败：HTTP \(statusCode)。"
         }
     }
 }
