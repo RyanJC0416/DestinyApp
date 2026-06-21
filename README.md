@@ -123,6 +123,22 @@ The macOS release package is ad-hoc signed and is not notarized by Apple.
 
 macOS Release 包使用 ad-hoc 签名，未经 Apple 公证。
 
+Build local release packages:
+
+本地构建 Release 包：
+
+```bash
+./build.sh
+```
+
+Publish the current tagged version to GitHub Releases:
+
+发布当前 tag 对应版本到 GitHub Releases：
+
+```bash
+./build.sh --publish
+```
+
 ## Project structure / 项目结构
 
 ```text
