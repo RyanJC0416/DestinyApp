@@ -80,7 +80,7 @@ struct JiaobeiWorkspaceView: View {
                               systemImage: "person.crop.circle.badge.questionmark")
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(.borderedProminent).controlSize(.large)
+                    .buttonStyle(GoldProminentButtonStyle(isBusy: isCasting)).controlSize(.large)
                     .disabled(invitee.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isCasting)
                     if let latestPresenceResult {
                         presenceInlineResult(latestPresenceResult)
@@ -94,8 +94,7 @@ struct JiaobeiWorkspaceView: View {
                 TextEditor(text: $question)
                     .font(.body).scrollContentBackground(.hidden).padding(10).frame(height: 110)
                     .background(presenceConfirmed ? AppTheme.panelRaised : Color.black.opacity(0.04))
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(AppTheme.border))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .interactiveField()
                     .disabled(!presenceConfirmed)
                 if !presenceConfirmed {
                     Text("需要第一步得到圣杯后才能填写。")
@@ -105,7 +104,7 @@ struct JiaobeiWorkspaceView: View {
                     Label(isCasting ? "正在掷杯" : "请示具体事项", systemImage: "hands.and.sparkles.fill")
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(.borderedProminent).controlSize(.large)
+                .buttonStyle(GoldProminentButtonStyle(isBusy: isCasting)).controlSize(.large)
                 .disabled(!presenceConfirmed || question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isCasting)
             }
 
@@ -167,13 +166,17 @@ struct JiaobeiWorkspaceView: View {
                             }
                         }
                     }
-                }.padding(28)
+                }
+                .padding(28)
+                .resultReveal(current.id)
             } else {
                 VStack(spacing: 14) {
                     Image(systemName: "person.crop.circle.badge.questionmark").font(.system(size: 48)).foregroundStyle(AppTheme.gold)
                     Text("第一步：先问谁").font(.title2.bold())
                     Text("填写请示对象，先掷杯确认是否在座。").foregroundStyle(AppTheme.textSecondary)
-                }.frame(maxWidth: .infinity, minHeight: 520)
+                }
+                .frame(maxWidth: .infinity, minHeight: 520)
+                .resultReveal("empty")
             }
         }.background(AppTheme.background).foregroundStyle(AppTheme.textPrimary)
     }
@@ -201,6 +204,7 @@ struct JiaobeiWorkspaceView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(AppTheme.panelRaised)
         .clipShape(RoundedRectangle(cornerRadius: 6))
+        .transition(.opacity.combined(with: .move(edge: .top)))
     }
 
     private var jiaobeiLegend: some View {
@@ -238,6 +242,7 @@ struct JiaobeiWorkspaceView: View {
             .rotationEffect(.degrees(piece.key == "flat" ? -12 : 12))
             .scaleEffect(x: piece.key == "round" ? -1 : 1, y: 1)
             .shadow(color: Color.black.opacity(0.2), radius: 6, y: 8)
+            .transition(.asymmetric(insertion: .opacity.combined(with: .move(edge: .top)), removal: .opacity))
             Text("\(piece.nature)·\(piece.side)").font(.caption.bold())
                 .foregroundStyle(Color(red: 0.55, green: 0.20, blue: 0.13))
         }
@@ -272,24 +277,28 @@ struct JiaobeiWorkspaceView: View {
 
     private func performCast(stage: JiaobeiStage, prompt: String, operation: () throws -> JiaobeiReport,
                              completion: (JiaobeiReport) -> Void) {
-        isCasting = true
+        withAnimation(.easeOut(duration: 0.16)) { isCasting = true }
         errorMessage = nil
         do {
             let result = try operation()
             let record = JiaobeiRecord(stage: stage, prompt: prompt, result: result)
-            current = record
-            history.insert(record, at: 0)
-            completion(result)
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.82)) {
+                current = record
+                history.insert(record, at: 0)
+                completion(result)
+            }
         } catch { errorMessage = error.localizedDescription }
-        isCasting = false
+        withAnimation(.easeOut(duration: 0.16)) { isCasting = false }
     }
 
     private func reset() {
-        invitee = ""
-        question = ""
-        presenceConfirmed = false
-        current = nil
-        history.removeAll()
-        errorMessage = nil
+        withAnimation(.spring(response: 0.34, dampingFraction: 0.86)) {
+            invitee = ""
+            question = ""
+            presenceConfirmed = false
+            current = nil
+            history.removeAll()
+            errorMessage = nil
+        }
     }
 }

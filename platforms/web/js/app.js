@@ -7,7 +7,10 @@
 
   const fortuneClass = value => value.includes('凶') ? 'danger' : value.includes('吉') ? 'good' : 'neutral';
   const formatLines = value => escapeHTML(value).replace(/\n/g, '<br>');
-  const tarotImagePath = imageKey => `assets/images/tarot/rws-1909/${encodeURIComponent(imageKey)}`;
+  const tarotImagePath = imageKey => {
+    const sourceWebPrefix = window.location.pathname.replace(/\\/g, '/').includes('/platforms/web/') ? '../../' : '';
+    return sourceWebPrefix + 'assets/images/tarot/rws-1909/' + encodeURIComponent(imageKey);
+  };
   let corePromise;
   let jiaobeiHistory = [];
   let jiaobeiPresenceConfirmed = false;
@@ -37,6 +40,62 @@
     textarea.remove();
   }
 
+
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  function loadingMarkup(label, tone = 'default') {
+    return `<div class="loading ritual-loading ${tone}" role="status" aria-live="polite">
+      <div class="loading-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+      <strong>${escapeHTML(label)}</strong>
+      <small>请稍候，正在整理象意…</small>
+    </div>`;
+  }
+
+  function revealResults(output) {
+    output.querySelectorAll('.result-stack > *, .result-card, .content-card').forEach((item, index) => {
+      item.style.setProperty('--reveal-index', index);
+      item.classList.add('reveal-in');
+    });
+    if (!prefersReducedMotion) {
+      output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function pulseElement(element, className = 'is-complete') {
+    if (!element || prefersReducedMotion) return;
+    element.classList.remove(className);
+    void element.offsetWidth;
+    element.classList.add(className);
+    window.setTimeout(() => element.classList.remove(className), 900);
+  }
+
+  function burstAt(element, tone = 'gold') {
+    if (!element || prefersReducedMotion) return;
+    const burst = document.createElement('span');
+    burst.className = `completion-burst ${tone}`;
+    burst.setAttribute('aria-hidden', 'true');
+    element.appendChild(burst);
+    burst.addEventListener('animationend', () => burst.remove(), { once: true });
+  }
+
+  function setSubmitting(form, active) {
+    const button = form?.querySelector('button[type="submit"]') || form?.querySelector('.primary-button');
+    button?.classList.toggle('is-busy', active);
+  }
+
+  document.addEventListener('pointerdown', event => {
+    const button = event.target.closest('button, .btn, .back-btn');
+    if (!button || button.disabled || prefersReducedMotion) return;
+    const rect = button.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'tap-ripple';
+    ripple.style.left = `${event.clientX - rect.left}px`;
+    ripple.style.top = `${event.clientY - rect.top}px`;
+    button.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+  });
+
+
   document.addEventListener('click', async event => {
     const button = event.target.closest('[data-copy-result]');
     if (!button) return;
@@ -46,6 +105,8 @@
     try {
       await copyText(text);
       button.textContent = '✓ 已复制，可粘贴给 AI';
+      pulseElement(button, 'copy-success');
+      burstAt(button, 'green');
     } catch (_) {
       button.textContent = '复制失败，请手动选择文本';
     }
@@ -56,16 +117,19 @@
     button.addEventListener('click', () => {
       document.querySelectorAll('.nav-item, .tool-view').forEach(item => item.classList.remove('active'));
       button.classList.add('active');
-      document.getElementById(`${button.dataset.view}-view`).classList.add('active');
+      const view = document.getElementById(`${button.dataset.view}-view`);
+      view.classList.add('active');
+      pulseElement(view.querySelector('.tool-header'), 'view-entered');
       document.title = `${button.textContent.trim()} · 命运占卜`;
     });
   });
 
   document.getElementById('liuyao-form').addEventListener('submit', async event => {
     event.preventDefault();
+    setSubmitting(event.currentTarget, true);
     const form = new FormData(event.currentTarget);
     const output = document.getElementById('liuyao-result');
-    output.innerHTML = '<div class="loading">正在起卦…</div>';
+    output.innerHTML = loadingMarkup('正在起卦…', 'liuyao');
     try {
       const core = await getCore();
       const result = core.liuyao.divinate(
@@ -110,16 +174,21 @@
             <span>${escapeHTML(result.topic)}</span></div><h4>主题分析</h4><p>${escapeHTML(result.topicAnalysis)}</p>
             <h4>行动建议</h4><p>${escapeHTML(result.suggestion)}</p></article>
         </div>`;
+      revealResults(output);
+      burstAt(output.querySelector('.summary-panel'), fortuneClass(result.fortune) === 'danger' ? 'red' : 'gold');
     } catch (error) {
       output.innerHTML = `<div class="error-state"><h2>起卦失败</h2><p>${escapeHTML(error.message)}</p></div>`;
+    } finally {
+      setSubmitting(document.getElementById('liuyao-form'), false);
     }
   });
 
   document.getElementById('tarot-form').addEventListener('submit', async event => {
     event.preventDefault();
+    setSubmitting(event.currentTarget, true);
     const form = new FormData(event.currentTarget);
     const output = document.getElementById('tarot-result');
-    output.innerHTML = '<div class="loading">正在洗牌…</div>';
+    output.innerHTML = loadingMarkup('正在洗牌…', 'tarot');
     try {
       const core = await getCore();
       const result = core.tarot.divinate(form.get('question').trim(), form.get('spread'), form.get('gender'));
@@ -139,8 +208,13 @@
           <p>不含本站解读，可直接复制给 AI。</p></div><button class="secondary-button" type="button" data-copy-result>一键复制给 AI</button></div>
           <pre class="copy-result-text">${escapeHTML(result.copyText)}</pre></article>${cards}
         <article class="content-panel"><h3>综合指引</h3><p>${escapeHTML(result.analysis)}</p><p>${escapeHTML(result.suggestion)}</p></article></div>`;
+      revealResults(output);
+      output.querySelectorAll('.tarot-card-result').forEach((card, index) => card.style.setProperty('--deal-index', index));
+      burstAt(output.querySelector('.result-title'), 'violet');
     } catch (error) {
       output.innerHTML = `<div class="error-state"><h2>抽牌失败</h2><p>${escapeHTML(error.message)}</p></div>`;
+    } finally {
+      setSubmitting(document.getElementById('tarot-form'), false);
     }
   });
 
@@ -178,7 +252,10 @@
   const recordJiaobeiCast = (stage, prompt, result) => {
     const record = { stage, prompt, result };
     jiaobeiHistory.unshift(record);
-    document.getElementById('jiaobei-result').innerHTML = renderJiaobei(record);
+    const output = document.getElementById('jiaobei-result');
+    output.innerHTML = renderJiaobei(record);
+    revealResults(output);
+    burstAt(output.querySelector('.jiaobei-result-card'), result.type === 'sacred' ? 'green' : result.type === 'yin' ? 'red' : 'gold');
   };
 
   document.getElementById('jiaobei-presence').addEventListener('click', async event => {
@@ -189,7 +266,7 @@
     const invitee = inviteeInput.value.trim();
     const prompt = `请问${invitee}是否在座，并愿意受询？`;
     const output = document.getElementById('jiaobei-result');
-    output.innerHTML = '<div class="loading">正在确认请示对象…</div>';
+    output.innerHTML = loadingMarkup('正在确认请示对象…', 'jiaobei');
     presenceButton.disabled = true;
     try {
       const core = await getCore();
@@ -199,6 +276,7 @@
       inlineResult.hidden = false;
       inlineResult.className = `presence-result ${result.type}`;
       inlineResult.innerHTML = `<strong>${escapeHTML(result.name)}·${escapeHTML(result.verdict)}</strong><span>${escapeHTML(result.meaning)}</span>`;
+      pulseElement(inlineResult, 'is-complete');
       if (result.type === 'sacred') {
         jiaobeiPresenceConfirmed = true;
         inviteeInput.disabled = true;
@@ -222,7 +300,8 @@
     const output = document.getElementById('jiaobei-result');
     if (!jiaobeiPresenceConfirmed) return;
     const question = new FormData(jiaobeiForm).get('question').trim();
-    output.innerHTML = '<div class="loading">正在掷杯…</div>';
+    output.innerHTML = loadingMarkup('正在掷杯…', 'jiaobei');
+    setSubmitting(jiaobeiForm, true);
     try {
       const core = await getCore();
       const result = core.jiaobei.askQuestion(question, jiaobeiPresenceConfirmed);
@@ -230,6 +309,8 @@
       jiaobeiForm.querySelector('[type="submit"]').textContent = '再掷一次';
     } catch (error) {
       output.innerHTML = `<div class="error-state"><h2>掷杯失败</h2><p>${escapeHTML(error.message)}</p></div>`;
+    } finally {
+      setSubmitting(jiaobeiForm, false);
     }
   });
 
@@ -253,6 +334,7 @@
     inlineResult.textContent = '';
     document.getElementById('jiaobei-question-step').classList.add('locked');
     document.getElementById('jiaobei-result').innerHTML = '<div class="empty-state"><span>◖</span><h2>第一步：先问谁</h2><p>填写请示对象，确认是否在座。</p></div>';
+    pulseElement(document.getElementById('jiaobei-result').querySelector('.empty-state'), 'view-entered');
   });
 
   setDefaultDate();

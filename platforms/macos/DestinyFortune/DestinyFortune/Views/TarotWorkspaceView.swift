@@ -8,6 +8,7 @@ struct TarotWorkspaceView: View {
     @State private var report: TarotReport?
     @State private var errorMessage: String?
     @State private var didCopy = false
+    @State private var isDrawing = false
 
     private let spreads = ["三牌阵", "关系牌阵", "凯尔特十字"]
 
@@ -33,9 +34,7 @@ struct TarotWorkspaceView: View {
                 TextEditor(text: $question)
                     .foregroundStyle(AppTheme.textPrimary)
                     .scrollContentBackground(.hidden).padding(10).frame(height: 130)
-                    .background(AppTheme.panelRaised)
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(AppTheme.border))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .interactiveField()
             }
 
             Picker("牌阵", selection: $spread) {
@@ -51,11 +50,11 @@ struct TarotWorkspaceView: View {
             }
 
             Button(action: drawCards) {
-                Label("洗牌并抽牌", systemImage: "rectangle.stack.badge.plus")
+                Label(isDrawing ? "正在洗牌" : "洗牌并抽牌", systemImage: "rectangle.stack.badge.plus")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent).controlSize(.large)
-            .disabled(question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            .buttonStyle(GoldProminentButtonStyle(isBusy: isDrawing)).controlSize(.large)
+            .disabled(question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isDrawing)
 
             Text("塔罗结果用于梳理思路，不构成医疗、法律或财务建议。")
                 .font(.caption).foregroundStyle(AppTheme.textSecondary)
@@ -89,14 +88,18 @@ struct TarotWorkspaceView: View {
                         Text(report.analysis)
                         Text(report.suggestion).foregroundStyle(AppTheme.textSecondary)
                     }.frame(maxWidth: .infinity, alignment: .leading).toolPanel()
-                }.padding(28)
+                }
+                .padding(28)
+                .resultReveal(report.cards + report.spread)
             } else {
                 VStack(spacing: 14) {
                     Image(systemName: "rectangle.stack")
                         .font(.system(size: 44)).foregroundStyle(AppTheme.gold)
                     Text("等待抽牌").font(.title2.bold())
                     Text("选择牌阵并写下问题。 ").foregroundStyle(AppTheme.textSecondary)
-                }.frame(maxWidth: .infinity, minHeight: 520)
+                }
+                .frame(maxWidth: .infinity, minHeight: 520)
+                .resultReveal("empty")
             }
         }.background(AppTheme.background).foregroundStyle(AppTheme.textPrimary)
     }
@@ -131,6 +134,7 @@ struct TarotWorkspaceView: View {
         }
         .frame(maxWidth: .infinity, minHeight: 255, alignment: .topLeading)
         .toolPanel()
+        .transition(.opacity.combined(with: .move(edge: .bottom)))
     }
 
     @ViewBuilder
@@ -173,17 +177,28 @@ struct TarotWorkspaceView: View {
         Button {
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(text, forType: .string)
-            didCopy = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { didCopy = false }
+            withAnimation(.spring(response: 0.28, dampingFraction: 0.74)) {
+                didCopy = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation(.easeOut(duration: 0.2)) { didCopy = false }
+            }
         } label: {
             Label(didCopy ? "已复制" : title, systemImage: didCopy ? "checkmark" : "doc.on.doc")
         }
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(GoldProminentButtonStyle(isSuccess: didCopy))
     }
 
     private func drawCards() {
+        withAnimation(.easeOut(duration: 0.16)) { isDrawing = true }
         errorMessage = nil
-        do { report = try SharedCoreBridge.shared.divinateTarot(question: question, spread: spread, gender: gender) }
+        do {
+            let newReport = try SharedCoreBridge.shared.divinateTarot(question: question, spread: spread, gender: gender)
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
+                report = newReport
+            }
+        }
         catch { errorMessage = error.localizedDescription }
+        withAnimation(.easeOut(duration: 0.16)) { isDrawing = false }
     }
 }

@@ -36,9 +36,7 @@ struct LiuyaoWorkspaceView: View {
                     .scrollContentBackground(.hidden)
                     .padding(10)
                     .frame(height: 130)
-                    .background(AppTheme.panelRaised)
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(AppTheme.border))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .interactiveField()
             }
 
             Picker("性别", selection: $gender) {
@@ -61,7 +59,7 @@ struct LiuyaoWorkspaceView: View {
                 Label(isWorking ? "正在起卦" : "开始起卦", systemImage: "sparkles")
                     .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(GoldProminentButtonStyle(isBusy: isWorking))
             .controlSize(.large)
             .disabled(question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isWorking)
 
@@ -98,14 +96,18 @@ struct LiuyaoWorkspaceView: View {
                         Text(report.topicAnalysis)
                         Text(report.suggestion)
                     }
-                }.padding(28)
+                }
+                .padding(28)
+                .resultReveal(report.hexagram + report.changingHexagram + report.fortune)
             } else {
                 VStack(spacing: 14) {
                     Image(systemName: "circle.hexagongrid")
                         .font(.system(size: 44)).foregroundStyle(AppTheme.gold)
                     Text("等待起卦").font(.title2.bold())
                     Text("填写左侧问题后开始起卦。").foregroundStyle(AppTheme.textSecondary)
-                }.frame(maxWidth: .infinity, minHeight: 520)
+                }
+                .frame(maxWidth: .infinity, minHeight: 520)
+                .resultReveal("empty")
             }
         }.background(AppTheme.background)
             .foregroundStyle(AppTheme.textPrimary)
@@ -262,19 +264,28 @@ struct LiuyaoWorkspaceView: View {
         Button {
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(text, forType: .string)
-            didCopy = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { didCopy = false }
+            withAnimation(.spring(response: 0.28, dampingFraction: 0.74)) {
+                didCopy = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation(.easeOut(duration: 0.2)) { didCopy = false }
+            }
         } label: {
             Label(didCopy ? "已复制" : title, systemImage: didCopy ? "checkmark" : "doc.on.doc")
         }
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(GoldProminentButtonStyle(isSuccess: didCopy))
     }
 
     private func runDivination() {
-        isWorking = true
+        withAnimation(.easeOut(duration: 0.16)) { isWorking = true }
         errorMessage = nil
-        do { report = try SharedCoreBridge.shared.divinateLiuyao(question: question, gender: gender, date: date, topic: topic) }
+        do {
+            let newReport = try SharedCoreBridge.shared.divinateLiuyao(question: question, gender: gender, date: date, topic: topic)
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
+                report = newReport
+            }
+        }
         catch { errorMessage = error.localizedDescription }
-        isWorking = false
+        withAnimation(.easeOut(duration: 0.16)) { isWorking = false }
     }
 }

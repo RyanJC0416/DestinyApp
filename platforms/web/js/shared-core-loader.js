@@ -2,7 +2,7 @@
   'use strict';
 
   const scriptUrl = document.currentScript && document.currentScript.src;
-  const siteRoot = new URL('../', scriptUrl || global.location.href);
+  const siteRoot = new URL('../../', scriptUrl || global.location.href);
 
   async function loadModule(modules, url, key) {
     const moduleUrl = new URL(url, siteRoot);
@@ -16,6 +16,7 @@
   }
 
   global.loadDestinyCore = async function () {
+    if (global.DestinyCoreShared) return global.DestinyCoreShared;
     const modules = {};
     await loadModule(modules, 'shared/data/yaoData.js', './yaoData');
     await loadModule(modules, 'shared/data/hexagramData.js', '../data/hexagramData');

@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 enum AppSection: String, CaseIterable, Identifiable {
     case liuyao = "六爻"
@@ -17,21 +18,38 @@ enum AppSection: String, CaseIterable, Identifiable {
 
 struct ContentView: View {
     @State private var selection: AppSection? = .liuyao
+    @StateObject private var updateManager = UpdateManager()
 
     var body: some View {
         NavigationSplitView {
-            List(AppSection.allCases) { section in
-                Button {
-                    selection = section
-                } label: {
-                    Label(section.rawValue, systemImage: section.icon)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.vertical, 5)
-                        .contentShape(Rectangle())
+            VStack(spacing: 0) {
+                List(AppSection.allCases) { section in
+                    SidebarSectionButton(section: section, isSelected: isSelected(section)) {
+                        withAnimation(.spring(response: 0.34, dampingFraction: 0.86)) {
+                            selection = section
+                        }
+                    }
+                    .listRowInsets(EdgeInsets(top: 4, leading: 10, bottom: 4, trailing: 10))
+                    .listRowBackground(Color.clear)
                 }
-                .buttonStyle(.plain)
-                .contentShape(Rectangle())
-                .listRowBackground(selection == section ? AppTheme.gold.opacity(0.16) : Color.clear)
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Button {
+                        updateManager.checkForUpdates()
+                    } label: {
+                        Label(updateManager.isChecking ? "检查中…" : "检查更新", systemImage: "arrow.down.circle")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .buttonStyle(GoldProminentButtonStyle(isBusy: updateManager.isChecking))
+                    .disabled(updateManager.isChecking)
+
+                    Text("当前版本 \(UpdateManager.currentVersion)")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(12)
             }
             .navigationTitle("命运占卜")
             .navigationSplitViewColumnWidth(min: 180, ideal: 210, max: 250)
@@ -47,6 +65,11 @@ struct ContentView: View {
         }
         .tint(AppTheme.gold)
         .preferredColorScheme(.light)
+        .alert("应用更新", isPresented: $updateManager.isPresentingMessage) {
+            Button("好") {}
+        } message: {
+            Text(updateManager.message)
+        }
     }
 
     private func isSelected(_ section: AppSection) -> Bool {
@@ -56,8 +79,331 @@ struct ContentView: View {
     private func workspace<Content: View>(_ section: AppSection, @ViewBuilder content: () -> Content) -> some View {
         content()
             .opacity(isSelected(section) ? 1 : 0)
+            .scaleEffect(isSelected(section) ? 1 : 0.985)
+            .animation(.spring(response: 0.34, dampingFraction: 0.88), value: selection)
             .allowsHitTesting(isSelected(section))
             .accessibilityHidden(!isSelected(section))
+    }
+}
+
+private struct SidebarSectionButton: View {
+    let section: AppSection
+    let isSelected: Bool
+    let action: () -> Void
+    @State private var isHovered = false
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: section.icon)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(isSelected ? AppTheme.gold : AppTheme.textSecondary)
+                    .rotationEffect(.degrees(isHovered ? -4 : 0))
+                    .scaleEffect(isHovered || isSelected ? 1.06 : 1)
+                Text(section.rawValue)
+                    .font(.system(size: 14, weight: .semibold))
+                Spacer()
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .foregroundStyle(AppTheme.textPrimary)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(isSelected ? AppTheme.panel : isHovered ? AppTheme.panel.opacity(0.72) : Color.clear)
+            )
+            .overlay(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(AppTheme.gold)
+                    .frame(width: isSelected ? 4 : 0)
+                    .padding(.vertical, 8)
+            }
+            .shadow(color: Color.black.opacity(isSelected ? 0.08 : 0), radius: 10, y: 5)
+            .contentShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(.plain)
+        .onHover { hovering in
+            withAnimation(.easeOut(duration: 0.16)) { isHovered = hovering }
+        }
+    }
+}
+
+@MainActor
+final class UpdateManager: ObservableObject {
+    static var currentVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0"
+    }
+
+    @Published var isChecking = false
+    @Published var message = ""
+    @Published var isPresentingMessage = false
+
+    private let latestReleaseURL = URL(string: "https://api.github.com/repos/RyanJC0416/DestinyApp/releases/latest")!
+    private let updatesDirectory = FileManager.default.homeDirectoryForCurrentUser
+        .appendingPathComponent("Library/Application Support/DestinyFortune/updates", isDirectory: true)
+
+    func checkForUpdates() {
+        guard !isChecking else { return }
+
+        Task {
+            await installLatestReleaseIfNeeded()
+        }
+    }
+
+    private func installLatestReleaseIfNeeded() async {
+        isChecking = true
+        defer { isChecking = false }
+
+        do {
+            let release = try await fetchLatestRelease()
+            let latestVersion = release.tagName.trimmingCharacters(in: CharacterSet(charactersIn: "vV"))
+
+            if Self.isVersion(Self.currentVersion, newerThan: latestVersion) {
+                showMessage("当前版本（\(Self.currentVersion)）高于 GitHub 最新发布（\(latestVersion)）。")
+                return
+            }
+
+            guard Self.isVersion(latestVersion, newerThan: Self.currentVersion) else {
+                showMessage("当前已经是最新版本（\(Self.currentVersion)）。")
+                return
+            }
+
+            guard !Self.isAppTranslocated() else {
+                showMessage("""
+                当前 app 正在 macOS 隔离/转移位置运行，无法原地更新。
+
+                请先把 DestinyFortune.app 移到 /Applications 后重新打开，再检查更新。
+                """)
+                return
+            }
+
+            guard let asset = release.assets.first(where: { asset in
+                let name = asset.name.lowercased()
+                return name.contains("macos") && name.hasSuffix(".zip")
+            }) else {
+                showMessage("发现新版本 \(release.tagName)，但没有找到 macOS 更新包。")
+                return
+            }
+
+            try await downloadAndInstall(assetURL: asset.browserDownloadURL)
+        } catch {
+            showMessage("更新失败：\(error.localizedDescription)")
+        }
+    }
+
+    private func fetchLatestRelease() async throws -> GitHubRelease {
+        let json = try runCapturingOutput(
+            "/usr/bin/curl",
+            arguments: [
+                "-fsSL",
+                "-H", "Accept: application/vnd.github+json",
+                "-H", "User-Agent: DestinyFortune",
+                latestReleaseURL.absoluteString
+            ]
+        )
+
+        guard let data = json.data(using: .utf8) else {
+            throw UpdateError.releaseLookupFailed
+        }
+
+        return try JSONDecoder().decode(GitHubRelease.self, from: data)
+    }
+
+    private func downloadAndInstall(assetURL: URL) async throws {
+        let fileManager = FileManager.default
+        let tempDirectory = updatesDirectory
+            .appendingPathComponent("DestinyFortuneUpdate-\(UUID().uuidString)", isDirectory: true)
+        let archiveURL = tempDirectory.appendingPathComponent("DestinyFortune-macOS.zip")
+        let extractURL = tempDirectory.appendingPathComponent("extracted", isDirectory: true)
+
+        try fileManager.createDirectory(at: updatesDirectory, withIntermediateDirectories: true)
+        try fileManager.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
+        try fileManager.createDirectory(at: extractURL, withIntermediateDirectories: true)
+
+        try run(
+            "/usr/bin/curl",
+            arguments: ["-fL", "-sS", "--retry", "2", "-o", archiveURL.path, assetURL.absoluteString]
+        )
+
+        try run("/usr/bin/unzip", arguments: ["-q", archiveURL.path, "-d", extractURL.path])
+
+        let newAppURL = extractURL.appendingPathComponent("DestinyFortune.app", isDirectory: true)
+        guard fileManager.fileExists(atPath: newAppURL.path) else {
+            throw UpdateError.appBundleMissing
+        }
+
+        try launchInstallerScript(newAppURL: newAppURL, tempDirectory: tempDirectory)
+        NSApp.terminate(nil)
+    }
+
+    private func run(_ executablePath: String, arguments: [String]) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: executablePath)
+        process.arguments = arguments
+        let errorPipe = Pipe()
+        process.standardError = errorPipe
+        try process.run()
+        process.waitUntilExit()
+
+        guard process.terminationStatus == 0 else {
+            let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+            let errorText = String(data: errorData, encoding: .utf8)?
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            throw UpdateError.commandFailed(executablePath, errorText)
+        }
+    }
+
+    private func runCapturingOutput(_ executablePath: String, arguments: [String]) throws -> String {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: executablePath)
+        process.arguments = arguments
+
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        process.standardOutput = outputPipe
+        process.standardError = errorPipe
+
+        try process.run()
+        process.waitUntilExit()
+
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+
+        guard process.terminationStatus == 0 else {
+            let errorText = String(data: errorData, encoding: .utf8)?
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            throw UpdateError.commandFailed(executablePath, errorText)
+        }
+
+        return String(data: outputData, encoding: .utf8) ?? ""
+    }
+
+    private func launchInstallerScript(newAppURL: URL, tempDirectory: URL) throws {
+        let currentAppPath = Bundle.main.bundleURL.path
+        let currentAppDirectory = (currentAppPath as NSString).deletingLastPathComponent
+        let logPath = updatesDirectory.appendingPathComponent("install.log").path
+        let scriptURL = tempDirectory.appendingPathComponent("install-update.zsh")
+        let pid = ProcessInfo.processInfo.processIdentifier
+        let script = """
+        #!/bin/zsh
+        set -e
+
+        LOG=\(Self.shellQuote(logPath))
+        exec > "$LOG" 2>&1
+        echo "[$(date)] DestinyFortune updater started"
+
+        APP_PATH=\(Self.shellQuote(currentAppPath))
+        APP_DIR=\(Self.shellQuote(currentAppDirectory))
+        NEW_APP=\(Self.shellQuote(newAppURL.path))
+        TEMP_DIR=\(Self.shellQuote(tempDirectory.path))
+        APP_PID=\(pid)
+
+        while kill -0 "$APP_PID" 2>/dev/null; do
+            sleep 0.2
+        done
+
+        rm -rf "$APP_PATH.old"
+
+        if ! mv "$APP_PATH" "$APP_PATH.old"; then
+            echo "ERROR: failed to move current app out of the way"
+            exit 1
+        fi
+
+        if ! cp -R "$NEW_APP" "$APP_DIR/"; then
+            echo "ERROR: failed to copy new app"
+            mv "$APP_PATH.old" "$APP_PATH" || true
+            exit 1
+        fi
+
+        xattr -dr com.apple.quarantine "$APP_PATH" 2>/dev/null || true
+        if ! open "$APP_PATH"; then
+            echo "ERROR: failed to open updated app"
+            exit 1
+        fi
+
+        rm -rf "$APP_PATH.old" || true
+        rm -rf "$TEMP_DIR"
+        rm -f "$0"
+        echo "[$(date)] DestinyFortune updater finished"
+        """
+
+        try script.write(to: scriptURL, atomically: true, encoding: .utf8)
+        try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: scriptURL.path)
+
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/bin/zsh")
+        process.arguments = [scriptURL.path]
+        try process.run()
+    }
+
+    private func showMessage(_ text: String) {
+        message = text
+        isPresentingMessage = true
+    }
+
+    private static func isVersion(_ lhs: String, newerThan rhs: String) -> Bool {
+        let left = lhs.split(separator: ".").map { Int($0) ?? 0 }
+        let right = rhs.split(separator: ".").map { Int($0) ?? 0 }
+        let count = max(left.count, right.count)
+
+        for index in 0..<count {
+            let leftPart = index < left.count ? left[index] : 0
+            let rightPart = index < right.count ? right[index] : 0
+            if leftPart != rightPart {
+                return leftPart > rightPart
+            }
+        }
+
+        return false
+    }
+
+    private static func shellQuote(_ value: String) -> String {
+        "'\(value.replacingOccurrences(of: "'", with: "'\\''"))'"
+    }
+
+    private static func isAppTranslocated() -> Bool {
+        let appPath = Bundle.main.bundleURL.path
+        return appPath.contains("/AppTranslocation/")
+            || (appPath.contains("/private/var/folders/") && appPath.contains("/T/"))
+    }
+}
+
+private struct GitHubRelease: Decodable {
+    let tagName: String
+    let assets: [GitHubReleaseAsset]
+
+    enum CodingKeys: String, CodingKey {
+        case tagName = "tag_name"
+        case assets
+    }
+}
+
+private struct GitHubReleaseAsset: Decodable {
+    let name: String
+    let browserDownloadURL: URL
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case browserDownloadURL = "browser_download_url"
+    }
+}
+
+private enum UpdateError: LocalizedError {
+    case releaseLookupFailed
+    case appBundleMissing
+    case commandFailed(String, String?)
+
+    var errorDescription: String? {
+        switch self {
+        case .releaseLookupFailed:
+            return "无法读取最新 release。"
+        case .appBundleMissing:
+            return "更新包里没有找到 DestinyFortune.app。"
+        case .commandFailed(let command, let detail):
+            if let detail, !detail.isEmpty {
+                return "\(command) 执行失败：\(detail)"
+            }
+            return "\(command) 执行失败。"
+        }
     }
 }
 
@@ -73,10 +419,95 @@ enum AppTheme {
 
 extension View {
     func toolPanel() -> some View {
-        padding(20)
+        modifier(ToolPanelModifier())
+    }
+
+    func interactiveField(cornerRadius: CGFloat = 6) -> some View {
+        modifier(InteractiveFieldModifier(cornerRadius: cornerRadius))
+    }
+
+    func resultReveal<ID: Equatable>(_ id: ID) -> some View {
+        self
+            .transition(.asymmetric(
+                insertion: .opacity.combined(with: .move(edge: .bottom)).combined(with: .scale(scale: 0.985)),
+                removal: .opacity
+            ))
+            .animation(.spring(response: 0.42, dampingFraction: 0.86), value: id)
+    }
+}
+
+private struct ToolPanelModifier: ViewModifier {
+    @State private var isHovered = false
+
+    func body(content: Content) -> some View {
+        content
+            .padding(20)
             .background(AppTheme.panel)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(AppTheme.border))
+            .overlay(RoundedRectangle(cornerRadius: 8).stroke(isHovered ? AppTheme.gold.opacity(0.28) : AppTheme.border))
             .clipShape(RoundedRectangle(cornerRadius: 8))
+            .shadow(color: Color.black.opacity(isHovered ? 0.08 : 0.035), radius: isHovered ? 18 : 10, y: isHovered ? 8 : 3)
+            .scaleEffect(isHovered ? 1.006 : 1)
             .foregroundStyle(AppTheme.textPrimary)
+            .animation(.easeOut(duration: 0.18), value: isHovered)
+            .onHover { isHovered = $0 }
+    }
+}
+
+private struct InteractiveFieldModifier: ViewModifier {
+    let cornerRadius: CGFloat
+    @State private var isHovered = false
+
+    func body(content: Content) -> some View {
+        content
+            .background(isHovered ? Color.white.opacity(0.82) : AppTheme.panelRaised)
+            .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(isHovered ? AppTheme.gold.opacity(0.36) : AppTheme.border))
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            .shadow(color: AppTheme.gold.opacity(isHovered ? 0.08 : 0), radius: 10, y: 4)
+            .animation(.easeOut(duration: 0.16), value: isHovered)
+            .onHover { isHovered = $0 }
+    }
+}
+
+struct GoldProminentButtonStyle: ButtonStyle {
+    var isBusy = false
+    var isSuccess = false
+
+    func makeBody(configuration: Configuration) -> some View {
+        GoldProminentButton(configuration: configuration, isBusy: isBusy, isSuccess: isSuccess)
+    }
+}
+
+private struct GoldProminentButton: View {
+    let configuration: ButtonStyle.Configuration
+    let isBusy: Bool
+    let isSuccess: Bool
+    @Environment(\.isEnabled) private var isEnabled
+    @State private var isHovered = false
+
+    var body: some View {
+        configuration.label
+            .font(.system(size: 13, weight: .semibold))
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .foregroundStyle(.white)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(isSuccess ? Color.green : AppTheme.gold)
+            )
+            .overlay {
+                if isBusy {
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.white.opacity(0.45), lineWidth: 1.5)
+                        .scaleEffect(isHovered ? 1.02 : 1)
+                        .opacity(isHovered ? 0.9 : 0.55)
+                }
+            }
+            .shadow(color: AppTheme.gold.opacity(isHovered && isEnabled ? 0.18 : 0.10), radius: isHovered && isEnabled ? 12 : 7, y: isHovered && isEnabled ? 6 : 3)
+            .scaleEffect(configuration.isPressed ? 0.985 : isHovered && isEnabled ? 1.01 : 1)
+            .opacity(isEnabled ? 1 : 0.45)
+            .animation(.easeOut(duration: 0.16), value: isHovered)
+            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+            .animation(.easeOut(duration: 0.2), value: isSuccess)
+            .onHover { isHovered = $0 }
     }
 }
