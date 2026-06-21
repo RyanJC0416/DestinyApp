@@ -45,14 +45,29 @@ struct ContentView: View {
                 Divider()
 
                 VStack(alignment: .leading, spacing: 8) {
+                    if let statusText = updateManager.statusText {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(statusText)
+                                .font(.caption)
+                                .foregroundStyle(AppTheme.textSecondary)
+                            if let downloadProgress = updateManager.downloadProgress {
+                                ProgressView(value: downloadProgress)
+                                    .tint(AppTheme.gold)
+                                Text("\(Int((downloadProgress * 100).rounded()))%")
+                                    .font(.caption2)
+                                    .foregroundStyle(AppTheme.textSecondary)
+                            }
+                        }
+                    }
+
                     Button {
-                        updateManager.checkForUpdates()
+                        updateManager.performPrimaryUpdateAction()
                     } label: {
-                        Label(updateManager.isChecking ? "检查中…" : "检查更新", systemImage: "arrow.down.circle")
+                        Label(updateManager.primaryButtonTitle, systemImage: "arrow.down.circle")
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .buttonStyle(GoldProminentButtonStyle(isBusy: updateManager.isChecking))
-                    .disabled(updateManager.isChecking)
+                    .buttonStyle(GoldProminentButtonStyle(isBusy: updateManager.isBusy))
+                    .disabled(updateManager.isBusy)
 
                     Text("当前版本 \(UpdateManager.currentVersion)")
                         .font(.caption2)
@@ -78,7 +93,13 @@ struct ContentView: View {
         .tint(AppTheme.gold)
         .preferredColorScheme(.light)
         .alert("应用更新", isPresented: $updateManager.isPresentingMessage) {
-            Button("好") {}
+            if updateManager.canRetry {
+                Button("重试") { updateManager.retryLastFailedAction() }
+                Button("打开 release 页面") { updateManager.openReleasePage() }
+                Button("好", role: .cancel) {}
+            } else {
+                Button("好") {}
+            }
         } message: {
             Text(updateManager.message)
         }
@@ -150,8 +171,25 @@ final class UpdateManager: ObservableObject {
     }
 
     @Published var isChecking = false
+    @Published var isDownloading = false
+    @Published var isInstalling = false
+    @Published var statusText: String?
+    @Published var downloadProgress: Double?
     @Published var message = ""
     @Published var isPresentingMessage = false
+    @Published var canRetry = false
+
+    var isBusy: Bool {
+        isChecking || isDownloading || isInstalling
+    }
+
+    var primaryButtonTitle: String {
+        if isChecking { return "检查中…" }
+        if isDownloading { return "下载中…" }
+        if isInstalling { return "安装中…" }
+        if pendingAsset != nil { return "立即更新" }
+        return "检查更新"
+    }
 
     private let latestReleaseURL = URL(string: "https://api.github.com/repos/RyanJC0416/DestinyApp/releases/latest")!
     private let latestReleasePageURL = URL(string: "https://github.com/RyanJC0416/DestinyApp/releases/latest")!
@@ -159,30 +197,67 @@ final class UpdateManager: ObservableObject {
         .appendingPathComponent("Library/Application Support/DestinyFortune/updates", isDirectory: true)
     private let requestTimeout: TimeInterval = 20
     private let downloadTimeout: TimeInterval = 90
+    private var pendingRelease: GitHubRelease?
+    private var pendingAsset: GitHubReleaseAsset?
+    private var retryAction: UpdateAction?
 
-    func checkForUpdates() {
-        guard !isChecking else { return }
+    func performPrimaryUpdateAction() {
+        guard !isBusy else { return }
 
-        Task {
-            await installLatestReleaseIfNeeded()
+        if pendingAsset != nil {
+            installPendingUpdate()
+        } else {
+            checkForUpdates()
         }
     }
 
-    private func installLatestReleaseIfNeeded() async {
+    func retryLastFailedAction() {
+        let action = retryAction
+        canRetry = false
+        retryAction = nil
+        isPresentingMessage = false
+
+        switch action {
+        case .install:
+            installPendingUpdate()
+        default:
+            checkForUpdates()
+        }
+    }
+
+    func openReleasePage() {
+        NSWorkspace.shared.open(releasePageURL())
+    }
+
+    private func checkForUpdates() {
+        guard !isBusy else { return }
+
+        Task {
+            await checkLatestRelease()
+        }
+    }
+
+    private func checkLatestRelease() async {
         isChecking = true
-        defer { isChecking = false }
+        statusText = "正在检查更新…"
+        downloadProgress = nil
+        pendingRelease = nil
+        pendingAsset = nil
+        defer {
+            isChecking = false
+        }
 
         do {
             let release = try await fetchLatestRelease()
             let latestVersion = release.tagName.trimmingCharacters(in: CharacterSet(charactersIn: "vV"))
 
             if Self.isVersion(Self.currentVersion, newerThan: latestVersion) {
-                showMessage("当前版本（\(Self.currentVersion)）高于 GitHub 最新发布（\(latestVersion)）。")
+                statusText = "当前版本 \(Self.currentVersion) 高于最新版本 \(latestVersion)"
                 return
             }
 
             guard Self.isVersion(latestVersion, newerThan: Self.currentVersion) else {
-                showMessage("当前已经是最新版本（\(Self.currentVersion)）。")
+                statusText = "当前已是最新版本 \(latestVersion)"
                 return
             }
 
@@ -199,13 +274,45 @@ final class UpdateManager: ObservableObject {
                 let name = asset.name.lowercased()
                 return name.contains("macos") && name.hasSuffix(".zip")
             }) else {
-                showMessage("发现新版本 \(release.tagName)，但没有找到 macOS 更新包。")
+                showFailure(UpdateError.appBundleMissing, retryAction: .check)
                 return
             }
 
+            pendingRelease = release
+            pendingAsset = asset
+            statusText = "发现新版本 \(latestVersion)"
+        } catch {
+            statusText = "检查更新失败"
+            showFailure(error, retryAction: .check)
+        }
+    }
+
+    private func installPendingUpdate() {
+        guard !isBusy else { return }
+
+        guard let asset = pendingAsset else {
+            checkForUpdates()
+            return
+        }
+
+        Task {
+            await installLatestRelease(asset: asset)
+        }
+    }
+
+    private func installLatestRelease(asset: GitHubReleaseAsset) async {
+        isDownloading = true
+        downloadProgress = 0
+        statusText = "正在下载更新 \(pendingRelease?.tagName ?? "")"
+
+        do {
             try await downloadAndInstall(assetURL: asset.browserDownloadURL)
         } catch {
-            showMessage("更新失败：\(error.localizedDescription)")
+            isDownloading = false
+            isInstalling = false
+            downloadProgress = nil
+            statusText = "更新失败"
+            showFailure(error, retryAction: .install)
         }
     }
 
@@ -285,12 +392,16 @@ final class UpdateManager: ObservableObject {
 
         var request = URLRequest(url: assetURL, timeoutInterval: downloadTimeout)
         request.setValue("DestinyFortune", forHTTPHeaderField: "User-Agent")
-        let (downloadedURL, response) = try await URLSession.shared.download(for: request)
+        let (downloadedURL, response) = try await downloadWithProgress(request)
         try validateHTTPResponse(response, context: "下载更新包")
         if fileManager.fileExists(atPath: archiveURL.path) {
             try fileManager.removeItem(at: archiveURL)
         }
         try fileManager.moveItem(at: downloadedURL, to: archiveURL)
+        downloadProgress = 1
+        isDownloading = false
+        isInstalling = true
+        statusText = "正在安装更新…"
 
         try run("/usr/bin/unzip", arguments: ["-q", archiveURL.path, "-d", extractURL.path], timeout: 30)
 
@@ -302,6 +413,16 @@ final class UpdateManager: ObservableObject {
         try launchInstallerScript(newAppURL: newAppURL, tempDirectory: tempDirectory)
         shouldCleanUp = false
         NSApp.terminate(nil)
+    }
+
+    private func downloadWithProgress(_ request: URLRequest) async throws -> (URL, URLResponse) {
+        let downloader = UpdateDownloadDelegate { [weak self] progress in
+            Task { @MainActor in
+                self?.downloadProgress = progress
+            }
+        }
+
+        return try await downloader.download(request)
     }
 
     private func validateHTTPResponse(_ response: URLResponse, context: String) throws {
@@ -395,8 +516,29 @@ final class UpdateManager: ObservableObject {
     }
 
     private func showMessage(_ text: String) {
+        canRetry = false
+        retryAction = nil
         message = text
         isPresentingMessage = true
+    }
+
+    private func showFailure(_ error: Error, retryAction: UpdateAction) {
+        self.retryAction = retryAction
+        canRetry = true
+        message = """
+        更新失败，请重试或手动下载更新。
+
+        \(error.localizedDescription)
+        """
+        isPresentingMessage = true
+    }
+
+    private func releasePageURL() -> URL {
+        if let tag = pendingRelease?.tagName {
+            return URL(string: "https://github.com/RyanJC0416/DestinyApp/releases/tag/\(tag)")!
+        }
+
+        return latestReleasePageURL
     }
 
     private static func isVersion(_ lhs: String, newerThan rhs: String) -> Bool {
@@ -449,6 +591,99 @@ final class UpdateManager: ObservableObject {
         let appPath = Bundle.main.bundleURL.path
         return appPath.contains("/AppTranslocation/")
             || (appPath.contains("/private/var/folders/") && appPath.contains("/T/"))
+    }
+}
+
+private enum UpdateAction {
+    case check
+    case install
+}
+
+private final class UpdateDownloadDelegate: NSObject, URLSessionDownloadDelegate {
+    private let progressHandler: (Double) -> Void
+    private var continuation: CheckedContinuation<(URL, URLResponse), Error>?
+    private var session: URLSession?
+    private let lock = NSLock()
+
+    init(progressHandler: @escaping (Double) -> Void) {
+        self.progressHandler = progressHandler
+    }
+
+    func download(_ request: URLRequest) async throws -> (URL, URLResponse) {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+
+        return try await withCheckedThrowingContinuation { continuation in
+            self.continuation = continuation
+            let session = URLSession(configuration: .default, delegate: self, delegateQueue: queue)
+            self.session = session
+            session.downloadTask(with: request).resume()
+        }
+    }
+
+    func urlSession(
+        _ session: URLSession,
+        downloadTask: URLSessionDownloadTask,
+        didWriteData bytesWritten: Int64,
+        totalBytesWritten: Int64,
+        totalBytesExpectedToWrite: Int64
+    ) {
+        guard totalBytesExpectedToWrite > 0 else { return }
+        let progress = min(max(Double(totalBytesWritten) / Double(totalBytesExpectedToWrite), 0), 1)
+        progressHandler(progress)
+    }
+
+    func urlSession(
+        _ session: URLSession,
+        downloadTask: URLSessionDownloadTask,
+        didFinishDownloadingTo location: URL
+    ) {
+        guard let response = downloadTask.response else {
+            finish(.failure(UpdateError.releaseLookupFailed))
+            return
+        }
+
+        let tempURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("DestinyFortuneDownload-\(UUID().uuidString).zip")
+
+        do {
+            if FileManager.default.fileExists(atPath: tempURL.path) {
+                try FileManager.default.removeItem(at: tempURL)
+            }
+            try FileManager.default.moveItem(at: location, to: tempURL)
+            finish(.success((tempURL, response)))
+        } catch {
+            finish(.failure(error))
+        }
+    }
+
+    func urlSession(
+        _ session: URLSession,
+        task: URLSessionTask,
+        didCompleteWithError error: Error?
+    ) {
+        if let error {
+            finish(.failure(error))
+        }
+    }
+
+    private func finish(_ result: Result<(URL, URLResponse), Error>) {
+        lock.lock()
+        let continuation = self.continuation
+        self.continuation = nil
+        let session = self.session
+        self.session = nil
+        lock.unlock()
+
+        guard let continuation else { return }
+        session?.finishTasksAndInvalidate()
+
+        switch result {
+        case .success(let value):
+            continuation.resume(returning: value)
+        case .failure(let error):
+            continuation.resume(throwing: error)
+        }
     }
 }
 
