@@ -22,23 +22,26 @@ struct ContentView: View {
     @StateObject private var updateManager = UpdateManager()
 
     var body: some View {
-        NavigationSplitView {
+        HStack(spacing: 0) {
             VStack(spacing: 0) {
-                List(AppSection.allCases) { section in
-                    SidebarSectionButton(section: section, isSelected: isSelected(section)) {
-                        let current = selection ?? .liuyao
-                        guard current != section else { return }
-                        let currentIndex = AppSection.allCases.firstIndex(of: current) ?? 0
-                        let nextIndex = AppSection.allCases.firstIndex(of: section) ?? currentIndex
-                        transitionOffset = nextIndex > currentIndex ? 34 : -34
-                        withAnimation(.spring(response: 0.40, dampingFraction: 0.88)) {
-                            selection = section
+                VStack(spacing: 8) {
+                    ForEach(AppSection.allCases) { section in
+                        SidebarSectionButton(section: section, isSelected: isSelected(section)) {
+                            let current = selection ?? .liuyao
+                            guard current != section else { return }
+                            let currentIndex = AppSection.allCases.firstIndex(of: current) ?? 0
+                            let nextIndex = AppSection.allCases.firstIndex(of: section) ?? currentIndex
+                            transitionOffset = nextIndex > currentIndex ? 34 : -34
+                            withAnimation(.spring(response: 0.40, dampingFraction: 0.88)) {
+                                selection = section
+                            }
                         }
                     }
-                    .listRowInsets(EdgeInsets(top: 4, leading: 10, bottom: 4, trailing: 10))
-                    .listRowBackground(Color.clear)
                 }
+                .padding(.horizontal, 12)
+                .padding(.top, 14)
 
+                Spacer()
                 Divider()
 
                 VStack(alignment: .leading, spacing: 8) {
@@ -57,15 +60,18 @@ struct ContentView: View {
                 }
                 .padding(12)
             }
-            .navigationTitle("命运占卜")
-            .navigationSplitViewColumnWidth(min: 180, ideal: 210, max: 250)
-        } detail: {
+            .frame(width: 190)
+            .background(AppTheme.panel)
+
+            Divider()
+
             ZStack {
                 workspace(.liuyao) { LiuyaoWorkspaceView() }
                 workspace(.tarot) { TarotWorkspaceView() }
                 workspace(.jiaobei) { JiaobeiWorkspaceView() }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.top, 24)
+            .frame(minWidth: 860, maxWidth: .infinity, maxHeight: .infinity)
             .background(AppTheme.background)
             .foregroundStyle(AppTheme.textPrimary)
         }

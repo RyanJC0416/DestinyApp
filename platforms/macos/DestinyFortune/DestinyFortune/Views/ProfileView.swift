@@ -110,7 +110,7 @@ struct ProfileView: View {
     
     private var versionInfo: some View {
         VStack(spacing: 4) {
-            Text("命运占卜 v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.4")")
+            Text("命运占卜 v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.5")")
                 .font(.caption)
                 .foregroundColor(Color(hex: "#3A3A4E"))
             Text("© 2026 Destiny Fortune. All rights reserved.")
