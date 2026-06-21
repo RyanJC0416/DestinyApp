@@ -12,7 +12,7 @@ button:disabled { cursor:not-allowed; opacity:.42; filter:grayscale(.25); }
 .nav { display:grid; gap:6px; }.nav-item { border:0; background:transparent; display:flex; gap:10px; align-items:center; padding:11px 13px; border-radius:7px; text-align:left; font-weight:650; }
 .nav-item:hover { background:rgba(255,255,255,.55); }.nav-item.active { background:#fff; box-shadow:0 1px 2px rgba(20,25,32,.08); }.nav-item span { width:22px; color:var(--accent); font-size:20px; }
 .sidebar-note { margin:auto 8px 2px; color:var(--muted); font-size:12px; line-height:1.5; }
-.workspace { min-width:0; }.tool-view { display:none; min-height:100vh; grid-template-columns:minmax(340px,420px) minmax(480px,1fr); }.tool-view.active { display:grid; }
+.workspace { min-width:0; overflow:hidden; }.tool-view { display:none; min-height:100vh; grid-template-columns:minmax(340px,420px) minmax(480px,1fr); }.tool-view.active { display:grid; animation:view-switch-in .34s cubic-bezier(.2,.75,.18,1) both; }
 .input-pane { padding:44px 34px; border-right:1px solid var(--line); background:var(--bg); }.result-pane { padding:44px; min-width:0; }
 .tool-header { margin-bottom:30px; }.eyebrow { margin:0 0 7px; color:var(--accent); text-transform:uppercase; font-size:12px; font-weight:800; letter-spacing:.08em; }
 h1,h2,h3,p { margin-top:0; }h1 { margin-bottom:9px; font-size:30px; }.tool-header p:last-child, .muted { color:var(--muted); line-height:1.6; }
@@ -100,6 +100,7 @@ fieldset:hover .segments { border-color:#b9a17a; background:#fffdf8; box-shadow:
 @keyframes segment-select { 0% { transform:scale(.96); } 70% { transform:scale(1.03); } 100% { transform:scale(1); } }
 @keyframes float-symbol { 0%,100% { transform:translateY(0) rotate(0deg); } 50% { transform:translateY(-8px) rotate(-2deg); } }
 @keyframes view-entered { from { opacity:.65; transform:translateY(10px); } to { opacity:1; transform:none; } }
+@keyframes view-switch-in { from { opacity:0; transform:translateX(18px) scale(.992); filter:blur(2px); } to { opacity:1; transform:none; filter:blur(0); } }
 @keyframes reveal-card { to { opacity:1; transform:none; } }
 @keyframes spin-orbit { to { transform:rotate(360deg); } }
 @keyframes busy-pulse { 0%,100% { filter:saturate(1); } 50% { filter:saturate(1.2) brightness(1.08); } }

@@ -18,6 +18,7 @@ enum AppSection: String, CaseIterable, Identifiable {
 
 struct ContentView: View {
     @State private var selection: AppSection? = .liuyao
+    @State private var transitionOffset: CGFloat = 28
     @StateObject private var updateManager = UpdateManager()
 
     var body: some View {
@@ -25,7 +26,12 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 List(AppSection.allCases) { section in
                     SidebarSectionButton(section: section, isSelected: isSelected(section)) {
-                        withAnimation(.spring(response: 0.34, dampingFraction: 0.86)) {
+                        let current = selection ?? .liuyao
+                        guard current != section else { return }
+                        let currentIndex = AppSection.allCases.firstIndex(of: current) ?? 0
+                        let nextIndex = AppSection.allCases.firstIndex(of: section) ?? currentIndex
+                        transitionOffset = nextIndex > currentIndex ? 34 : -34
+                        withAnimation(.spring(response: 0.40, dampingFraction: 0.88)) {
                             selection = section
                         }
                     }
@@ -79,8 +85,12 @@ struct ContentView: View {
     private func workspace<Content: View>(_ section: AppSection, @ViewBuilder content: () -> Content) -> some View {
         content()
             .opacity(isSelected(section) ? 1 : 0)
-            .scaleEffect(isSelected(section) ? 1 : 0.985)
-            .animation(.spring(response: 0.34, dampingFraction: 0.88), value: selection)
+            .offset(x: isSelected(section) ? 0 : transitionOffset)
+            .scaleEffect(isSelected(section) ? 1 : 0.992)
+            .blur(radius: isSelected(section) ? 0 : 1.5)
+            .zIndex(isSelected(section) ? 1 : 0)
+            .compositingGroup()
+            .animation(.spring(response: 0.40, dampingFraction: 0.88), value: selection)
             .allowsHitTesting(isSelected(section))
             .accessibilityHidden(!isSelected(section))
     }
