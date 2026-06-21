@@ -154,6 +154,7 @@ final class UpdateManager: ObservableObject {
     @Published var isPresentingMessage = false
 
     private let latestReleaseURL = URL(string: "https://api.github.com/repos/RyanJC0416/DestinyApp/releases/latest")!
+    private let latestReleasePageURL = URL(string: "https://github.com/RyanJC0416/DestinyApp/releases/latest")!
     private let updatesDirectory = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent("Library/Application Support/DestinyFortune/updates", isDirectory: true)
     private let requestTimeout: TimeInterval = 20
@@ -209,6 +210,26 @@ final class UpdateManager: ObservableObject {
     }
 
     private func fetchLatestRelease() async throws -> GitHubRelease {
+        var lastError: Error?
+
+        for attempt in 0..<2 {
+            do {
+                return try await fetchLatestReleaseFromAPI()
+            } catch {
+                lastError = error
+                guard Self.shouldRetryReleaseLookup(error), attempt == 0 else { break }
+                try? await Task.sleep(nanoseconds: 700_000_000)
+            }
+        }
+
+        do {
+            return try await fetchLatestReleaseFromRedirectPage()
+        } catch {
+            throw lastError ?? error
+        }
+    }
+
+    private func fetchLatestReleaseFromAPI() async throws -> GitHubRelease {
         var request = URLRequest(url: latestReleaseURL, timeoutInterval: requestTimeout)
         request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
         request.setValue("DestinyFortune", forHTTPHeaderField: "User-Agent")
@@ -221,6 +242,28 @@ final class UpdateManager: ObservableObject {
         } catch {
             throw UpdateError.releaseLookupFailed
         }
+    }
+
+    private func fetchLatestReleaseFromRedirectPage() async throws -> GitHubRelease {
+        var request = URLRequest(url: latestReleasePageURL, timeoutInterval: requestTimeout)
+        request.setValue("DestinyFortune", forHTTPHeaderField: "User-Agent")
+
+        let (_, response) = try await URLSession.shared.data(for: request)
+        guard let finalURL = response.url,
+              let tag = Self.releaseTag(from: finalURL) else {
+            throw UpdateError.releaseLookupFailed
+        }
+
+        let assetURL = URL(string: "https://github.com/RyanJC0416/DestinyApp/releases/download/\(tag)/DestinyFortune-\(tag)-macOS.zip")!
+        return GitHubRelease(
+            tagName: tag,
+            assets: [
+                GitHubReleaseAsset(
+                    name: "DestinyFortune-\(tag)-macOS.zip",
+                    browserDownloadURL: assetURL
+                )
+            ]
+        )
     }
 
     private func downloadAndInstall(assetURL: URL) async throws {
@@ -370,6 +413,32 @@ final class UpdateManager: ObservableObject {
         }
 
         return false
+    }
+
+    private static func shouldRetryReleaseLookup(_ error: Error) -> Bool {
+        if case UpdateError.httpRequestFailed(_, let statusCode) = error {
+            return statusCode >= 500
+        }
+
+        if case UpdateError.releaseLookupFailed = error {
+            return true
+        }
+
+        let urlError = error as? URLError
+        return urlError?.code == .timedOut || urlError?.code == .cannotConnectToHost || urlError?.code == .networkConnectionLost
+    }
+
+    private static func releaseTag(from url: URL) -> String? {
+        guard let range = url.path.range(of: "/releases/tag/") else {
+            return nil
+        }
+
+        let tag = String(url.path[range.upperBound...])
+            .split(separator: "/")
+            .first
+            .map(String.init)
+
+        return tag?.isEmpty == false ? tag : nil
     }
 
     private static func shellQuote(_ value: String) -> String {
