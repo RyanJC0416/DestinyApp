@@ -33,6 +33,8 @@
 		D1000022 /* JiaobeiWorkspaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000021 /* JiaobeiWorkspaceView.swift */; };
 		D1000024 /* jiaobeiEngine.js in Resources */ = {isa = PBXBuildFile; fileRef = D1000023 /* jiaobeiEngine.js */; };
 		D1000026 /* rws-1909 in Resources */ = {isa = PBXBuildFile; fileRef = D1000025 /* rws-1909 */; };
+		D1000028 /* AIFeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000027 /* AIFeedbackService.swift */; };
+		D1000030 /* AISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1000029 /* AISettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +65,8 @@
 		D1000021 /* JiaobeiWorkspaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JiaobeiWorkspaceView.swift; sourceTree = "<group>"; };
 		D1000023 /* jiaobeiEngine.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = jiaobeiEngine.js; path = ../../../shared/core/jiaobeiEngine.js; sourceTree = SOURCE_ROOT; };
 		D1000025 /* rws-1909 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "rws-1909"; path = "../../../assets/images/tarot/rws-1909"; sourceTree = SOURCE_ROOT; };
+		D1000027 /* AIFeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIFeedbackService.swift; sourceTree = "<group>"; };
+		D1000029 /* AISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,7 @@
 			children = (
 				A1000011 /* LiuyaoEngine.swift */,
 				D1000002 /* SharedCoreBridge.swift */,
+				D1000027 /* AIFeedbackService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -147,6 +152,7 @@
 				D1000004 /* LiuyaoWorkspaceView.swift */,
 				D1000006 /* TarotWorkspaceView.swift */,
 				D1000021 /* JiaobeiWorkspaceView.swift */,
+				D1000029 /* AISettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,6 +264,8 @@
 				D1000005 /* LiuyaoWorkspaceView.swift in Sources */,
 				D1000007 /* TarotWorkspaceView.swift in Sources */,
 				D1000022 /* JiaobeiWorkspaceView.swift in Sources */,
+				D1000028 /* AIFeedbackService.swift in Sources */,
+				D1000030 /* AISettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,7 +412,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.destiny.fortune;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -434,7 +442,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.destiny.fortune;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

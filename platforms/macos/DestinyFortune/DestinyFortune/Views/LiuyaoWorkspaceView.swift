@@ -92,10 +92,13 @@ struct LiuyaoWorkspaceView: View {
 
                     hexagramFlow(report)
 
-                    resultSection("\(report.topic)解读与行动", icon: "lightbulb.fill") {
-                        Text(report.topicAnalysis)
-                        Text(report.suggestion)
-                    }
+                    AIAssistedInterpretationSection(
+                        title: "\(report.topic)解读与行动",
+                        icon: "lightbulb.fill",
+                        kind: "六爻",
+                        source: report.copyText,
+                        fallback: "\(report.topicAnalysis)\n\n\(report.suggestion)"
+                    )
                 }
                 .padding(28)
                 .resultReveal(report.hexagram + report.changingHexagram + report.fortune)
@@ -288,4 +291,5 @@ struct LiuyaoWorkspaceView: View {
         catch { errorMessage = error.localizedDescription }
         withAnimation(.easeOut(duration: 0.16)) { isWorking = false }
     }
+
 }

@@ -83,11 +83,13 @@ struct TarotWorkspaceView: View {
                         }
                     }
 
-                    VStack(alignment: .leading, spacing: 10) {
-                        Label("综合指引", systemImage: "compass.drawing").font(.headline).foregroundStyle(AppTheme.gold)
-                        Text(report.analysis)
-                        Text(report.suggestion).foregroundStyle(AppTheme.textSecondary)
-                    }.frame(maxWidth: .infinity, alignment: .leading).toolPanel()
+                    AIAssistedInterpretationSection(
+                        title: "综合指引",
+                        icon: "compass.drawing",
+                        kind: "塔罗",
+                        source: report.copyText,
+                        fallback: "\(report.analysis)\n\n\(report.suggestion)"
+                    )
                 }
                 .padding(28)
                 .resultReveal(report.cards + report.spread)
@@ -201,4 +203,5 @@ struct TarotWorkspaceView: View {
         catch { errorMessage = error.localizedDescription }
         withAnimation(.easeOut(duration: 0.16)) { isDrawing = false }
     }
+
 }

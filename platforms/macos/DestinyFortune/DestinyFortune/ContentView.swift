@@ -16,10 +16,17 @@ enum AppSection: String, CaseIterable, Identifiable {
     }
 }
 
+@MainActor
+final class AppNavigation: ObservableObject {
+    static let shared = AppNavigation()
+    @Published var showAISettings = false
+}
+
 struct ContentView: View {
     @State private var selection: AppSection? = .liuyao
     @State private var transitionOffset: CGFloat = 28
     @StateObject private var updateManager = UpdateManager()
+    @StateObject private var navigation = AppNavigation.shared
 
     var body: some View {
         HStack(spacing: 0) {
@@ -45,6 +52,13 @@ struct ContentView: View {
                 Divider()
 
                 VStack(alignment: .leading, spacing: 8) {
+                    Button {
+                        navigation.showAISettings = true
+                    } label: {
+                        Label("AI 解读设置", systemImage: "sparkles")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .buttonStyle(.bordered)
                     if let statusText = updateManager.statusText {
                         VStack(alignment: .leading, spacing: 6) {
                             Text(statusText)
@@ -102,6 +116,9 @@ struct ContentView: View {
             }
         } message: {
             Text(updateManager.message)
+        }
+        .sheet(isPresented: $navigation.showAISettings) {
+            AISettingsView()
         }
     }
 
